@@ -2,7 +2,7 @@ image: golang:1.15
 
 variables:
   REPO_NAME: gitlab.com/$CI_PROJECT_PATH
-  TZ=Asia/Tokyo
+  TZ: Asia/Tokyo
 
 stages:
   - test
