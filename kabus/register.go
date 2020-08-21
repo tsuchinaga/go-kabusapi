@@ -3,7 +3,6 @@ package kabus
 import (
 	"context"
 	"encoding/json"
-	"net/http"
 )
 
 // RegisterRequest - 銘柄登録のリクエストパラメータ
@@ -55,19 +54,9 @@ func (r *registerRequester) ExecWithContext(ctx context.Context, request Registe
 		return nil, err
 	}
 
-	if code == http.StatusOK {
-		var res RegisterResponse
-		if err := json.Unmarshal(b, &res); err != nil {
-			return nil, err
-		}
-		return &res, nil
-	} else {
-		var errRes ErrorResponse
-		if err := json.Unmarshal(b, &errRes); err != nil {
-			return nil, err
-		}
-		errRes.StatusCode = code
-		errRes.Body = string(b)
-		return nil, errRes
+	var res RegisterResponse
+	if err := parseResponse(code, b, &res); err != nil {
+		return nil, err
 	}
+	return &res, nil
 }

@@ -3,6 +3,7 @@ package kabus
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 )
@@ -63,4 +64,22 @@ func (c *client) put(ctx context.Context, request []byte) (int, []byte, error) {
 	}
 
 	return res.StatusCode, b, nil
+}
+
+// parseResponse - レスポンスをパースする
+func parseResponse(code int, body []byte, v interface{}) error {
+	if code == http.StatusOK {
+		if err := json.Unmarshal(body, v); err != nil {
+			return err
+		}
+		return nil
+	} else {
+		var errRes ErrorResponse
+		if err := json.Unmarshal(body, &errRes); err != nil {
+			return err
+		}
+		errRes.StatusCode = code
+		errRes.Body = string(body)
+		return errRes
+	}
 }
