@@ -9,9 +9,14 @@ import (
 
 func main() {
 	password := os.Getenv("API_PASSWORD")
+	isProd := false
+	if os.Getenv("IS_PROD") != "" {
+		isProd = true
+	}
+
 	var token string
 	{
-		req, err := kabus.NewTokenRequester(false).Exec(kabus.TokenRequest{APIPassword: password})
+		req, err := kabus.NewTokenRequester(isProd).Exec(kabus.TokenRequest{APIPassword: password})
 		if err != nil {
 			panic(err)
 		}
@@ -19,7 +24,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewOrdersRequester(token, false).Exec(kabus.OrdersRequest{Product: kabus.ProductAll})
+		res, err := kabus.NewOrdersRequester(token, isProd).Exec(kabus.OrdersRequest{Product: kabus.ProductAll})
 		if err != nil {
 			panic(err)
 		}
