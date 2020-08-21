@@ -1,0 +1,25 @@
+image: golang:1.15
+
+variables:
+  REPO_NAME: gitlab.com/$CI_PROJECT_PATH
+
+stages:
+  - test
+
+build-project:
+  stage: test
+  script:
+    - mkdir -p $GOPATH/src/$REPO_NAME
+    - mv $CI_PROJECT_DIR/* $GOPATH/src/$REPO_NAME
+    - cd $GOPATH/src/$REPO_NAME
+    - go build -v ./...
+
+test-project:
+  stage: test
+  script:
+    - mkdir -p $GOPATH/src/$REPO_NAME
+    - mv $CI_PROJECT_DIR/* $GOPATH/src/$REPO_NAME
+    - cd $GOPATH/src/$REPO_NAME
+    - go test ./... -cover -coverprofile=cover.out -covermode=atomic -v
+    - go tool cover -func=cover.out
+  coverage: '/^total:\s+\(statements\)\s+(\d+\.\d?%)\s*$/'
