@@ -65,7 +65,6 @@ func (r *positionsRequester) ExecWithContext(ctx context.Context, request Positi
 		return nil, err
 	}
 
-	println(string(b))
 	var res PositionsResponse
 	if err := parseResponse(code, b, &res); err != nil {
 		return nil, err

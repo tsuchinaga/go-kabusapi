@@ -81,7 +81,6 @@ func (r *ordersRequester) ExecWithContext(ctx context.Context, request OrdersReq
 		return nil, err
 	}
 
-	println(string(b))
 	var res OrdersResponse
 	if err := parseResponse(code, b, &res); err != nil {
 		return nil, err
