@@ -64,8 +64,6 @@ func (r *sendOrderRequester) ExecWithContext(ctx context.Context, request SendOr
 		return nil, err
 	}
 
-	println(string(reqBody))
-
 	code, b, err := r.client.post(ctx, reqBody)
 	if err != nil {
 		return nil, err
