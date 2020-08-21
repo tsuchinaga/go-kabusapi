@@ -31,7 +31,7 @@ func Test_boardRequester_Exec(t *testing.T) {
 	}{
 		{name: "正常レスポンスをパースして返せる",
 			status: http.StatusOK,
-			body:   body200,
+			body:   boardBody200,
 			want1: &BoardResponse{
 				Symbol:                   "5401",
 				SymbolName:               "新日鐵住金",
@@ -125,7 +125,7 @@ func Test_boardRequester_Exec(t *testing.T) {
 	}
 }
 
-const body200 = `{
+const boardBody200 = `{
   "Symbol": "5401",
   "SymbolName": "新日鐵住金",
   "Exchange": 1,
