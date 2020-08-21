@@ -1,6 +1,10 @@
 package kabus
 
-import "time"
+import (
+	"context"
+	"fmt"
+	"time"
+)
 
 // BoardRequest - 時価情報・板情報のリクエストパラメータ
 type BoardRequest struct {
@@ -20,7 +24,7 @@ type BoardResponse struct {
 	CurrentPriceStatus       CurrentPriceStatus       `json:"CurrentPriceStatus"`       // 現値ステータス
 	CalcPrice                float64                  `json:"CalcPrice"`                // 計算用現値
 	PreviousClose            float64                  `json:"PreviousClose"`            // 前日終値
-	PreviousCloseTime        time.Time                `json:"PreviousCloseTime"`        // 前日終値日付
+	PreviousCloseTime        YmdTHms                  `json:"PreviousCloseTime"`        // 前日終値日付
 	ChangePreviousClose      float64                  `json:"ChangePreviousClose"`      // 前日比
 	ChangePreviousClosePer   float64                  `json:"ChangePreviousClosePer"`   // 騰落率
 	OpeningPrice             float64                  `json:"OpeningPrice"`             // 始値
@@ -80,4 +84,35 @@ type FirstBoardSign struct {
 type BoardSign struct {
 	Price float64 `json:"Price"` // 値段
 	Qty   float64 `json:"Qty"`   // 数量
+}
+
+// NewBoardRequester - 時価情報・板情報リクエスタの生成
+func NewBoardRequester(token string) *boardRequester {
+	return &boardRequester{client: client{token: token, url: "http://localhost:18080/kabusapi/board"}}
+}
+
+// boardRequester - 時価情報・板情報のリクエスタ
+type boardRequester struct {
+	client
+}
+
+// Exec - 銘柄登録リクエストの実行
+func (r *boardRequester) Exec(request BoardRequest) (*BoardResponse, error) {
+	return r.ExecWithContext(context.Background(), request)
+}
+
+// ExecWithContext - 銘柄登録リクエストの実行(contextあり)
+func (r *boardRequester) ExecWithContext(ctx context.Context, request BoardRequest) (*BoardResponse, error) {
+	pathParam := fmt.Sprintf("%s@%d", request.Symbol, request.Exchange)
+
+	code, b, err := r.client.get(ctx, pathParam, "")
+	if err != nil {
+		return nil, err
+	}
+
+	var res BoardResponse
+	if err := parseResponse(code, b, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
 }

@@ -6,12 +6,45 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 // client - HTTPクライアント
 type client struct {
 	url   string // URL
 	token string // リクエストトークン
+}
+
+// get - GETリクエスト
+func (c *client) get(ctx context.Context, pathParam string, queryParam string) (int, []byte, error) {
+	u, err := url.Parse(c.url)
+	if err != nil {
+		return 0, nil, err
+	}
+	u.Path += "/" + pathParam
+	u.RawQuery = queryParam
+
+	req, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
+	if err != nil {
+		return 0, nil, err
+	}
+	if c.token != "" {
+		req.Header.Set("X-API-KEY", c.token)
+	}
+
+	// リクエスト送信
+	client := http.Client{}
+	res, err := client.Do(req)
+	if err != nil {
+		return 0, nil, err
+	}
+	defer res.Body.Close()
+	b, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return 0, nil, err
+	}
+
+	return res.StatusCode, b, nil
 }
 
 // post - POSTリクエスト
