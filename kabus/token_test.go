@@ -28,8 +28,8 @@ func Test_TokenRequester_Exec(t *testing.T) {
 	}{
 		{name: "正常レスポンスをパースして返せる",
 			status: http.StatusOK,
-			body:   `{"Result": 0, "Token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}`,
-			want1:  &TokenResponse{Result: 0, Token: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
+			body:   `{"ResultCode": 0, "Token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}`,
+			want1:  &TokenResponse{ResultCode: 0, Token: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"},
 			want2:  nil,
 		},
 		{name: "異常レスポンスをパースして返せる",

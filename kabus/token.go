@@ -15,8 +15,8 @@ type TokenRequest struct {
 
 // TokenResponse - トークン発行のレスポンス
 type TokenResponse struct {
-	Result int    `json:"Result"` // 結果コード
-	Token  string `json:"Token"`  // APIトークン
+	ResultCode int    `json:"ResultCode"` // 結果コード
+	Token      string `json:"Token"`      // APIトークン
 }
 
 // NewTokenRequester - トークン発行リクエスタの生成
