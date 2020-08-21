@@ -24,11 +24,7 @@ type WalletMarginResponse struct {
 
 // walletMarginRequester - 取引余力（信用）リクエスタの生成
 func NewWalletMarginRequester(token string, isProd bool) *walletMarginRequester {
-	u := "http://localhost:18080/kabusapi/wallet/margin"
-	if !isProd {
-		u = "http://localhost:18081/kabusapi/wallet/margin"
-	}
-	return &walletMarginRequester{client{token: token, url: u}}
+	return &walletMarginRequester{client{token: token, url: createURL("/wallet/margin", isProd)}}
 }
 
 // walletMarginRequester - 取引余力（信用）のリクエスタ
@@ -57,11 +53,7 @@ func (r *walletMarginRequester) ExecWithContext(ctx context.Context) (*WalletMar
 
 // NewWalletMarginSymbolRequester - 取引余力（信用）（銘柄指定）リクエスタの生成
 func NewWalletMarginSymbolRequester(token string, isProd bool) *walletMarginSymbolRequester {
-	u := "http://localhost:18080/kabusapi/wallet/margin"
-	if !isProd {
-		u = "http://localhost:18081/kabusapi/wallet/margin"
-	}
-	return &walletMarginSymbolRequester{client{token: token, url: u}}
+	return &walletMarginSymbolRequester{client{token: token, url: createURL("/wallet/margin", isProd)}}
 }
 
 // walletMarginRequester - 取引余力（信用）（銘柄指定）のリクエスタ

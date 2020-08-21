@@ -23,12 +23,8 @@ type UnregisterResponse struct {
 
 // NewUnregisterRequester - 銘柄登録解除リクエスタの生成
 func NewUnregisterRequester(token string, isProd bool) *unregisterRequester {
-	u := "http://localhost:18080/kabusapi/unregister"
-	if !isProd {
-		u = "http://localhost:18081/kabusapi/unregister"
-	}
 	return &unregisterRequester{
-		client{token: token, url: u},
+		client{token: token, url: createURL("/unregister", isProd)},
 	}
 }
 

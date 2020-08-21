@@ -39,12 +39,7 @@ type SendOrderResponse struct {
 
 // NewSendOrderRequester - 注文発注リクエスタの生成
 func NewSendOrderRequester(token string, isProd bool) *sendOrderRequester {
-	u := "http://localhost:18080/kabusapi/sendorder"
-	if !isProd {
-		u = "http://localhost:18081/kabusapi/sendorder"
-	}
-
-	return &sendOrderRequester{client{url: u, token: token}}
+	return &sendOrderRequester{client{url: createURL("/sendorder", isProd), token: token}}
 }
 
 // sendOrderRequester - 注文発注のリクエスタ

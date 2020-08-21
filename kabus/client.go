@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 // client - HTTPクライアント
@@ -119,4 +120,13 @@ func parseResponse(code int, body []byte, v interface{}) error {
 		errRes.Body = string(body)
 		return errRes
 	}
+}
+
+// createURL - リクエスト先のURLを生成する
+func createURL(path string, isProd bool) string {
+	host := "localhost:18081"
+	if isProd {
+		host = "localhost:18080"
+	}
+	return "http://" + host + strings.ReplaceAll("/kabusapi/"+path, "//", "/")
 }

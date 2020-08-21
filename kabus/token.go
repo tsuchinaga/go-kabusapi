@@ -18,11 +18,7 @@ type TokenResponse struct {
 
 // NewTokenRequester - トークン発行リクエスタの生成
 func NewTokenRequester(isProd bool) *tokenRequester {
-	u := "http://localhost:18080/kabusapi/token"
-	if !isProd {
-		u = "http://localhost:18081/kabusapi/token"
-	}
-	return &tokenRequester{client: client{url: u}}
+	return &tokenRequester{client: client{url: createURL("/token", isProd)}}
 }
 
 // tokenRequester - トークン発行のリクエスタ

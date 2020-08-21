@@ -19,12 +19,7 @@ type CancelOrderResponse struct {
 
 // NewCancelOrderRequester - 注文取消リクエスタの生成
 func NewCancelOrderRequester(token string, isProd bool) *cancelOrderRequester {
-	u := "http://localhost:18080/kabusapi/cancelorder"
-	if !isProd {
-		u = "http://localhost:18081/kabusapi/cancelorder"
-	}
-
-	return &cancelOrderRequester{client{url: u, token: token}}
+	return &cancelOrderRequester{client{url: createURL("/cancelorder", isProd), token: token}}
 }
 
 // cancelOrderRequester - 注文取消のリクエスタ

@@ -55,11 +55,7 @@ type OrderDetail struct {
 }
 
 func NewOrdersRequester(token string, isProd bool) *ordersRequester {
-	u := "http://localhost:18080/kabusapi/orders"
-	if !isProd {
-		u = "http://localhost:18081/kabusapi/orders"
-	}
-	return &ordersRequester{client{token: token, url: u}}
+	return &ordersRequester{client{token: token, url: createURL("/orders", isProd)}}
 }
 
 // ordersRequester - 注文約定照会のリクエスタ

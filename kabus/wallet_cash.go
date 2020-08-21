@@ -21,11 +21,7 @@ type WalletCashResponse struct {
 
 // walletCashRequester - 取引余力（現物）リクエスタの生成
 func NewWalletCashRequester(token string, isProd bool) *walletCashRequester {
-	u := "http://localhost:18080/kabusapi/wallet/cash"
-	if !isProd {
-		u = "http://localhost:18081/kabusapi/wallet/cash"
-	}
-	return &walletCashRequester{client{token: token, url: u}}
+	return &walletCashRequester{client{token: token, url: createURL("/wallet/cash", isProd)}}
 }
 
 // walletCashRequester - 取引余力（現物）のリクエスタ
@@ -54,11 +50,7 @@ func (r *walletCashRequester) ExecWithContext(ctx context.Context) (*WalletCashR
 
 // NewWalletCashSymbolRequester - 取引余力（現物）（銘柄指定）リクエスタの生成
 func NewWalletCashSymbolRequester(token string, isProd bool) *walletCashSymbolRequester {
-	u := "http://localhost:18080/kabusapi/wallet/cash"
-	if !isProd {
-		u = "http://localhost:18081/kabusapi/wallet/cash"
-	}
-	return &walletCashSymbolRequester{client{token: token, url: u}}
+	return &walletCashSymbolRequester{client{token: token, url: createURL("/wallet/cash", isProd)}}
 }
 
 // walletCashRequester - 取引余力（現物）（銘柄指定）のリクエスタ

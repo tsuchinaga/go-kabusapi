@@ -88,11 +88,7 @@ type BoardSign struct {
 
 // NewBoardRequester - 時価情報・板情報リクエスタの生成
 func NewBoardRequester(token string, isProd bool) *boardRequester {
-	u := "http://localhost:18080/kabusapi/board"
-	if !isProd {
-		u = "http://localhost:18081/kabusapi/board"
-	}
-	return &boardRequester{client: client{token: token, url: u}}
+	return &boardRequester{client: client{token: token, url: createURL("/board", isProd)}}
 }
 
 // boardRequester - 時価情報・板情報のリクエスタ
