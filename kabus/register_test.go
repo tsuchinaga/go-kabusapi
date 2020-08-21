@@ -10,8 +10,8 @@ import (
 func Test_NewRegisterRequester(t *testing.T) {
 	t.Parallel()
 
-	want := &registerRequester{url: "http://localhost:18080/kabusapi/register", method: "PUT"}
-	got := NewRegisterRequester()
+	want := &registerRequester{client: client{url: "http://localhost:18080/kabusapi/register", token: "token"}}
+	got := NewRegisterRequester("token")
 
 	if !reflect.DeepEqual(want, got) {
 		t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), want, got)
@@ -58,8 +58,8 @@ func Test_registerRequester_Exec(t *testing.T) {
 			}))
 			defer ts.Close()
 
-			req := &registerRequester{url: ts.URL, method: "PUT"}
-			got1, got2 := req.Exec("", RegisterRequest{Symbols: []RegistSymbol{{Symbol: "9433", Exchange: ExchangeToushou}}})
+			req := &registerRequester{client{url: ts.URL}}
+			got1, got2 := req.Exec(RegisterRequest{Symbols: []RegistSymbol{{Symbol: "9433", Exchange: ExchangeToushou}}})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
 			}

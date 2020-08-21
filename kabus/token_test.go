@@ -9,7 +9,7 @@ import (
 
 func Test_NewTokenRequester(t *testing.T) {
 	t.Parallel()
-	want := &tokenRequester{url: "http://localhost:18080/kabusapi/token", method: "POST"}
+	want := &tokenRequester{client{url: "http://localhost:18080/kabusapi/token"}}
 	got := NewTokenRequester()
 	if !reflect.DeepEqual(want, got) {
 		t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), want, got)
@@ -56,7 +56,7 @@ func Test_tokenRequester_Exec(t *testing.T) {
 			}))
 			defer ts.Close()
 
-			req := &tokenRequester{url: ts.URL, method: "POST"}
+			req := &tokenRequester{client{url: ts.URL}}
 			got1, got2 := req.Exec(TokenRequest{APIPassword: "xxxxxx"})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
