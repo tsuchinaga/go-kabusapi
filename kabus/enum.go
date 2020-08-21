@@ -61,7 +61,11 @@ const (
 type FundType string
 
 const (
-	FundTypeUnspecified FundType = "  " // 指定なし
+	FundTypeUnspecified     FundType = "  " // 指定なし
+	FundTypeProtected       FundType = "02" // 保護
+	FundTypeTransferMargin  FundType = "AA" // 信用代用
+	FundTypeTransferDeposit FundType = "BB" // 証拠金代用
+	FundTypeMarginTrading   FundType = "11" // 信用取引
 )
 
 // AccountType - 口座種別
@@ -78,14 +82,15 @@ const (
 type ClosePositionOrder int
 
 const (
-	ClosePositionOrderDateAscProfitDesc  ClosePositionOrder = 0 // 日付（古い順）、損益（高い順）
-	ClosePositionOrderDateAscProfitAsc   ClosePositionOrder = 1 // 日付（古い順）、損益（低い順）
-	ClosePositionOrderDateDescProfitDesc ClosePositionOrder = 2 // 日付（新しい順）、損益（高い順）
-	ClosePositionOrderDateDescProfitAc   ClosePositionOrder = 3 // 日付（新しい順）、損益（低い順）
-	ClosePositionOrderProfitDescDateAsc  ClosePositionOrder = 4 // 損益（高い順）、日付（古い順）
-	ClosePositionOrderProfitDescDateDesc ClosePositionOrder = 5 // 損益（高い順）、日付（新しい順）
-	ClosePositionOrderProfitAscDateAsc   ClosePositionOrder = 6 // 損益（低い順）、日付（古い順）
-	ClosePositionOrderProfitAscDateDesc  ClosePositionOrder = 7 // 損益（低い順）、日付（古い順）
+	ClosePositionOrderUnspecified        ClosePositionOrder = -1 // 指定なし
+	ClosePositionOrderDateAscProfitDesc  ClosePositionOrder = 0  // 日付（古い順）、損益（高い順）
+	ClosePositionOrderDateAscProfitAsc   ClosePositionOrder = 1  // 日付（古い順）、損益（低い順）
+	ClosePositionOrderDateDescProfitDesc ClosePositionOrder = 2  // 日付（新しい順）、損益（高い順）
+	ClosePositionOrderDateDescProfitAc   ClosePositionOrder = 3  // 日付（新しい順）、損益（低い順）
+	ClosePositionOrderProfitDescDateAsc  ClosePositionOrder = 4  // 損益（高い順）、日付（古い順）
+	ClosePositionOrderProfitDescDateDesc ClosePositionOrder = 5  // 損益（高い順）、日付（新しい順）
+	ClosePositionOrderProfitAscDateAsc   ClosePositionOrder = 6  // 損益（低い順）、日付（古い順）
+	ClosePositionOrderProfitAscDateDesc  ClosePositionOrder = 7  // 損益（低い順）、日付（古い順）
 )
 
 // FrontOrderType - 執行条件

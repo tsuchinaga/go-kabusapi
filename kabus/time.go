@@ -10,7 +10,7 @@ type YmdTHms struct {
 	time.Time
 }
 
-func (t *YmdTHms) MarshalJSON() ([]byte, error) {
+func (t YmdTHms) MarshalJSON() ([]byte, error) {
 	return []byte(`"` + t.Time.Format("2006-01-02T15:04:05") + `"`), nil
 }
 
@@ -31,7 +31,7 @@ type YmdTHmsSSS struct {
 	time.Time
 }
 
-func (t *YmdTHmsSSS) MarshalJSON() ([]byte, error) {
+func (t YmdTHmsSSS) MarshalJSON() ([]byte, error) {
 	return []byte(`"` + t.Time.Format("2006-01-02T15:04:05.999999") + `"`), nil
 }
 
@@ -52,7 +52,11 @@ type YmdNUM struct {
 	time.Time
 }
 
-func (t *YmdNUM) MarshalJSON() ([]byte, error) {
+func (t YmdNUM) MarshalJSON() ([]byte, error) {
+	// 8桁を保つために最低でも10000101にする
+	if t.IsZero() || t.Year() < 1000 {
+		return []byte("10000101"), nil
+	}
 	return []byte(t.Time.Format("20060102")), nil
 }
 

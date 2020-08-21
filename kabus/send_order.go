@@ -1,8 +1,11 @@
 package kabus
 
-import "time"
+import (
+	"context"
+	"encoding/json"
+)
 
-// SendOrderRequest - 注文発注のリクエストパラメータ
+// SendOrderRequest - 注文発注のリクエストパラメータ TODO 返済時ClosePositionOrderとClosePositionsを同時に出してはいけないので対応する
 type SendOrderRequest struct {
 	Password           string             `json:"Password"`           // 注文パスワード
 	Symbol             string             `json:"Symbol"`             // 銘柄コード
@@ -18,7 +21,7 @@ type SendOrderRequest struct {
 	ClosePositionOrder ClosePositionOrder `json:"ClosePositionOrder"` // 決済順序 ※信用取引の場合必須
 	ClosePositions     []ClosePosition    `json:"ClosePositions"`     // 返済建玉指定
 	Price              int                `json:"Price"`              // 注文価格
-	ExpireDay          time.Time          `json:"ExpireDay"`          // 注文有効期限（年月日）
+	ExpireDay          YmdNUM             `json:"ExpireDay"`          // 注文有効期限（年月日）
 	FrontOrderType     FrontOrderType     `json:"FrontOrderType"`     // 執行条件
 }
 
@@ -32,4 +35,45 @@ type ClosePosition struct {
 type SendOrderResponse struct {
 	Result  int    `json:"Result"`  // 結果コード 0が成功、それ以外はエラー
 	OrderID string `json:"OrderId"` // 受付注文番号
+}
+
+// NewSendOrderRequester - 注文発注リクエスタの生成
+func NewSendOrderRequester(token string, isProd bool) *sendOrderRequester {
+	u := "http://localhost:18080/kabusapi/sendorder"
+	if !isProd {
+		u = "http://localhost:18081/kabusapi/sendorder"
+	}
+
+	return &sendOrderRequester{client{url: u, token: token}}
+}
+
+// sendOrderRequester - 注文発注のリクエスタ
+type sendOrderRequester struct {
+	client
+}
+
+// Exec - 注文発注リクエストの実行
+func (r *sendOrderRequester) Exec(request SendOrderRequest) (*SendOrderResponse, error) {
+	return r.ExecWithContext(context.Background(), request)
+}
+
+// ExecWithContext - 注文発注リクエストの実行(contextあり)
+func (r *sendOrderRequester) ExecWithContext(ctx context.Context, request SendOrderRequest) (*SendOrderResponse, error) {
+	reqBody, err := json.Marshal(request)
+	if err != nil {
+		return nil, err
+	}
+
+	println(string(reqBody))
+
+	code, b, err := r.client.post(ctx, reqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	var res SendOrderResponse
+	if err := parseResponse(code, b, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
 }
