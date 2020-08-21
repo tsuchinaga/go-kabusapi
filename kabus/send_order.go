@@ -39,12 +39,12 @@ type SendOrderResponse struct {
 
 // NewSendOrderRequester - 注文発注リクエスタの生成
 func NewSendOrderRequester(token string, isProd bool) *sendOrderRequester {
-	return &sendOrderRequester{client{url: createURL("/sendorder", isProd), token: token}}
+	return &sendOrderRequester{httpClient{url: createURL("/sendorder", isProd), token: token}}
 }
 
 // sendOrderRequester - 注文発注のリクエスタ
 type sendOrderRequester struct {
-	client
+	httpClient
 }
 
 // Exec - 注文発注リクエストの実行
@@ -59,7 +59,7 @@ func (r *sendOrderRequester) ExecWithContext(ctx context.Context, request SendOr
 		return nil, err
 	}
 
-	code, b, err := r.client.post(ctx, reqBody)
+	code, b, err := r.httpClient.post(ctx, reqBody)
 	if err != nil {
 		return nil, err
 	}

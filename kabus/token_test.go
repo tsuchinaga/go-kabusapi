@@ -17,10 +17,10 @@ func Test_NewTokenRequester(t *testing.T) {
 	}{
 		{name: "本番用URLが取れる",
 			arg1: true,
-			want: &tokenRequester{client: client{url: "http://localhost:18080/kabusapi/token"}}},
+			want: &tokenRequester{httpClient: httpClient{url: "http://localhost:18080/kabusapi/token"}}},
 		{name: "検証用URLが取れる",
 			arg1: false,
-			want: &tokenRequester{client: client{url: "http://localhost:18081/kabusapi/token"}}},
+			want: &tokenRequester{httpClient: httpClient{url: "http://localhost:18081/kabusapi/token"}}},
 	}
 
 	for _, test := range tests {
@@ -75,7 +75,7 @@ func Test_tokenRequester_Exec(t *testing.T) {
 			}))
 			defer ts.Close()
 
-			req := &tokenRequester{client{url: ts.URL}}
+			req := &tokenRequester{httpClient{url: ts.URL}}
 			got1, got2 := req.Exec(TokenRequest{APIPassword: "xxxxxx"})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)

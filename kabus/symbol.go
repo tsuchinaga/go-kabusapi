@@ -34,12 +34,12 @@ type SymbolResponse struct {
 
 // NewSymbolRequester - 銘柄情報リクエスタの生成
 func NewSymbolRequester(token string, isProd bool) *symbolRequester {
-	return &symbolRequester{client{token: token, url: createURL("/symbol", isProd)}}
+	return &symbolRequester{httpClient{token: token, url: createURL("/symbol", isProd)}}
 }
 
 // symbolRequester - 銘柄情報リクエスタ
 type symbolRequester struct {
-	client
+	httpClient
 }
 
 // Exec - 銘柄情報リクエストの実行
@@ -50,7 +50,7 @@ func (r *symbolRequester) Exec(request SymbolRequest) (*SymbolResponse, error) {
 // ExecWithContext - 銘柄情報リクエストの実行(contextあり)
 func (r *symbolRequester) ExecWithContext(ctx context.Context, request SymbolRequest) (*SymbolResponse, error) {
 	pathParam := fmt.Sprintf("%s@%d", request.Symbol, request.Exchange)
-	code, b, err := r.client.get(ctx, pathParam, "")
+	code, b, err := r.httpClient.get(ctx, pathParam, "")
 	if err != nil {
 		return nil, err
 	}

@@ -39,12 +39,12 @@ type Position struct {
 
 // NewPositionsRequester - 残高照会リクエスタの生成
 func NewPositionsRequester(token string, isProd bool) *positionsRequester {
-	return &positionsRequester{client{token: token, url: createURL("/positions", isProd)}}
+	return &positionsRequester{httpClient{token: token, url: createURL("/positions", isProd)}}
 }
 
 // positionsRequester - 残高照会のリクエスタ
 type positionsRequester struct {
-	client
+	httpClient
 }
 
 // Exec - 残高照会リクエストの実行
@@ -56,7 +56,7 @@ func (r *positionsRequester) Exec(request PositionsRequest) (*PositionsResponse,
 func (r *positionsRequester) ExecWithContext(ctx context.Context, request PositionsRequest) (*PositionsResponse, error) {
 	queryParam := fmt.Sprintf("product=%d", request.Product)
 
-	code, b, err := r.client.get(ctx, "", queryParam)
+	code, b, err := r.httpClient.get(ctx, "", queryParam)
 	if err != nil {
 		return nil, err
 	}

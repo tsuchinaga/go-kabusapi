@@ -55,12 +55,12 @@ type OrderDetail struct {
 }
 
 func NewOrdersRequester(token string, isProd bool) *ordersRequester {
-	return &ordersRequester{client{token: token, url: createURL("/orders", isProd)}}
+	return &ordersRequester{httpClient{token: token, url: createURL("/orders", isProd)}}
 }
 
 // ordersRequester - 注文約定照会のリクエスタ
 type ordersRequester struct {
-	client
+	httpClient
 }
 
 // Exec - 注文約定照会リクエストの実行
@@ -72,7 +72,7 @@ func (r *ordersRequester) Exec(request OrdersRequest) (*OrdersResponse, error) {
 func (r *ordersRequester) ExecWithContext(ctx context.Context, request OrdersRequest) (*OrdersResponse, error) {
 	queryParam := fmt.Sprintf("product=%d", request.Product)
 
-	code, b, err := r.client.get(ctx, "", queryParam)
+	code, b, err := r.httpClient.get(ctx, "", queryParam)
 	if err != nil {
 		return nil, err
 	}

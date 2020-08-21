@@ -18,10 +18,10 @@ func Test_NewRegisterRequester(t *testing.T) {
 	}{
 		{name: "本番用URLが取れる",
 			arg1: "token1", arg2: true,
-			want: &registerRequester{client: client{url: "http://localhost:18080/kabusapi/register", token: "token1"}}},
+			want: &registerRequester{httpClient: httpClient{url: "http://localhost:18080/kabusapi/register", token: "token1"}}},
 		{name: "検証用URLが取れる",
 			arg1: "token2", arg2: false,
-			want: &registerRequester{client: client{url: "http://localhost:18081/kabusapi/register", token: "token2"}}},
+			want: &registerRequester{httpClient: httpClient{url: "http://localhost:18081/kabusapi/register", token: "token2"}}},
 	}
 
 	for _, test := range tests {
@@ -76,7 +76,7 @@ func Test_registerRequester_Exec(t *testing.T) {
 			}))
 			defer ts.Close()
 
-			req := &registerRequester{client{url: ts.URL}}
+			req := &registerRequester{httpClient{url: ts.URL}}
 			got1, got2 := req.Exec(RegisterRequest{Symbols: []RegistSymbol{{Symbol: "9433", Exchange: ExchangeToushou}}})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)

@@ -18,10 +18,10 @@ func Test_NewWalletMarginRequester(t *testing.T) {
 	}{
 		{name: "本番用のURLが取れる",
 			arg1: "token1", arg2: true,
-			want: &walletMarginRequester{client: client{url: "http://localhost:18080/kabusapi/wallet/margin", token: "token1"}}},
+			want: &walletMarginRequester{httpClient: httpClient{url: "http://localhost:18080/kabusapi/wallet/margin", token: "token1"}}},
 		{name: "検証用のURLが取れる",
 			arg1: "token2", arg2: false,
-			want: &walletMarginRequester{client: client{url: "http://localhost:18081/kabusapi/wallet/margin", token: "token2"}}},
+			want: &walletMarginRequester{httpClient: httpClient{url: "http://localhost:18081/kabusapi/wallet/margin", token: "token2"}}},
 	}
 
 	for _, test := range tests {
@@ -80,7 +80,7 @@ func Test_walletMarginRequester_Exec(t *testing.T) {
 			}))
 			defer ts.Close()
 
-			req := &walletMarginRequester{client{url: ts.URL}}
+			req := &walletMarginRequester{httpClient{url: ts.URL}}
 			got1, got2 := req.Exec()
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
@@ -100,10 +100,10 @@ func Test_NewWalletMarginSymbolRequester(t *testing.T) {
 	}{
 		{name: "本番用のURLが取れる",
 			arg1: "token1", arg2: true,
-			want: &walletMarginSymbolRequester{client: client{url: "http://localhost:18080/kabusapi/wallet/margin", token: "token1"}}},
+			want: &walletMarginSymbolRequester{httpClient: httpClient{url: "http://localhost:18080/kabusapi/wallet/margin", token: "token1"}}},
 		{name: "検証用のURLが取れる",
 			arg1: "token2", arg2: false,
-			want: &walletMarginSymbolRequester{client: client{url: "http://localhost:18081/kabusapi/wallet/margin", token: "token2"}}},
+			want: &walletMarginSymbolRequester{httpClient: httpClient{url: "http://localhost:18081/kabusapi/wallet/margin", token: "token2"}}},
 	}
 
 	for _, test := range tests {
@@ -162,7 +162,7 @@ func Test_walletMarginSymbolRequester_Exec(t *testing.T) {
 			}))
 			defer ts.Close()
 
-			req := &walletMarginSymbolRequester{client{url: ts.URL}}
+			req := &walletMarginSymbolRequester{httpClient{url: ts.URL}}
 			got1, got2 := req.Exec(WalletMarginSymbolRequest{Symbol: "9433", Exchange: ExchangeToushou})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)

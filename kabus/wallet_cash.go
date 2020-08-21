@@ -21,12 +21,12 @@ type WalletCashResponse struct {
 
 // walletCashRequester - 取引余力（現物）リクエスタの生成
 func NewWalletCashRequester(token string, isProd bool) *walletCashRequester {
-	return &walletCashRequester{client{token: token, url: createURL("/wallet/cash", isProd)}}
+	return &walletCashRequester{httpClient{token: token, url: createURL("/wallet/cash", isProd)}}
 }
 
 // walletCashRequester - 取引余力（現物）のリクエスタ
 type walletCashRequester struct {
-	client
+	httpClient
 }
 
 // Exec - 取引余力（現物）リクエストの実行
@@ -36,7 +36,7 @@ func (r *walletCashRequester) Exec() (*WalletCashResponse, error) {
 
 // ExecWithContext - 取引余力（現物）リクエストの実行(contextあり)
 func (r *walletCashRequester) ExecWithContext(ctx context.Context) (*WalletCashResponse, error) {
-	code, b, err := r.client.get(ctx, "", "")
+	code, b, err := r.httpClient.get(ctx, "", "")
 	if err != nil {
 		return nil, err
 	}
@@ -50,12 +50,12 @@ func (r *walletCashRequester) ExecWithContext(ctx context.Context) (*WalletCashR
 
 // NewWalletCashSymbolRequester - 取引余力（現物）（銘柄指定）リクエスタの生成
 func NewWalletCashSymbolRequester(token string, isProd bool) *walletCashSymbolRequester {
-	return &walletCashSymbolRequester{client{token: token, url: createURL("/wallet/cash", isProd)}}
+	return &walletCashSymbolRequester{httpClient{token: token, url: createURL("/wallet/cash", isProd)}}
 }
 
 // walletCashRequester - 取引余力（現物）（銘柄指定）のリクエスタ
 type walletCashSymbolRequester struct {
-	client
+	httpClient
 }
 
 // Exec - 取引余力（現物）（銘柄指定）リクエストの実行
@@ -66,7 +66,7 @@ func (r *walletCashSymbolRequester) Exec(request WalletCashSymbolRequest) (*Wall
 // ExecWithContext - 取引余力（現物）（銘柄指定）リクエストの実行(contextあり)
 func (r *walletCashSymbolRequester) ExecWithContext(ctx context.Context, request WalletCashSymbolRequest) (*WalletCashResponse, error) {
 	pathParam := fmt.Sprintf("%s@%d", request.Symbol, request.Exchange)
-	code, b, err := r.client.get(ctx, pathParam, "")
+	code, b, err := r.httpClient.get(ctx, pathParam, "")
 	if err != nil {
 		return nil, err
 	}

@@ -18,12 +18,12 @@ type TokenResponse struct {
 
 // NewTokenRequester - トークン発行リクエスタの生成
 func NewTokenRequester(isProd bool) *tokenRequester {
-	return &tokenRequester{client: client{url: createURL("/token", isProd)}}
+	return &tokenRequester{httpClient: httpClient{url: createURL("/token", isProd)}}
 }
 
 // tokenRequester - トークン発行のリクエスタ
 type tokenRequester struct {
-	client
+	httpClient
 }
 
 // Exec - トークン発行リクエストの実行
@@ -38,7 +38,7 @@ func (r *tokenRequester) ExecWithContext(ctx context.Context, request TokenReque
 		return nil, err
 	}
 
-	code, b, err := r.client.post(ctx, reqBody)
+	code, b, err := r.httpClient.post(ctx, reqBody)
 	if err != nil {
 		return nil, err
 	}

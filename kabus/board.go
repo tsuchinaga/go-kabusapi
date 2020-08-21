@@ -88,12 +88,12 @@ type BoardSign struct {
 
 // NewBoardRequester - 時価情報・板情報リクエスタの生成
 func NewBoardRequester(token string, isProd bool) *boardRequester {
-	return &boardRequester{client: client{token: token, url: createURL("/board", isProd)}}
+	return &boardRequester{httpClient: httpClient{token: token, url: createURL("/board", isProd)}}
 }
 
 // boardRequester - 時価情報・板情報のリクエスタ
 type boardRequester struct {
-	client
+	httpClient
 }
 
 // Exec - 時価情報・板情報リクエストの実行
@@ -105,7 +105,7 @@ func (r *boardRequester) Exec(request BoardRequest) (*BoardResponse, error) {
 func (r *boardRequester) ExecWithContext(ctx context.Context, request BoardRequest) (*BoardResponse, error) {
 	pathParam := fmt.Sprintf("%s@%d", request.Symbol, request.Exchange)
 
-	code, b, err := r.client.get(ctx, pathParam, "")
+	code, b, err := r.httpClient.get(ctx, pathParam, "")
 	if err != nil {
 		return nil, err
 	}

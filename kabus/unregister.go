@@ -24,13 +24,13 @@ type UnregisterResponse struct {
 // NewUnregisterRequester - 銘柄登録解除リクエスタの生成
 func NewUnregisterRequester(token string, isProd bool) *unregisterRequester {
 	return &unregisterRequester{
-		client{token: token, url: createURL("/unregister", isProd)},
+		httpClient{token: token, url: createURL("/unregister", isProd)},
 	}
 }
 
 // unregisterRequester - 銘柄登録解除のリクエスタ
 type unregisterRequester struct {
-	client
+	httpClient
 }
 
 // Exec - 銘柄登録解除リクエストの実行
@@ -45,7 +45,7 @@ func (r *unregisterRequester) ExecWithContext(ctx context.Context, request Unreg
 		return nil, err
 	}
 
-	code, b, err := r.client.put(ctx, reqBody)
+	code, b, err := r.httpClient.put(ctx, reqBody)
 	if err != nil {
 		return nil, err
 	}

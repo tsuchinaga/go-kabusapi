@@ -29,12 +29,12 @@ type RegisteredSymbol struct {
 
 // NewRegisterRequester - 銘柄登録のリクエスタの生成
 func NewRegisterRequester(token string, isProd bool) *registerRequester {
-	return &registerRequester{client: client{url: createURL("/register", isProd), token: token}}
+	return &registerRequester{httpClient: httpClient{url: createURL("/register", isProd), token: token}}
 }
 
 // registerRequester - 銘柄登録のリクエスタ
 type registerRequester struct {
-	client
+	httpClient
 }
 
 // Exec - 銘柄登録リクエストの実行
@@ -49,7 +49,7 @@ func (r *registerRequester) ExecWithContext(ctx context.Context, request Registe
 		return nil, err
 	}
 
-	code, b, err := r.client.put(ctx, reqBody)
+	code, b, err := r.httpClient.put(ctx, reqBody)
 	if err != nil {
 		return nil, err
 	}

@@ -10,14 +10,14 @@ import (
 	"strings"
 )
 
-// client - HTTPクライアント
-type client struct {
+// httpClient - HTTPクライアント
+type httpClient struct {
 	url   string // URL
 	token string // リクエストトークン
 }
 
 // get - GETリクエスト
-func (c *client) get(ctx context.Context, pathParam string, queryParam string) (int, []byte, error) {
+func (c *httpClient) get(ctx context.Context, pathParam string, queryParam string) (int, []byte, error) {
 	u, err := url.Parse(c.url)
 	if err != nil {
 		return 0, nil, err
@@ -53,7 +53,7 @@ func (c *client) get(ctx context.Context, pathParam string, queryParam string) (
 }
 
 // post - POSTリクエスト
-func (c *client) post(ctx context.Context, request []byte) (int, []byte, error) {
+func (c *httpClient) post(ctx context.Context, request []byte) (int, []byte, error) {
 	req, err := http.NewRequestWithContext(ctx, "POST", c.url, bytes.NewReader(request))
 	if err != nil {
 		return 0, nil, err
@@ -79,7 +79,7 @@ func (c *client) post(ctx context.Context, request []byte) (int, []byte, error) 
 }
 
 // put - PUTリクエスト
-func (c *client) put(ctx context.Context, request []byte) (int, []byte, error) {
+func (c *httpClient) put(ctx context.Context, request []byte) (int, []byte, error) {
 	req, err := http.NewRequestWithContext(ctx, "PUT", c.url, bytes.NewReader(request))
 	if err != nil {
 		return 0, nil, err
@@ -129,4 +129,18 @@ func createURL(path string, isProd bool) string {
 		host = "localhost:18080"
 	}
 	return "http://" + host + strings.ReplaceAll("/kabusapi/"+path, "//", "/")
+}
+
+// wsClient - WSクライアント
+type wsClient struct {
+	url string // URL
+}
+
+// createWS - リクエスト先のWS URLを生成する
+func createWS(isProd bool) string {
+	host := "localhost:18081"
+	if isProd {
+		host = "localhost:18080"
+	}
+	return "ws://" + host + "/kabusapi/websocket"
 }

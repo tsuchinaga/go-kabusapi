@@ -19,10 +19,10 @@ func Test_NewBoardRequester(t *testing.T) {
 	}{
 		{name: "本番用URLが取れる",
 			arg1: "token1", arg2: true,
-			want: &boardRequester{client{url: "http://localhost:18080/kabusapi/board", token: "token1"}}},
+			want: &boardRequester{httpClient{url: "http://localhost:18080/kabusapi/board", token: "token1"}}},
 		{name: "検証用URLが取れる",
 			arg1: "token2", arg2: false,
-			want: &boardRequester{client{url: "http://localhost:18081/kabusapi/board", token: "token2"}}},
+			want: &boardRequester{httpClient{url: "http://localhost:18081/kabusapi/board", token: "token2"}}},
 	}
 
 	for _, test := range tests {
@@ -134,7 +134,7 @@ func Test_boardRequester_Exec(t *testing.T) {
 			}))
 			defer ts.Close()
 
-			req := &boardRequester{client{url: ts.URL}}
+			req := &boardRequester{httpClient{url: ts.URL}}
 			got1, got2 := req.Exec(BoardRequest{Symbol: "5401", Exchange: ExchangeToushou})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)

@@ -19,12 +19,12 @@ type CancelOrderResponse struct {
 
 // NewCancelOrderRequester - 注文取消リクエスタの生成
 func NewCancelOrderRequester(token string, isProd bool) *cancelOrderRequester {
-	return &cancelOrderRequester{client{url: createURL("/cancelorder", isProd), token: token}}
+	return &cancelOrderRequester{httpClient{url: createURL("/cancelorder", isProd), token: token}}
 }
 
 // cancelOrderRequester - 注文取消のリクエスタ
 type cancelOrderRequester struct {
-	client
+	httpClient
 }
 
 // Exec - 注文取消リクエストの実行
@@ -39,7 +39,7 @@ func (r *cancelOrderRequester) ExecWithContext(ctx context.Context, request Canc
 		return nil, err
 	}
 
-	code, b, err := r.client.put(ctx, reqBody)
+	code, b, err := r.httpClient.put(ctx, reqBody)
 	if err != nil {
 		return nil, err
 	}
