@@ -1,14 +1,17 @@
 package kabus
 
-import "time"
+import (
+	"context"
+	"fmt"
+)
 
 // PositionsRequest - 残高照会のリクエストパラメータ
 type PositionsRequest struct {
 	Product Product // 取得する商品
 }
 
-// ProductResponse - 残高照会のレスポンス
-type ProductResponse []Position
+// PositionsResponse - 残高照会のレスポンス
+type PositionsResponse []Position
 
 // Position - 残高照会で返されるポジションの情報
 type Position struct {
@@ -18,7 +21,7 @@ type Position struct {
 	SymbolName      string          `json:"SymbolName"`      // 銘柄名
 	Exchange        Exchange        `json:"Exchange"`        // 市場コード
 	ExchangeName    string          `json:"ExchangeName"`    // 市場名
-	ExecutionDay    time.Time       `json:"ExecutionDay"`    // 約定日（建玉日）
+	ExecutionDay    YmdNUM          `json:"ExecutionDay"`    // 約定日（建玉日）
 	Price           float64         `json:"Price"`           // 値段
 	LeavesQty       float64         `json:"LeavesQty"`       // 残数量
 	HoldQty         float64         `json:"HoldQty"`         // 拘束数量（保有数量）
@@ -26,10 +29,42 @@ type Position struct {
 	Expenses        float64         `json:"Expenses"`        // 諸経費
 	Commission      float64         `json:"Commission"`      // 手数料
 	CommissionTax   float64         `json:"CommissionTax"`   // 手数料消費税
-	ExpireDay       time.Time       `json:"ExpireDay"`       // 返済期日
+	ExpireDay       YmdNUM          `json:"ExpireDay"`       // 返済期日
 	MarginTradeType MarginTradeType `json:"MarginTradeType"` // 信用取引区分
 	CurrentPrice    float64         `json:"CurrentPrice"`    // 現在値
 	Valuation       float64         `json:"Valuation"`       // 評価金額
 	ProfitLoss      float64         `json:"ProfitLoss"`      // 評価損益額
 	ProfitLossRate  float64         `json:"ProfitLossRate"`  // 評価損益率
+}
+
+// NewPositionsRequester - 残高照会リクエスタの生成
+func NewPositionsRequester(token string) *positionsRequester {
+	return &positionsRequester{client{token: token, url: "http://localhost:18080/kabusapi/positions"}}
+}
+
+// positionsRequester - 残高照会のリクエスタ
+type positionsRequester struct {
+	client
+}
+
+// Exec - 残高照会リクエストの実行
+func (r *positionsRequester) Exec(request PositionsRequest) (*PositionsResponse, error) {
+	return r.ExecWithContext(context.Background(), request)
+}
+
+// ExecWithContext - 残高照会リクエストの実行(contextあり)
+func (r *positionsRequester) ExecWithContext(ctx context.Context, request PositionsRequest) (*PositionsResponse, error) {
+	queryParam := fmt.Sprintf("product=%d", request.Product)
+
+	code, b, err := r.client.get(ctx, "", queryParam)
+	if err != nil {
+		return nil, err
+	}
+
+	println(string(b))
+	var res PositionsResponse
+	if err := parseResponse(code, b, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
 }
