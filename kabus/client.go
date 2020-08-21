@@ -21,8 +21,12 @@ func (c *client) get(ctx context.Context, pathParam string, queryParam string) (
 	if err != nil {
 		return 0, nil, err
 	}
-	u.Path += "/" + pathParam
-	u.RawQuery = queryParam
+	if pathParam != "" {
+		u.Path += "/" + pathParam
+	}
+	if queryParam != "" {
+		u.RawQuery = queryParam
+	}
 
 	req, err := http.NewRequestWithContext(ctx, "GET", u.String(), nil)
 	if err != nil {

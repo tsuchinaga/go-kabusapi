@@ -96,12 +96,12 @@ type boardRequester struct {
 	client
 }
 
-// Exec - 銘柄登録リクエストの実行
+// Exec - 時価情報・板情報リクエストの実行
 func (r *boardRequester) Exec(request BoardRequest) (*BoardResponse, error) {
 	return r.ExecWithContext(context.Background(), request)
 }
 
-// ExecWithContext - 銘柄登録リクエストの実行(contextあり)
+// ExecWithContext - 時価情報・板情報リクエストの実行(contextあり)
 func (r *boardRequester) ExecWithContext(ctx context.Context, request BoardRequest) (*BoardResponse, error) {
 	pathParam := fmt.Sprintf("%s@%d", request.Symbol, request.Exchange)
 

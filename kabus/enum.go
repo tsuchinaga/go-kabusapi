@@ -20,12 +20,12 @@ const (
 )
 
 // Side - 売買区分
-type Side int
+type Side string
 
 const (
-	SideUnspecified Side = 0 // 指定なし
-	SideSell        Side = 1 // 売
-	SideBuy         Side = 2 // 買
+	SideUnspecified Side = ""  // 指定なし
+	SideSell        Side = "1" // 売
+	SideBuy         Side = "2" // 買
 )
 
 // CashMargin - 現物信用区分
