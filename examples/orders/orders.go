@@ -11,7 +11,7 @@ func main() {
 	password := os.Getenv("API_PASSWORD")
 	var token string
 	{
-		req, err := kabus.NewTokenRequester().Exec(kabus.TokenRequest{APIPassword: password})
+		req, err := kabus.NewTokenRequester(false).Exec(kabus.TokenRequest{APIPassword: password})
 		if err != nil {
 			panic(err)
 		}
@@ -19,7 +19,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewOrdersRequester(token).Exec(kabus.OrdersRequest{Product: kabus.ProductAll})
+		res, err := kabus.NewOrdersRequester(token, false).Exec(kabus.OrdersRequest{Product: kabus.ProductAll})
 		if err != nil {
 			panic(err)
 		}

@@ -33,8 +33,12 @@ type SymbolResponse struct {
 }
 
 // NewSymbolRequester - 銘柄情報リクエスタの生成
-func NewSymbolRequester(token string) *symbolRequester {
-	return &symbolRequester{client{token: token, url: "http://localhost:18080/kabusapi/symbol"}}
+func NewSymbolRequester(token string, isProd bool) *symbolRequester {
+	u := "http://localhost:18080/kabusapi/symbol"
+	if !isProd {
+		u = "http://localhost:18081/kabusapi/symbol"
+	}
+	return &symbolRequester{client{token: token, url: u}}
 }
 
 // symbolRequester - 銘柄情報リクエスタ

@@ -10,11 +10,29 @@ import (
 func Test_NewUnregisterAllRequester(t *testing.T) {
 	t.Parallel()
 
-	want := &unregisterAllRequester{client: client{token: "token", url: "http://localhost:18080/kabusapi/unregister/all"}}
-	got := NewUnregisterAllRequester("token")
+	tests := []struct {
+		name string
+		arg1 string
+		arg2 bool
+		want *unregisterAllRequester
+	}{
+		{name: "本番用URLが取れる",
+			arg1: "token1", arg2: true,
+			want: &unregisterAllRequester{client: client{url: "http://localhost:18080/kabusapi/unregister/all", token: "token1"}}},
+		{name: "検証用URLが取れる",
+			arg1: "token2", arg2: false,
+			want: &unregisterAllRequester{client: client{url: "http://localhost:18081/kabusapi/unregister/all", token: "token2"}}},
+	}
 
-	if !reflect.DeepEqual(want, got) {
-		t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), want, got)
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := NewUnregisterAllRequester(test.arg1, test.arg2)
+			if !reflect.DeepEqual(test.want, got) {
+				t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), test.want, got)
+			}
+		})
 	}
 }
 

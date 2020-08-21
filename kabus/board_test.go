@@ -11,11 +11,29 @@ import (
 func Test_NewBoardRequester(t *testing.T) {
 	t.Parallel()
 
-	want := &boardRequester{client: client{token: "token", url: "http://localhost:18080/kabusapi/board"}}
-	got := NewBoardRequester("token")
+	tests := []struct {
+		name string
+		arg1 string
+		arg2 bool
+		want *boardRequester
+	}{
+		{name: "本番用URLが取れる",
+			arg1: "token1", arg2: true,
+			want: &boardRequester{client{url: "http://localhost:18080/kabusapi/board", token: "token1"}}},
+		{name: "検証用URLが取れる",
+			arg1: "token2", arg2: false,
+			want: &boardRequester{client{url: "http://localhost:18081/kabusapi/board", token: "token2"}}},
+	}
 
-	if !reflect.DeepEqual(want, got) {
-		t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), want, got)
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := NewBoardRequester(test.arg1, test.arg2)
+			if !reflect.DeepEqual(test.want, got) {
+				t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), test.want, got)
+			}
+		})
 	}
 }
 

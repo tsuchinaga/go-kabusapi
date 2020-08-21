@@ -28,8 +28,12 @@ type RegisteredSymbol struct {
 }
 
 // NewRegisterRequester - 銘柄登録のリクエスタの生成
-func NewRegisterRequester(token string) *registerRequester {
-	return &registerRequester{client: client{url: "http://localhost:18080/kabusapi/register", token: token}}
+func NewRegisterRequester(token string, isProd bool) *registerRequester {
+	u := "http://localhost:18080/kabusapi/register"
+	if !isProd {
+		u = "http://localhost:18081/kabusapi/register"
+	}
+	return &registerRequester{client: client{url: u, token: token}}
 }
 
 // registerRequester - 銘柄登録のリクエスタ

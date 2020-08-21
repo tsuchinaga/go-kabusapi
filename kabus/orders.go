@@ -54,8 +54,12 @@ type OrderDetail struct {
 	CommissionTax float64    `json:"CommissionTax"` // 手数料消費税
 }
 
-func NewOrdersRequester(token string) *ordersRequester {
-	return &ordersRequester{client{token: token, url: "http://localhost:18080/kabusapi/orders"}}
+func NewOrdersRequester(token string, isProd bool) *ordersRequester {
+	u := "http://localhost:18080/kabusapi/orders"
+	if !isProd {
+		u = "http://localhost:18081/kabusapi/orders"
+	}
+	return &ordersRequester{client{token: token, url: u}}
 }
 
 // ordersRequester - 注文約定照会のリクエスタ

@@ -13,8 +13,12 @@ type UnregisterAllResponse struct {
 }
 
 // NewUnregisterAllRequester - 銘柄登録全解除リクエスタの生成
-func NewUnregisterAllRequester(token string) *unregisterAllRequester {
-	return &unregisterAllRequester{client: client{token: token, url: "http://localhost:18080/kabusapi/unregister/all"}}
+func NewUnregisterAllRequester(token string, isProd bool) *unregisterAllRequester {
+	u := "http://localhost:18080/kabusapi/unregister/all"
+	if !isProd {
+		u = "http://localhost:18081/kabusapi/unregister/all"
+	}
+	return &unregisterAllRequester{client: client{token: token, url: u}}
 }
 
 // unregisterAllRequester - 銘柄登録全解除のリクエスタ

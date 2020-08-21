@@ -9,10 +9,29 @@ import (
 
 func Test_NewTokenRequester(t *testing.T) {
 	t.Parallel()
-	want := &tokenRequester{client{url: "http://localhost:18080/kabusapi/token"}}
-	got := NewTokenRequester()
-	if !reflect.DeepEqual(want, got) {
-		t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), want, got)
+
+	tests := []struct {
+		name string
+		arg1 bool
+		want *tokenRequester
+	}{
+		{name: "本番用URLが取れる",
+			arg1: true,
+			want: &tokenRequester{client: client{url: "http://localhost:18080/kabusapi/token"}}},
+		{name: "検証用URLが取れる",
+			arg1: false,
+			want: &tokenRequester{client: client{url: "http://localhost:18081/kabusapi/token"}}},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := NewTokenRequester(test.arg1)
+			if !reflect.DeepEqual(test.want, got) {
+				t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), test.arg1, got)
+			}
+		})
 	}
 }
 

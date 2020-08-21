@@ -9,7 +9,7 @@ import (
 
 func main() {
 	password := os.Getenv("API_PASSWORD")
-	requester := kabus.NewTokenRequester()
+	requester := kabus.NewTokenRequester(false)
 	res, err := requester.Exec(kabus.TokenRequest{APIPassword: password})
 	fmt.Printf("res: %+v\nerr: %+v\n", res, err)
 }

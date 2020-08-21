@@ -11,7 +11,7 @@ func main() {
 	password := os.Getenv("API_PASSWORD")
 	var token string
 	{
-		req, err := kabus.NewTokenRequester().Exec(kabus.TokenRequest{APIPassword: password})
+		req, err := kabus.NewTokenRequester(false).Exec(kabus.TokenRequest{APIPassword: password})
 		if err != nil {
 			panic(err)
 		}
@@ -20,7 +20,7 @@ func main() {
 
 	// TODO エラーで動かない https://github.com/kabucom/kabusapi/issues/14
 	{
-		res, err := kabus.NewPositionsRequester(token).Exec(kabus.PositionsRequest{Product: kabus.ProductAll})
+		res, err := kabus.NewPositionsRequester(token, false).Exec(kabus.PositionsRequest{Product: kabus.ProductAll})
 		if err != nil {
 			panic(err)
 		}

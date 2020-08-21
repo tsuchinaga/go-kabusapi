@@ -38,8 +38,12 @@ type Position struct {
 }
 
 // NewPositionsRequester - 残高照会リクエスタの生成
-func NewPositionsRequester(token string) *positionsRequester {
-	return &positionsRequester{client{token: token, url: "http://localhost:18080/kabusapi/positions"}}
+func NewPositionsRequester(token string, isProd bool) *positionsRequester {
+	u := "http://localhost:18080/kabusapi/positions"
+	if !isProd {
+		u = "http://localhost:18081/kabusapi/positions"
+	}
+	return &positionsRequester{client{token: token, url: u}}
 }
 
 // positionsRequester - 残高照会のリクエスタ
