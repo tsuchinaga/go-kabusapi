@@ -11,6 +11,6 @@ kabuステーションAPIのライブラリ。
 
 ## 注意
 
-[github.com/tsuchinaga/go-kabusapi](https://github.com/tsuchinaga/go-kabusapi) にミラーリングしていますが、オリジナルは [gitlab.com/tsuchinaga/go-kabusapi](https://gitlab.com/tsuchinaga/go-kabusapi) にあります。
+動作検証中です。
 
-現在開発中です。
+[github.com/tsuchinaga/go-kabusapi](https://github.com/tsuchinaga/go-kabusapi) にミラーリングしていますが、オリジナルは [gitlab.com/tsuchinaga/go-kabusapi](https://gitlab.com/tsuchinaga/go-kabusapi) にあります。
