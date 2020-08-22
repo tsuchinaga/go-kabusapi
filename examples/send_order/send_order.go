@@ -24,7 +24,6 @@ func main() {
 		token = req.Token
 	}
 
-	// TODO エラーで動かない https://github.com/kabucom/kabusapi/issues/16
 	{
 		res, err := kabus.NewSendOrderRequester(token, isProd).Exec(kabus.SendOrderRequest{
 			Password:           password,
@@ -35,7 +34,7 @@ func main() {
 			CashMargin:         kabus.CashMarginCash,
 			MarginTradeType:    kabus.MarginTradeTypeUnspecified,
 			DelivType:          kabus.DelivTypeCash,
-			FundType:           kabus.FundTypeProtected,
+			FundType:           kabus.FundTypeTransferMargin,
 			AccountType:        kabus.AccountTypeGeneral,
 			Qty:                1.0,
 			ClosePositionOrder: kabus.ClosePositionOrderUnspecified,
