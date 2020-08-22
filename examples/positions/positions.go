@@ -23,7 +23,6 @@ func main() {
 		token = req.Token
 	}
 
-	// TODO エラーで動かない https://github.com/kabucom/kabusapi/issues/14
 	{
 		res, err := kabus.NewPositionsRequester(token, isProd).Exec(kabus.PositionsRequest{Product: kabus.ProductAll})
 		if err != nil {
