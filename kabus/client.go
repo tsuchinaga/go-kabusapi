@@ -129,7 +129,8 @@ func createURL(path string, isProd bool) string {
 
 // wsClient - WSクライアント
 type wsClient struct {
-	url string // URL
+	url    string // URL
+	isProd bool   // 本番用か
 }
 
 // createWS - リクエスト先のWS URLを生成する
