@@ -124,11 +124,7 @@ func parseResponse(code int, body []byte, v interface{}) error {
 
 // createURL - リクエスト先のURLを生成する
 func createURL(path string, isProd bool) string {
-	host := "localhost:18081"
-	if isProd {
-		host = "localhost:18080"
-	}
-	return "http://" + host + strings.ReplaceAll("/kabusapi/"+path, "//", "/")
+	return "http://" + getHost(isProd) + strings.ReplaceAll("/kabusapi/"+path, "//", "/")
 }
 
 // wsClient - WSクライアント
@@ -138,9 +134,13 @@ type wsClient struct {
 
 // createWS - リクエスト先のWS URLを生成する
 func createWS(isProd bool) string {
-	host := "localhost:18081"
+	return "ws://" + getHost(isProd) + "/kabusapi/websocket"
+}
+
+// getHost - 本番か検証のホストを返す
+func getHost(isProd bool) string {
 	if isProd {
-		host = "localhost:18080"
+		return "localhost:18080"
 	}
-	return "ws://" + host + "/kabusapi/websocket"
+	return "localhost:18081"
 }
