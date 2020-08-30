@@ -48,7 +48,7 @@ func Test_unregisterAllRequester_Exec(t *testing.T) {
 	}{
 		{name: "正常レスポンスをパースして返せる",
 			status: http.StatusOK,
-			body:   `{"RegistList": []}`,
+			body:   `{"RegisterList": []}`,
 			want1:  &UnregisterAllResponse{RegistList: []RegisteredSymbol{}},
 			want2:  nil,
 		},

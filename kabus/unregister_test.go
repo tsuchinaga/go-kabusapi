@@ -49,7 +49,7 @@ func Test_unregisterRequester_Exec(t *testing.T) {
 		{name: "正常レスポンスをパースして返せる",
 			status: http.StatusOK,
 			body:   `{"RegistList": [{"Symbol": "9433","Exchange": 1}]}`,
-			want1:  &UnregisterResponse{RegistList: []RegisteredSymbol{{Symbol: "9433", Exchange: ExchangeToushou}}},
+			want1:  &UnregisterResponse{RegisterList: []RegisteredSymbol{{Symbol: "9433", Exchange: ExchangeToushou}}},
 			want2:  nil,
 		},
 		{name: "異常レスポンスをパースして返せる",
@@ -77,7 +77,7 @@ func Test_unregisterRequester_Exec(t *testing.T) {
 			defer ts.Close()
 
 			req := &unregisterRequester{httpClient{url: ts.URL}}
-			got1, got2 := req.Exec(UnregisterRequest{Symbols: []UnregistSymbol{{Symbol: "9433", Exchange: ExchangeToushou}}})
+			got1, got2 := req.Exec(UnregisterRequest{Symbols: []UnregisterSymbol{{Symbol: "9433", Exchange: ExchangeToushou}}})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
 			}
