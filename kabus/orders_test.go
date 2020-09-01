@@ -69,7 +69,7 @@ func Test_ordersRequester_Exec(t *testing.T) {
 					CashMargin:      CashMarginMarginEntry,
 					AccountType:     AccountTypeSpecific,
 					DelivType:       DelivTypeCash,
-					ExpireDay:       YmdNUM{time.Date(2020, 7, 2, 0, 0, 0, 0, time.Local)},
+					ExpireDay:       NewYmdNUM(time.Date(2020, 7, 2, 0, 0, 0, 0, time.Local)),
 					MarginTradeType: MarginTradeTypeSystem,
 					Details: []OrderDetail{
 						{
@@ -84,7 +84,7 @@ func Test_ordersRequester_Exec(t *testing.T) {
 							Qty:           1500,
 							ExecutionID:   "",
 							ExecutionDay:  time.Date(2020, 7, 2, 18, 2, 0, 0, time.Local),
-							DelivDay:      YmdNUM{time.Date(2020, 7, 6, 0, 0, 0, 0, time.Local)},
+							DelivDay:      NewYmdNUM(time.Date(2020, 7, 6, 0, 0, 0, 0, time.Local)),
 							Commission:    0,
 							CommissionTax: 0,
 						},

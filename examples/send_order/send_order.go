@@ -1,11 +1,9 @@
 package main
 
 import (
+	"gitlab.com/tsuchinaga/go-kabusapi/kabus"
 	"log"
 	"os"
-	"time"
-
-	"gitlab.com/tsuchinaga/go-kabusapi/kabus"
 )
 
 func main() {
@@ -40,7 +38,7 @@ func main() {
 			ClosePositionOrder: kabus.ClosePositionOrderUnspecified,
 			ClosePositions:     []kabus.ClosePosition{{}},
 			Price:              0,
-			ExpireDay:          kabus.YmdNUM{Time: time.Date(2020, 8, 24, 0, 0, 0, 0, time.Local)},
+			ExpireDay:          kabus.YmdNUMToday,
 			FrontOrderType:     kabus.FrontOrderTypeMarket,
 		})
 		if err != nil {
