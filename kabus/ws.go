@@ -19,7 +19,7 @@ type PriceMessage struct {
 	CurrentPriceStatus       CurrentPriceStatus       `json:"CurrentPriceStatus"`       // 現値ステータス
 	CalcPrice                float64                  `json:"CalcPrice"`                // 計算用現値
 	PreviousClose            float64                  `json:"PreviousClose"`            // 前日終値
-	PreviousCloseTime        YmdTHms                  `json:"PreviousCloseTime"`        // 前日終値日付
+	PreviousCloseTime        time.Time                `json:"PreviousCloseTime"`        // 前日終値日付
 	ChangePreviousClose      float64                  `json:"ChangePreviousClose"`      // 前日比
 	ChangePreviousClosePer   float64                  `json:"ChangePreviousClosePer"`   // 騰落率
 	OpeningPrice             float64                  `json:"OpeningPrice"`             // 始値

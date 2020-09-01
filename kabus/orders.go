@@ -3,6 +3,7 @@ package kabus
 import (
 	"context"
 	"fmt"
+	"time"
 )
 
 // OrdersRequest - 注文約定照会のリクエストパラメータ
@@ -19,7 +20,7 @@ type Order struct {
 	State           State           `json:"State"`           // 状態
 	OrderState      OrderState      `json:"OrderState"`      // 注文状態
 	OrdType         OrdType         `json:"OrdType"`         // 執行条件
-	RecvTime        YmdTHmsSSS      `json:"RecvTime"`        // 受注日時
+	RecvTime        time.Time       `json:"RecvTime"`        // 受注日時
 	Symbol          string          `json:"Symbol"`          // 銘柄コード
 	SymbolName      string          `json:"SymbolName"`      // 銘柄名
 	Exchange        Exchange        `json:"Exchange"`        // 市場コード
@@ -38,20 +39,20 @@ type Order struct {
 
 // OrderDetail - 注文詳細
 type OrderDetail struct {
-	SeqNum        int        `json:"SeqNum"`        // 連番
-	ID            string     `json:"ID"`            // 注文詳細番号
-	RecType       RecType    `json:"RecType"`       // 明細種別
-	ExchangeID    string     `json:"ExchangeID"`    // 取引所番号
-	State         State      `json:"State"`         // 状態
-	TransactTime  YmdTHmsSSS `json:"TransactTime"`  // 処理時刻
-	OrdType       OrdType    `json:"OrdType"`       // 執行条件
-	Price         float64    `json:"Price"`         // 値段
-	Qty           float64    `json:"Qty"`           // 数量
-	ExecutionID   string     `json:"ExecutionID"`   // 約定番号
-	ExecutionDay  YmdTHms    `json:"ExecutionDay"`  // 約定日時
-	DelivDay      YmdNUM     `json:"DelivDay"`      // 受渡日
-	Commission    float64    `json:"Commission"`    // 手数料
-	CommissionTax float64    `json:"CommissionTax"` // 手数料消費税
+	SeqNum        int       `json:"SeqNum"`        // 連番
+	ID            string    `json:"ID"`            // 注文詳細番号
+	RecType       RecType   `json:"RecType"`       // 明細種別
+	ExchangeID    string    `json:"ExchangeID"`    // 取引所番号
+	State         State     `json:"State"`         // 状態
+	TransactTime  time.Time `json:"TransactTime"`  // 処理時刻
+	OrdType       OrdType   `json:"OrdType"`       // 執行条件
+	Price         float64   `json:"Price"`         // 値段
+	Qty           float64   `json:"Qty"`           // 数量
+	ExecutionID   string    `json:"ExecutionID"`   // 約定番号
+	ExecutionDay  time.Time `json:"ExecutionDay"`  // 約定日時
+	DelivDay      YmdNUM    `json:"DelivDay"`      // 受渡日
+	Commission    float64   `json:"Commission"`    // 手数料
+	CommissionTax float64   `json:"CommissionTax"` // 手数料消費税
 }
 
 func NewOrdersRequester(token string, isProd bool) *ordersRequester {
