@@ -8,28 +8,28 @@ import (
 	"time"
 )
 
-func Test_NewSendOrderRequester(t *testing.T) {
+func Test_NewSendOrderStockRequester(t *testing.T) {
 	t.Parallel()
 
 	tests := []struct {
 		name string
 		arg1 string
 		arg2 bool
-		want *sendOrderRequester
+		want *sendOrderStockRequester
 	}{
 		{name: "本番用URLが取れる",
 			arg1: "token1", arg2: true,
-			want: &sendOrderRequester{httpClient: httpClient{url: "http://localhost:18080/kabusapi/sendorder", token: "token1"}}},
+			want: &sendOrderStockRequester{httpClient: httpClient{url: "http://localhost:18080/kabusapi/sendorder", token: "token1"}}},
 		{name: "検証用URLが取れる",
 			arg1: "token2", arg2: false,
-			want: &sendOrderRequester{httpClient: httpClient{url: "http://localhost:18081/kabusapi/sendorder", token: "token2"}}},
+			want: &sendOrderStockRequester{httpClient: httpClient{url: "http://localhost:18081/kabusapi/sendorder", token: "token2"}}},
 	}
 
 	for _, test := range tests {
 		test := test
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
-			got := NewSendOrderRequester(test.arg1, test.arg2)
+			got := NewSendOrderStockRequester(test.arg1, test.arg2)
 			if !reflect.DeepEqual(test.want, got) {
 				t.Errorf("%s error\nwant: %+v\ngot: %v\n", t.Name(), test.want, got)
 			}
@@ -37,20 +37,20 @@ func Test_NewSendOrderRequester(t *testing.T) {
 	}
 }
 
-func Test_sendOrderRequester_Exec(t *testing.T) {
+func Test_sendOrderStockRequester_Exec(t *testing.T) {
 	t.Parallel()
 
 	tests := []struct {
 		name   string
 		status int
 		body   string
-		want1  *SendOrderResponse
+		want1  *SendOrderStockResponse
 		want2  error
 	}{
 		{name: "正常レスポンスをパースして返せる",
 			status: http.StatusOK,
 			body:   `{"Result": 0, "OrderId": "20200529A01N06848002"}`,
-			want1:  &SendOrderResponse{Result: 0, OrderID: "20200529A01N06848002"},
+			want1:  &SendOrderStockResponse{Result: 0, OrderID: "20200529A01N06848002"},
 			want2:  nil,
 		},
 		{name: "異常レスポンスをパースして返せる",
@@ -77,8 +77,8 @@ func Test_sendOrderRequester_Exec(t *testing.T) {
 			}))
 			defer ts.Close()
 
-			req := &sendOrderRequester{httpClient{url: ts.URL}}
-			got1, got2 := req.Exec(SendOrderRequest{})
+			req := &sendOrderStockRequester{httpClient{url: ts.URL}}
+			got1, got2 := req.Exec(SendOrderStockRequest{})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
 			}
@@ -86,19 +86,19 @@ func Test_sendOrderRequester_Exec(t *testing.T) {
 	}
 }
 
-func Test_SendOrderRequest_toJSON(t *testing.T) {
+func Test_SendOrderStockRequest_toJSON(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name string
-		req  SendOrderRequest
+		req  SendOrderStockRequest
 		want string
 	}{
 		{name: "現物ならそのまま出す",
-			req: SendOrderRequest{
+			req: SendOrderStockRequest{
 				Password:           "password",
 				Symbol:             "1320",
-				Exchange:           ExchangeToushou,
-				SecurityType:       SecurityTypeKabu,
+				Exchange:           StockExchangeToushou,
+				SecurityType:       SecurityTypeStock,
 				Side:               SideBuy,
 				CashMargin:         CashMarginCash,
 				MarginTradeType:    MarginTradeTypeSystem,
@@ -110,15 +110,15 @@ func Test_SendOrderRequest_toJSON(t *testing.T) {
 				ClosePositions:     []ClosePosition{},
 				Price:              0,
 				ExpireDay:          YmdNUM{Time: time.Date(2020, 8, 24, 0, 0, 0, 0, time.Local)},
-				FrontOrderType:     FrontOrderTypeMarket},
+				FrontOrderType:     StockFrontOrderTypeMarket},
 			want: `{"Password":"password","Symbol":"1320","Exchange":1,"SecurityType":1,"Side":"2","CashMargin":1,"MarginTradeType":1,"DelivType":2,"FundType":"AA","AccountType":2,"Qty":1,"ClosePositionOrder":-1,"ClosePositions":[],"Price":0,"ExpireDay":20200824,"FrontOrderType":10}`,
 		},
 		{name: "信用新規で返済建玉指定があれば決済順序は出さない",
-			req: SendOrderRequest{
+			req: SendOrderStockRequest{
 				Password:           "password",
 				Symbol:             "1320",
-				Exchange:           ExchangeToushou,
-				SecurityType:       SecurityTypeKabu,
+				Exchange:           StockExchangeToushou,
+				SecurityType:       SecurityTypeStock,
 				Side:               SideBuy,
 				CashMargin:         CashMarginMarginEntry,
 				MarginTradeType:    MarginTradeTypeSystem,
@@ -130,15 +130,15 @@ func Test_SendOrderRequest_toJSON(t *testing.T) {
 				ClosePositions:     []ClosePosition{{HoldID: "position-id", Qty: 10}},
 				Price:              0,
 				ExpireDay:          YmdNUM{Time: time.Date(2020, 8, 24, 0, 0, 0, 0, time.Local)},
-				FrontOrderType:     FrontOrderTypeMarket},
+				FrontOrderType:     StockFrontOrderTypeMarket},
 			want: `{"Password":"password","Symbol":"1320","Exchange":1,"SecurityType":1,"Side":"2","CashMargin":2,"MarginTradeType":1,"DelivType":2,"FundType":"AA","AccountType":2,"Qty":1,"ClosePositions":[{"HoldID":"position-id","Qty":10}],"Price":0,"ExpireDay":20200824,"FrontOrderType":10}`,
 		},
 		{name: "信用返済で返済建玉指定がなければ返済建玉指定は出さない",
-			req: SendOrderRequest{
+			req: SendOrderStockRequest{
 				Password:           "password",
 				Symbol:             "1320",
-				Exchange:           ExchangeToushou,
-				SecurityType:       SecurityTypeKabu,
+				Exchange:           StockExchangeToushou,
+				SecurityType:       SecurityTypeStock,
 				Side:               SideBuy,
 				CashMargin:         CashMarginMarginExit,
 				MarginTradeType:    MarginTradeTypeSystem,
@@ -150,7 +150,7 @@ func Test_SendOrderRequest_toJSON(t *testing.T) {
 				ClosePositions:     []ClosePosition{},
 				Price:              0,
 				ExpireDay:          YmdNUM{Time: time.Date(2020, 8, 24, 0, 0, 0, 0, time.Local)},
-				FrontOrderType:     FrontOrderTypeMarket},
+				FrontOrderType:     StockFrontOrderTypeMarket},
 			want: `{"Password":"password","Symbol":"1320","Exchange":1,"SecurityType":1,"Side":"2","CashMargin":3,"MarginTradeType":1,"DelivType":2,"FundType":"AA","AccountType":2,"Qty":1,"ClosePositionOrder":0,"Price":0,"ExpireDay":20200824,"FrontOrderType":10}`,
 		},
 	}

@@ -19,7 +19,7 @@ type Position struct {
 	AccountType     AccountType     `json:"AccountType"`     // 口座種別
 	Symbol          string          `json:"Symbol"`          // 銘柄コード
 	SymbolName      string          `json:"SymbolName"`      // 銘柄名
-	Exchange        Exchange        `json:"Exchange"`        // 市場コード
+	Exchange        StockExchange   `json:"Exchange"`        // 市場コード
 	ExchangeName    string          `json:"ExchangeName"`    // 市場名
 	ExecutionDay    YmdNUM          `json:"ExecutionDay"`    // 約定日（建玉日）
 	Price           float64         `json:"Price"`           // 値段

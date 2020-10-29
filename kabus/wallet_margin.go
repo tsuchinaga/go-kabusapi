@@ -10,8 +10,8 @@ type WalletMarginRequest struct{}
 
 // WalletMarginSymbolRequest - 取引余力（信用）（銘柄指定）のリクエストパラメータ
 type WalletMarginSymbolRequest struct {
-	Symbol   string   // 銘柄コード
-	Exchange Exchange // 市場コード
+	Symbol   string        // 銘柄コード
+	Exchange StockExchange // 市場コード
 }
 
 // WalletMarginResponse - 取引余力（信用）のレスポンス

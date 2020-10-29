@@ -53,7 +53,7 @@ func Test_boardRequester_Exec(t *testing.T) {
 			want1: &BoardResponse{
 				Symbol:                   "5401",
 				SymbolName:               "新日鐵住金",
-				Exchange:                 ExchangeToushou,
+				Exchange:                 StockExchangeToushou,
 				ExchangeName:             "東証１部",
 				CurrentPrice:             2408,
 				CurrentPriceTime:         time.Date(2020, 7, 22, 15, 0, 0, 0, time.Local),
@@ -135,7 +135,7 @@ func Test_boardRequester_Exec(t *testing.T) {
 			defer ts.Close()
 
 			req := &boardRequester{httpClient{url: ts.URL}}
-			got1, got2 := req.Exec(BoardRequest{Symbol: "5401", Exchange: ExchangeToushou})
+			got1, got2 := req.Exec(BoardRequest{Symbol: "5401", Exchange: StockExchangeToushou})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
 			}

@@ -7,8 +7,8 @@ import (
 
 // SymbolRequest - 銘柄情報のリクエストパラメータ
 type SymbolRequest struct {
-	Symbol   string   // 銘柄コード
-	Exchange Exchange // 市場コード
+	Symbol   string        // 銘柄コード
+	Exchange StockExchange // 市場コード
 }
 
 // SymbolResponse - 銘柄情報のレスポンス
@@ -16,7 +16,7 @@ type SymbolResponse struct {
 	Symbol             string          `json:"Symbol"`             // 銘柄コード
 	SymbolName         string          `json:"SymbolName"`         // 銘柄名
 	DisplayName        string          `json:"DisplayName"`        // 銘柄略称
-	Exchange           Exchange        `json:"Exchange"`           // 市場コード
+	Exchange           StockExchange   `json:"Exchange"`           // 市場コード
 	ExchangeName       string          `json:"ExchangeName"`       // 市場名称
 	BisCategory        string          `json:"BisCategory"`        // 業種コード名 TODO 必要ならenumにする
 	TotalMarketValue   float64         `json:"TotalMarketValue"`   // 時価総額

@@ -32,7 +32,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewWalletCashSymbolRequester(token, isProd).Exec(kabus.WalletCashSymbolRequest{Symbol: "9433", Exchange: kabus.ExchangeToushou})
+		res, err := kabus.NewWalletCashSymbolRequester(token, isProd).Exec(kabus.WalletCashSymbolRequest{Symbol: "9433", Exchange: kabus.StockExchangeToushou})
 		if err != nil {
 			panic(err)
 		}

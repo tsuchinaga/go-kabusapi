@@ -26,11 +26,11 @@ func main() {
 
 	orderID := ""
 	{
-		res, err := kabus.NewSendOrderRequester(token, isProd).Exec(kabus.SendOrderRequest{
+		res, err := kabus.NewSendOrderStockRequester(token, isProd).Exec(kabus.SendOrderStockRequest{
 			Password:           password,
 			Symbol:             "1320",
-			Exchange:           kabus.ExchangeToushou,
-			SecurityType:       kabus.SecurityTypeKabu,
+			Exchange:           kabus.StockExchangeToushou,
+			SecurityType:       kabus.SecurityTypeStock,
 			Side:               kabus.SideBuy,
 			CashMargin:         kabus.CashMarginCash,
 			MarginTradeType:    kabus.MarginTradeTypeUnspecified,
@@ -42,7 +42,7 @@ func main() {
 			ClosePositions:     []kabus.ClosePosition{},
 			Price:              0,
 			ExpireDay:          kabus.YmdNUMToday,
-			FrontOrderType:     kabus.FrontOrderTypeMarketCloseAfter, // 後場引成 = 約定しないように
+			FrontOrderType:     kabus.StockFrontOrderTypeMarketCloseAfter, // 後場引成 = 約定しないように
 		})
 		if err != nil {
 			panic(err)

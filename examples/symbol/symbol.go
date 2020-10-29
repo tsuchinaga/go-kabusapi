@@ -24,7 +24,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewSymbolRequester(token, isProd).Exec(kabus.SymbolRequest{Symbol: "9433", Exchange: kabus.ExchangeToushou})
+		res, err := kabus.NewSymbolRequester(token, isProd).Exec(kabus.SymbolRequest{Symbol: "9433", Exchange: kabus.StockExchangeToushou})
 		if err != nil {
 			panic(err)
 		}

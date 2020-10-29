@@ -24,7 +24,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewBoardRequester(token, isProd).Exec(kabus.BoardRequest{Symbol: "5401", Exchange: kabus.ExchangeToushou})
+		res, err := kabus.NewBoardRequester(token, isProd).Exec(kabus.BoardRequest{Symbol: "5401", Exchange: kabus.StockExchangeToushou})
 		if err != nil {
 			panic(err)
 		}

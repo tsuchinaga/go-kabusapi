@@ -1,22 +1,32 @@
 package kabus
 
-// Exchange - 市場
-type Exchange int
+// StockExchange - 株式市場
+type StockExchange int
 
 const (
-	ExchangeUnspecified Exchange = 0 // 指定なし
-	ExchangeToushou     Exchange = 1 // 東証
-	ExchangeMeishou     Exchange = 3 // 名証
-	ExchangeFukushou    Exchange = 5 // 福証
-	ExchangeSatsushou   Exchange = 6 // 札証
+	StockExchangeUnspecified StockExchange = 0 // 指定なし
+	StockExchangeToushou     StockExchange = 1 // 東証
+	StockExchangeMeishou     StockExchange = 3 // 名証
+	StockExchangeFukushou    StockExchange = 5 // 福証
+	StockExchangeSatsushou   StockExchange = 6 // 札証
+)
+
+// FutureExchange - 先物市場
+type FutureExchange int
+
+const (
+	FutureExchangeUnspecified FutureExchange = 0  // 指定なし
+	FutureExchangeAll         FutureExchange = 2  // 日通し
+	FutureExchangeDaytime     FutureExchange = 23 // 日中
+	FutureExchangeEvening     FutureExchange = 24 // 夜間
 )
 
 // SecurityType - 商品種別
 type SecurityType int
 
 const (
-	SecurityTypeUnspecified Exchange     = 0 // 指定なし
-	SecurityTypeKabu        SecurityType = 1 // 株式
+	SecurityTypeUnspecified SecurityType = 0 // 指定なし
+	SecurityTypeStock       SecurityType = 1 // 株式
 )
 
 // Side - 売買区分
@@ -93,25 +103,25 @@ const (
 	ClosePositionOrderProfitAscDateDesc  ClosePositionOrder = 7  // 損益（低い順）、日付（古い順）
 )
 
-// FrontOrderType - 執行条件
-type FrontOrderType int
+// StockFrontOrderType - 株式執行条件
+type StockFrontOrderType int
 
 const (
-	FrontOrderTypeUnspecified         FrontOrderType = 0  // 指定なし
-	FrontOrderTypeMarket              FrontOrderType = 10 // 成行
-	FrontOrderTypeMarketOpenBefore    FrontOrderType = 13 // 寄成（前場）
-	FrontOrderTypeMarketOpenAfter     FrontOrderType = 14 // 寄成（後場）
-	FrontOrderTypeMarketCloseBefore   FrontOrderType = 15 // 引成（前場）
-	FrontOrderTypeMarketCloseAfter    FrontOrderType = 16 // 引成（後場）
-	FrontOrderTypeIOCMarket           FrontOrderType = 17 // IOC成行
-	FrontOrderTypeLimit               FrontOrderType = 20 // 指値
-	FrontOrderTypeLimitOpenBefore     FrontOrderType = 21 // 寄成（前場）
-	FrontOrderTypeLimitOpenAfter      FrontOrderType = 22 // 寄成（後場）
-	FrontOrderTypeLimitCloseBefore    FrontOrderType = 23 // 引成（前場）
-	FrontOrderTypeLimitCloseAfter     FrontOrderType = 24 // 引成（後場）
-	FrontOrderTypeMarketToLimitBefore FrontOrderType = 25 // 不成（前場）
-	FrontOrderTypeMarketToLimitAfter  FrontOrderType = 26 // 不成（後場）
-	FrontOrderTypeIOCLimit            FrontOrderType = 27 // IOC指値
+	StockFrontOrderTypeUnspecified         StockFrontOrderType = 0  // 指定なし
+	StockFrontOrderTypeMarket              StockFrontOrderType = 10 // 成行
+	StockFrontOrderTypeMarketOpenBefore    StockFrontOrderType = 13 // 寄成（前場）
+	StockFrontOrderTypeMarketOpenAfter     StockFrontOrderType = 14 // 寄成（後場）
+	StockFrontOrderTypeMarketCloseBefore   StockFrontOrderType = 15 // 引成（前場）
+	StockFrontOrderTypeMarketCloseAfter    StockFrontOrderType = 16 // 引成（後場）
+	StockFrontOrderTypeIOCMarket           StockFrontOrderType = 17 // IOC成行
+	StockFrontOrderTypeLimit               StockFrontOrderType = 20 // 指値
+	StockFrontOrderTypeLimitOpenBefore     StockFrontOrderType = 21 // 寄指（前場）
+	StockFrontOrderTypeLimitOpenAfter      StockFrontOrderType = 22 // 寄指（後場）
+	StockFrontOrderTypeLimitCloseBefore    StockFrontOrderType = 23 // 引指（前場）
+	StockFrontOrderTypeLimitCloseAfter     StockFrontOrderType = 24 // 引指（後場）
+	StockFrontOrderTypeMarketToLimitBefore StockFrontOrderType = 25 // 不成（前場）
+	StockFrontOrderTypeMarketToLimitAfter  StockFrontOrderType = 26 // 不成（後場）
+	StockFrontOrderTypeIOCLimit            StockFrontOrderType = 27 // IOC指値
 )
 
 // CurrentPriceChangeStatus - 現値前値比較
@@ -249,4 +259,60 @@ const (
 	RecTypeCanceled    RecType = 6 // 取消
 	RecTypeRevocation  RecType = 7 // 失効
 	RecTypeContracted  RecType = 8 // 約定
+)
+
+// TradeType - 取引区分
+type TradeType int
+
+const (
+	TradeTypeUnspecified TradeType = 0 // 指定なし
+	TradeTypeEntry       TradeType = 1 // 新規
+	TradeTypeExit        TradeType = 2 // 返済
+)
+
+// TimeInForce - 有効期間条件
+type TimeInForce int
+
+const (
+	TimeInForceUnspecified TimeInForce = 0 // 指定なし
+	TimeInForceFAS         TimeInForce = 1 // FAS
+	TimeInForceFAK         TimeInForce = 2 // FAK
+	TimeInForceFOK         TimeInForce = 3 // FOK
+)
+
+// FutureFrontOrderType - 先物執行条件
+type FutureFrontOrderType int
+
+const (
+	FutureFrontOrderTypeUnspecified FutureFrontOrderType = 0   // 指定なし
+	FutureFrontOrderTypeMarket      FutureFrontOrderType = 120 // 成行
+	FutureFrontOrderTypeMarketClose FutureFrontOrderType = 18  // 引成（派生）
+	FutureFrontOrderTypeLimit       FutureFrontOrderType = 20  // 指値
+	FutureFrontOrderTypeLimitClose  FutureFrontOrderType = 28  // 引指（派生）
+)
+
+// FutureCode - 先物コード
+type FutureCode string
+
+const (
+	FutureCodeUnspecified FutureCode = ""          // 指定なし
+	FutureCodeNK225       FutureCode = "NK225"     // NK225
+	FutureCodeNK225Mini   FutureCode = "NK225mini" // NK225mini
+	FutureCodeTOPIX       FutureCode = "TOPIX"     // TOPIX
+	FutureCodeTOPIXMini   FutureCode = "TOPIXmini" // TOPIXmini
+	FutureCodeMOTHERS     FutureCode = "MOTHERS"   // MOTHERS
+	FutureCodeJPX400      FutureCode = "JPX400"    // JPX400
+	FutureCodeDOW         FutureCode = "DOW"       // DOW
+	FutureCodeVI          FutureCode = "VI"        // VI
+	FutureCodeCore30      FutureCode = "Core30"    // Core30
+	FutureCodeREIT        FutureCode = "REIT"      // REIT
+)
+
+// PutOrCall - コール or プット
+type PutOrCall string
+
+const (
+	PutOrCallUnspecified PutOrCall = "" // 指定なし
+	PutOrCallPut         PutOrCall = "P"
+	PutOrCallCall        PutOrCall = "C"
 )

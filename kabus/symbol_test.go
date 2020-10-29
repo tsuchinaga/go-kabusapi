@@ -53,7 +53,7 @@ func Test_symbolRequester_Exec(t *testing.T) {
 				Symbol:             "9433",
 				SymbolName:         "ＫＤＤＩ",
 				DisplayName:        "ＫＤＤＩ",
-				Exchange:           ExchangeToushou,
+				Exchange:           StockExchangeToushou,
 				ExchangeName:       "東証１部",
 				BisCategory:        "5250",
 				TotalMarketValue:   7654484465100,
@@ -95,7 +95,7 @@ func Test_symbolRequester_Exec(t *testing.T) {
 			defer ts.Close()
 
 			req := &symbolRequester{httpClient{url: ts.URL}}
-			got1, got2 := req.Exec(SymbolRequest{Symbol: "9433", Exchange: ExchangeToushou})
+			got1, got2 := req.Exec(SymbolRequest{Symbol: "9433", Exchange: StockExchangeToushou})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
 			}

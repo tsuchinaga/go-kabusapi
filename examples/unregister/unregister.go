@@ -24,7 +24,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewRegisterRequester(token, isProd).Exec(kabus.RegisterRequest{Symbols: []kabus.RegisterSymbol{{Symbol: "9433", Exchange: kabus.ExchangeToushou}}})
+		res, err := kabus.NewRegisterRequester(token, isProd).Exec(kabus.RegisterRequest{Symbols: []kabus.RegisterSymbol{{Symbol: "9433", Exchange: kabus.StockExchangeToushou}}})
 		if err != nil {
 			panic(err)
 		}
@@ -32,7 +32,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewUnregisterRequester(token, isProd).Exec(kabus.UnregisterRequest{Symbols: []kabus.UnregisterSymbol{{Symbol: "9433", Exchange: kabus.ExchangeToushou}}})
+		res, err := kabus.NewUnregisterRequester(token, isProd).Exec(kabus.UnregisterRequest{Symbols: []kabus.UnregisterSymbol{{Symbol: "9433", Exchange: kabus.StockExchangeToushou}}})
 		if err != nil {
 			panic(err)
 		}
