@@ -84,3 +84,74 @@ func Test_sendOrderFutureRequester_Exec(t *testing.T) {
 		})
 	}
 }
+
+func Test_SendOrderFutureRequest_toJSON(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name string
+		req  SendOrderFutureRequest
+		want string
+	}{
+		{name: "エントリーならsendOrderFutureEntryRequestにして出す",
+			req: SendOrderFutureRequest{
+				Password:           "password",
+				Symbol:             "165110019",
+				Exchange:           FutureExchangeEvening,
+				TradeType:          TradeTypeEntry,
+				TimeInForce:        TimeInForceFAK,
+				Side:               SideBuy,
+				Qty:                1,
+				ClosePositionOrder: 0,
+				ClosePositions:     nil,
+				FrontOrderType:     FutureFrontOrderTypeMarket,
+				Price:              0,
+				ExpireDay:          YmdNUMToday,
+			},
+			want: `{"Password":"password","Symbol":"165110019","Exchange":24,"TradeType":1,"TimeInForce":2,"Side":"2","Qty":1,"FrontOrderType":120,"Price":0,"ExpireDay":0}`,
+		},
+		{name: "エグジットで返済建玉指定があれば決済順序は出さない",
+			req: SendOrderFutureRequest{
+				Password:           "password",
+				Symbol:             "165110019",
+				Exchange:           FutureExchangeEvening,
+				TradeType:          TradeTypeExit,
+				TimeInForce:        TimeInForceFAK,
+				Side:               SideSell,
+				Qty:                1,
+				ClosePositionOrder: ClosePositionOrderUnspecified,
+				ClosePositions:     []ClosePosition{{HoldID: "20200903E01N04773904", Qty: 1}},
+				FrontOrderType:     FutureFrontOrderTypeMarket,
+				Price:              0,
+				ExpireDay:          YmdNUMToday,
+			},
+			want: `{"Password":"password","Symbol":"165110019","Exchange":24,"TradeType":2,"TimeInForce":2,"Side":"1","Qty":1,"ClosePositions":[{"HoldID":"20200903E01N04773904","Qty":1}],"FrontOrderType":120,"Price":0,"ExpireDay":0}`,
+		},
+		{name: "エグジットで返済建玉指定がなければ返済建玉指定は出さない",
+			req: SendOrderFutureRequest{
+				Password:           "password",
+				Symbol:             "165110019",
+				Exchange:           FutureExchangeEvening,
+				TradeType:          TradeTypeExit,
+				TimeInForce:        TimeInForceFAK,
+				Side:               SideBuy,
+				Qty:                1,
+				ClosePositionOrder: ClosePositionOrderDateAscProfitDesc,
+				FrontOrderType:     FutureFrontOrderTypeMarket,
+				Price:              0,
+				ExpireDay:          YmdNUMToday,
+			},
+			want: `{"Password":"password","Symbol":"165110019","Exchange":24,"TradeType":2,"TimeInForce":2,"Side":"2","Qty":1,"ClosePositionOrder":0,"FrontOrderType":120,"Price":0,"ExpireDay":0}`,
+		},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got, err := test.req.toJSON()
+			if test.want != string(got) || err != nil {
+				t.Errorf("%s error\nwant: %s\ngot: %s, %v\n", t.Name(), test.want, string(got), err)
+			}
+		})
+	}
+}

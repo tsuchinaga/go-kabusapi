@@ -21,6 +21,16 @@ const (
 	FutureExchangeEvening     FutureExchange = 24 // 夜間
 )
 
+// OptionExchange - オプション市場
+type OptionExchange int
+
+const (
+	OptionExchangeUnspecified OptionExchange = 0  // 指定なし
+	OptionExchangeAll         OptionExchange = 2  // 日通し
+	OptionExchangeDaytime     OptionExchange = 23 // 日中
+	OptionExchangeEvening     OptionExchange = 24 // 夜間
+)
+
 // SecurityType - 商品種別
 type SecurityType int
 
@@ -289,6 +299,17 @@ const (
 	FutureFrontOrderTypeMarketClose FutureFrontOrderType = 18  // 引成（派生）
 	FutureFrontOrderTypeLimit       FutureFrontOrderType = 20  // 指値
 	FutureFrontOrderTypeLimitClose  FutureFrontOrderType = 28  // 引指（派生）
+)
+
+// OptionFrontOrderType - 先物執行条件
+type OptionFrontOrderType int
+
+const (
+	OptionFrontOrderTypeUnspecified OptionFrontOrderType = 0   // 指定なし
+	OptionFrontOrderTypeMarket      OptionFrontOrderType = 120 // 成行
+	OptionFrontOrderTypeMarketClose OptionFrontOrderType = 18  // 引成（派生）
+	OptionFrontOrderTypeLimit       OptionFrontOrderType = 20  // 指値
+	OptionFrontOrderTypeLimitClose  OptionFrontOrderType = 28  // 引指（派生）
 )
 
 // FutureCode - 先物コード
