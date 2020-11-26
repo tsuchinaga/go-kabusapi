@@ -27,11 +27,11 @@ func main() {
 	{
 		// フリーETFで日経225に連動する銘柄を選んだだけ
 		res, err := kabus.NewRegisterRequester(token, isProd).Exec(kabus.RegisterRequest{Symbols: []kabus.RegisterSymbol{
-			{Symbol: "1320", Exchange: kabus.StockExchangeToushou},
-			{Symbol: "1329", Exchange: kabus.StockExchangeToushou},
-			{Symbol: "1346", Exchange: kabus.StockExchangeToushou},
-			{Symbol: "1369", Exchange: kabus.StockExchangeToushou},
-			{Symbol: "1397", Exchange: kabus.StockExchangeToushou},
+			{Symbol: "1320", Exchange: kabus.ExchangeToushou},
+			{Symbol: "1329", Exchange: kabus.ExchangeToushou},
+			{Symbol: "1346", Exchange: kabus.ExchangeToushou},
+			{Symbol: "1369", Exchange: kabus.ExchangeToushou},
+			{Symbol: "1397", Exchange: kabus.ExchangeToushou},
 		}})
 		if err != nil {
 			panic(err)

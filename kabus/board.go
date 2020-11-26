@@ -8,15 +8,15 @@ import (
 
 // BoardRequest - 時価情報・板情報のリクエストパラメータ
 type BoardRequest struct {
-	Symbol   string        // 銘柄コード
-	Exchange StockExchange // 市場コード
+	Symbol   string   // 銘柄コード
+	Exchange Exchange // 市場コード
 }
 
 // BoardResponse - 時価情報・板情報のレスポンス
 type BoardResponse struct {
 	Symbol                   string                   `json:"Symbol"`                   // 銘柄コード
 	SymbolName               string                   `json:"SymbolName"`               // 銘柄名
-	Exchange                 StockExchange            `json:"Exchange"`                 // 市場コード
+	Exchange                 Exchange                 `json:"Exchange"`                 // 市場コード
 	ExchangeName             string                   `json:"ExchangeName"`             // 市場名称
 	CurrentPrice             float64                  `json:"CurrentPrice"`             // 現値
 	CurrentPriceTime         time.Time                `json:"CurrentPriceTime"`         // 現値時刻

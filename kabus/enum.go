@@ -1,5 +1,22 @@
 package kabus
 
+// Exchange - 市場
+type Exchange int
+
+const (
+	// 株式
+	ExchangeUnspecified Exchange = 0 // 指定なし
+	ExchangeToushou     Exchange = 1 // 東証
+	ExchangeMeishou     Exchange = 3 // 名証
+	ExchangeFukushou    Exchange = 5 // 福証
+	ExchangeSatsushou   Exchange = 6 // 札証
+
+	// 先物
+	ExchangeAll     Exchange = 2  // 日通し
+	ExchangeDaytime Exchange = 23 // 日中
+	ExchangeEvening Exchange = 24 // 夜間
+)
+
 // StockExchange - 株式市場
 type StockExchange int
 

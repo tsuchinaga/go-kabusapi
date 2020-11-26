@@ -12,8 +12,8 @@ type UnregisterRequest struct {
 
 // UnregisterSymbol - 銘柄登録解除で解除する銘柄
 type UnregisterSymbol struct {
-	Symbol   string        `json:"Symbol"`   // 銘柄コード
-	Exchange StockExchange `json:"Exchange"` // 市場コード
+	Symbol   string   `json:"Symbol"`   // 銘柄コード
+	Exchange Exchange `json:"Exchange"` // 市場コード
 }
 
 // UnregisterResponse - 銘柄登録解除のレスポンス
