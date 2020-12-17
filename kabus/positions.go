@@ -3,11 +3,24 @@ package kabus
 import (
 	"context"
 	"fmt"
+	"strings"
 )
 
 // PositionsRequest - 残高照会のリクエストパラメータ
 type PositionsRequest struct {
 	Product Product // 取得する商品
+	Symbol  string  // 銘柄コード
+}
+
+func (r *PositionsRequest) toQuery() string {
+	var params []string
+	params = append(params, fmt.Sprintf("product=%d", r.Product))
+
+	if r.Symbol != "" {
+		params = append(params, fmt.Sprintf("symbol=%s", r.Symbol))
+	}
+
+	return strings.Join(params, "&")
 }
 
 // PositionsResponse - 残高照会のレスポンス
@@ -54,9 +67,7 @@ func (r *positionsRequester) Exec(request PositionsRequest) (*PositionsResponse,
 
 // ExecWithContext - 残高照会リクエストの実行(contextあり)
 func (r *positionsRequester) ExecWithContext(ctx context.Context, request PositionsRequest) (*PositionsResponse, error) {
-	queryParam := fmt.Sprintf("product=%d", request.Product)
-
-	code, b, err := r.httpClient.get(ctx, "", queryParam)
+	code, b, err := r.httpClient.get(ctx, "", request.toQuery())
 	if err != nil {
 		return nil, err
 	}

@@ -17,7 +17,7 @@ type SendOrderOptionRequest struct {
 	ClosePositionOrder ClosePositionOrder   `json:"ClosePositionOrder"` // 決済順序
 	ClosePositions     []ClosePosition      `json:"ClosePositions"`     // 返済建玉指定
 	FrontOrderType     OptionFrontOrderType `json:"FrontOrderType"`     // 執行条件
-	Price              int                  `json:"Price"`              // 注文価格
+	Price              float64              `json:"Price"`              // 注文価格
 	ExpireDay          YmdNUM               `json:"ExpireDay"`          // 注文有効期限（年月日）
 }
 
@@ -83,7 +83,7 @@ type sendOrderOptionEntryRequest struct {
 	Side           Side                 `json:"Side"`           // 売買区分
 	Qty            int                  `json:"Qty"`            // 注文数量
 	FrontOrderType OptionFrontOrderType `json:"FrontOrderType"` // 執行条件
-	Price          int                  `json:"Price"`          // 注文価格
+	Price          float64              `json:"Price"`          // 注文価格
 	ExpireDay      YmdNUM               `json:"ExpireDay"`      // 注文有効期限（年月日）
 }
 
@@ -98,7 +98,7 @@ type sendOrderOptionExitRequestWithClosePositions struct {
 	Qty            int                  `json:"Qty"`            // 注文数量
 	ClosePositions []ClosePosition      `json:"ClosePositions"` // 返済建玉指定
 	FrontOrderType OptionFrontOrderType `json:"FrontOrderType"` // 執行条件
-	Price          int                  `json:"Price"`          // 注文価格
+	Price          float64              `json:"Price"`          // 注文価格
 	ExpireDay      YmdNUM               `json:"ExpireDay"`      // 注文有効期限（年月日）
 }
 
@@ -113,7 +113,7 @@ type sendOrderOptionExitRequestWithClosePositionOrder struct {
 	Qty                int                  `json:"Qty"`                // 注文数量
 	ClosePositionOrder ClosePositionOrder   `json:"ClosePositionOrder"` // 決済順序
 	FrontOrderType     OptionFrontOrderType `json:"FrontOrderType"`     // 執行条件
-	Price              int                  `json:"Price"`              // 注文価格
+	Price              float64              `json:"Price"`              // 注文価格
 	ExpireDay          YmdNUM               `json:"ExpireDay"`          // 注文有効期限（年月日）
 }
 

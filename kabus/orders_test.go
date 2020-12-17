@@ -166,3 +166,33 @@ const ordersBody200 = `[
     ]
   }
 ]`
+
+func Test_OrdersRequest_toQuery(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name    string
+		request OrdersRequest
+		want    string
+	}{
+		{name: "初期値ではproductだけが出る", request: OrdersRequest{}, want: "product=0"},
+		{name: "productを指定したら任意のパラメータが出る", request: OrdersRequest{Product: ProductMargin}, want: "product=2"},
+		{name: "IDを指定したらidが出る", request: OrdersRequest{ID: "20200715A02N04738436"}, want: "product=0&id=20200715A02N04738436"},
+		{name: "UpdateTimeを指定したらupdtimeが出る", request: OrdersRequest{UpdateTime: time.Date(2020, 12, 17, 20, 31, 9, 0, time.Local)}, want: "product=0&updtime=20201217203109"},
+		{name: "IsGetOrderDetailを指定したらdetailsが出る", request: OrdersRequest{IsGetOrderDetail: IsGetOrderDetailFalse}, want: "product=0&details=false"},
+		{name: "Symbolを指定したらsymbolが出る", request: OrdersRequest{Symbol: "8306"}, want: "product=0&symbol=8306"},
+		{name: "Stateを指定したらstateが出る", request: OrdersRequest{State: OrderStateProcessed}, want: "product=0&state=3"},
+		{name: "Sideを指定したらsideが出る", request: OrdersRequest{Side: SideBuy}, want: "product=0&side=2"},
+		{name: "CashMarginを指定したらcashmarginが出る", request: OrdersRequest{CashMargin: CashMarginMarginEntry}, want: "product=0&cashmargin=2"},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := test.request.toQuery()
+			if !reflect.DeepEqual(test.want, got) {
+				t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), test.want, got)
+			}
+		})
+	}
+}

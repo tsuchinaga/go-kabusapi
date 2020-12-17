@@ -134,21 +134,21 @@ const (
 type StockFrontOrderType int
 
 const (
-	StockFrontOrderTypeUnspecified         StockFrontOrderType = 0  // 指定なし
-	StockFrontOrderTypeMarket              StockFrontOrderType = 10 // 成行
-	StockFrontOrderTypeMarketOpenBefore    StockFrontOrderType = 13 // 寄成（前場）
-	StockFrontOrderTypeMarketOpenAfter     StockFrontOrderType = 14 // 寄成（後場）
-	StockFrontOrderTypeMarketCloseBefore   StockFrontOrderType = 15 // 引成（前場）
-	StockFrontOrderTypeMarketCloseAfter    StockFrontOrderType = 16 // 引成（後場）
-	StockFrontOrderTypeIOCMarket           StockFrontOrderType = 17 // IOC成行
-	StockFrontOrderTypeLimit               StockFrontOrderType = 20 // 指値
-	StockFrontOrderTypeLimitOpenBefore     StockFrontOrderType = 21 // 寄指（前場）
-	StockFrontOrderTypeLimitOpenAfter      StockFrontOrderType = 22 // 寄指（後場）
-	StockFrontOrderTypeLimitCloseBefore    StockFrontOrderType = 23 // 引指（前場）
-	StockFrontOrderTypeLimitCloseAfter     StockFrontOrderType = 24 // 引指（後場）
-	StockFrontOrderTypeMarketToLimitBefore StockFrontOrderType = 25 // 不成（前場）
-	StockFrontOrderTypeMarketToLimitAfter  StockFrontOrderType = 26 // 不成（後場）
-	StockFrontOrderTypeIOCLimit            StockFrontOrderType = 27 // IOC指値
+	StockFrontOrderTypeUnspecified       StockFrontOrderType = 0  // 指定なし
+	StockFrontOrderTypeMarket            StockFrontOrderType = 10 // 成行
+	StockFrontOrderTypeMarketOpenBefore  StockFrontOrderType = 13 // 寄成（前場）
+	StockFrontOrderTypeMarketOpenAfter   StockFrontOrderType = 14 // 寄成（後場）
+	StockFrontOrderTypeMarketCloseBefore StockFrontOrderType = 15 // 引成（前場）
+	StockFrontOrderTypeMarketCloseAfter  StockFrontOrderType = 16 // 引成（後場）
+	StockFrontOrderTypeIOCMarket         StockFrontOrderType = 17 // IOC成行
+	StockFrontOrderTypeLimit             StockFrontOrderType = 20 // 指値
+	StockFrontOrderTypeLimitOpenBefore   StockFrontOrderType = 21 // 寄指（前場）
+	StockFrontOrderTypeLimitOpenAfter    StockFrontOrderType = 22 // 寄指（後場）
+	StockFrontOrderTypeLimitCloseBefore  StockFrontOrderType = 23 // 引指（前場）
+	StockFrontOrderTypeLimitCloseAfter   StockFrontOrderType = 24 // 引指（後場）
+	StockFrontOrderTypeFunariBefore      StockFrontOrderType = 25 // 不成（前場）
+	StockFrontOrderTypeFunariAfter       StockFrontOrderType = 26 // 不成（後場）
+	StockFrontOrderTypeIOCLimit          StockFrontOrderType = 27 // IOC指値
 )
 
 // CurrentPriceChangeStatus - 現値前値比較
@@ -236,6 +236,8 @@ const (
 	ProductAll    Product = 0 // 全て
 	ProductCash   Product = 1 // 現物
 	ProductMargin Product = 2 // 信用
+	ProductFuture Product = 3 // 先物
+	ProductOption Product = 4 // OP
 )
 
 // State - 状態
@@ -270,7 +272,9 @@ const (
 	OrdTypeInTrading     OrdType = 1 // ザラバ
 	OrdTypeOpen          OrdType = 2 // 寄り
 	OrdTypeClose         OrdType = 3 // 引け
-	OrdTypeMarketToLimit OrdType = 4 // 不成
+	OrdTypeNoContracted  OrdType = 4 // 不成
+	OrdTypeMarketToLimit OrdType = 5 // 対当指値
+	OrdTypeMarketIOC     OrdType = 6 // IOC
 )
 
 // RecType - 明細種別
@@ -353,4 +357,13 @@ const (
 	PutOrCallUnspecified PutOrCall = "" // 指定なし
 	PutOrCallPut         PutOrCall = "P"
 	PutOrCallCall        PutOrCall = "C"
+)
+
+// IsGetOrderDetail - 注文詳細を取得するか
+type IsGetOrderDetail string
+
+const (
+	IsGetOrderDetailUnspecified IsGetOrderDetail = ""      // 指定なし
+	IsGetOrderDetailTrue        IsGetOrderDetail = "true"  // 注文詳細を出力する
+	IsGetOrderDetailFalse       IsGetOrderDetail = "false" // 注文詳細を出力しない
 )

@@ -3,12 +3,64 @@ package kabus
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 )
 
 // OrdersRequest - 注文約定照会のリクエストパラメータ
 type OrdersRequest struct {
-	Product Product // 取得する商品
+	Product          Product          // 取得する商品
+	ID               string           // 注文番号
+	UpdateTime       time.Time        // 更新日時 ※指定された更新日時以降（指定日時含む）に更新された注文のみ返す
+	IsGetOrderDetail IsGetOrderDetail // 注文詳細抑止
+	Symbol           string           // 銘柄コード
+	State            OrderState       // 注文状態
+	Side             Side             // 売買区分
+	CashMargin       CashMargin       // 取引区分 TODO 現物は指定できないようにする
+}
+
+func (r *OrdersRequest) toQuery() string {
+	var params []string
+
+	// 取得する商品
+	params = append(params, fmt.Sprintf("product=%d", r.Product))
+
+	// 注文番号
+	if r.ID != "" {
+		params = append(params, fmt.Sprintf("id=%s", r.ID))
+	}
+
+	// 更新日時
+	if !r.UpdateTime.IsZero() {
+		params = append(params, fmt.Sprintf("updtime=%s", r.UpdateTime.Format("20060102150405")))
+	}
+
+	// 注文詳細抑止
+	if r.IsGetOrderDetail != IsGetOrderDetailUnspecified {
+		params = append(params, fmt.Sprintf("details=%s", r.IsGetOrderDetail))
+	}
+
+	// 銘柄コード
+	if r.Symbol != "" {
+		params = append(params, fmt.Sprintf("symbol=%s", r.Symbol))
+	}
+
+	// 状態
+	if r.State != OrderStateUnspecified {
+		params = append(params, fmt.Sprintf("state=%d", r.State))
+	}
+
+	// 売買区分
+	if r.Side != SideUnspecified {
+		params = append(params, fmt.Sprintf("side=%s", r.Side))
+	}
+
+	// 取引区分
+	if r.CashMargin != CashMarginUnspecified {
+		params = append(params, fmt.Sprintf("cashmargin=%d", r.CashMargin))
+	}
+
+	return strings.Join(params, "&")
 }
 
 // OrdersResponse - 注文約定照会のレスポンス
@@ -71,9 +123,7 @@ func (r *ordersRequester) Exec(request OrdersRequest) (*OrdersResponse, error) {
 
 // ExecWithContext - 注文約定照会リクエストの実行(contextあり)
 func (r *ordersRequester) ExecWithContext(ctx context.Context, request OrdersRequest) (*OrdersResponse, error) {
-	queryParam := fmt.Sprintf("product=%d", request.Product)
-
-	code, b, err := r.httpClient.get(ctx, "", queryParam)
+	code, b, err := r.httpClient.get(ctx, "", request.toQuery())
 	if err != nil {
 		return nil, err
 	}

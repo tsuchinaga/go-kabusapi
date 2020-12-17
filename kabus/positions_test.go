@@ -134,3 +134,27 @@ const positionsBody200 = `[
     "ProfitLossRate": 41.12215909090909
   }
 ]`
+
+func Test_PositionsRequest_toQuery(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name    string
+		request PositionsRequest
+		want    string
+	}{
+		{name: "初期値ではproductだけが出る", request: PositionsRequest{}, want: "product=0"},
+		{name: "productを指定したら任意のパラメータが出る", request: PositionsRequest{Product: ProductMargin}, want: "product=2"},
+		{name: "Symbolを指定したらsymbolが出る", request: PositionsRequest{Symbol: "8306"}, want: "product=0&symbol=8306"},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got := test.request.toQuery()
+			if !reflect.DeepEqual(test.want, got) {
+				t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), test.want, got)
+			}
+		})
+	}
+}
