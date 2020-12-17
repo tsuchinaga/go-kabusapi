@@ -134,21 +134,21 @@ const (
 type StockFrontOrderType int
 
 const (
-	StockFrontOrderTypeUnspecified       StockFrontOrderType = 0  // 指定なし
-	StockFrontOrderTypeMarket            StockFrontOrderType = 10 // 成行
-	StockFrontOrderTypeMarketOpenBefore  StockFrontOrderType = 13 // 寄成（前場）
-	StockFrontOrderTypeMarketOpenAfter   StockFrontOrderType = 14 // 寄成（後場）
-	StockFrontOrderTypeMarketCloseBefore StockFrontOrderType = 15 // 引成（前場）
-	StockFrontOrderTypeMarketCloseAfter  StockFrontOrderType = 16 // 引成（後場）
-	StockFrontOrderTypeIOCMarket         StockFrontOrderType = 17 // IOC成行
-	StockFrontOrderTypeLimit             StockFrontOrderType = 20 // 指値
-	StockFrontOrderTypeLimitOpenBefore   StockFrontOrderType = 21 // 寄指（前場）
-	StockFrontOrderTypeLimitOpenAfter    StockFrontOrderType = 22 // 寄指（後場）
-	StockFrontOrderTypeLimitCloseBefore  StockFrontOrderType = 23 // 引指（前場）
-	StockFrontOrderTypeLimitCloseAfter   StockFrontOrderType = 24 // 引指（後場）
-	StockFrontOrderTypeFunariBefore      StockFrontOrderType = 25 // 不成（前場）
-	StockFrontOrderTypeFunariAfter       StockFrontOrderType = 26 // 不成（後場）
-	StockFrontOrderTypeIOCLimit          StockFrontOrderType = 27 // IOC指値
+	StockFrontOrderTypeUnspecified StockFrontOrderType = 0  // 指定なし
+	StockFrontOrderTypeMarket      StockFrontOrderType = 10 // 成行
+	StockFrontOrderTypeMOOM        StockFrontOrderType = 13 // 寄成（前場） Market on Open Morning
+	StockFrontOrderTypeMOOA        StockFrontOrderType = 14 // 寄成（後場） Market on Open Afternoon
+	StockFrontOrderTypeMOCM        StockFrontOrderType = 15 // 引成（前場） Market on Close Morning
+	StockFrontOrderTypeMOCA        StockFrontOrderType = 16 // 引成（後場） Market on Close Afternoon
+	StockFrontOrderTypeIOCMarket   StockFrontOrderType = 17 // IOC成行
+	StockFrontOrderTypeLimit       StockFrontOrderType = 20 // 指値
+	StockFrontOrderTypeLOOM        StockFrontOrderType = 21 // 寄指（前場） Limit on Open Morning
+	StockFrontOrderTypeLOOA        StockFrontOrderType = 22 // 寄指（後場） Limit on Open Afternoon
+	StockFrontOrderTypeLOCM        StockFrontOrderType = 23 // 引指（前場） Limit on Close Morning
+	StockFrontOrderTypeLOCA        StockFrontOrderType = 24 // 引指（後場） Limit on Close Afternoon
+	StockFrontOrderTypeFunariM     StockFrontOrderType = 25 // 不成（前場） Funari Morning
+	StockFrontOrderTypeFunariA     StockFrontOrderType = 26 // 不成（後場） Funari Afternoon
+	StockFrontOrderTypeIOCLimit    StockFrontOrderType = 27 // IOC指値
 )
 
 // CurrentPriceChangeStatus - 現値前値比較

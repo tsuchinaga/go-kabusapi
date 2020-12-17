@@ -42,7 +42,7 @@ func main() {
 			ClosePositions:     []kabus.ClosePosition{},
 			Price:              0,
 			ExpireDay:          kabus.YmdNUMToday,
-			FrontOrderType:     kabus.StockFrontOrderTypeMarketCloseAfter, // 後場引成 = 約定しないように
+			FrontOrderType:     kabus.StockFrontOrderTypeMOCA, // 後場引成 = 約定しないように
 		})
 		if err != nil {
 			panic(err)
