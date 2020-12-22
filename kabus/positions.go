@@ -51,8 +51,14 @@ type Position struct {
 }
 
 // NewPositionsRequester - 残高照会リクエスタの生成
-func NewPositionsRequester(token string, isProd bool) *positionsRequester {
+func NewPositionsRequester(token string, isProd bool) PositionsRequester {
 	return &positionsRequester{httpClient{token: token, url: createURL("/positions", isProd)}}
+}
+
+// PositionsRequester - 残高照会のリクエスタインターフェース
+type PositionsRequester interface {
+	Exec(request PositionsRequest) (*PositionsResponse, error)
+	ExecWithContext(ctx context.Context, request PositionsRequest) (*PositionsResponse, error)
 }
 
 // positionsRequester - 残高照会のリクエスタ

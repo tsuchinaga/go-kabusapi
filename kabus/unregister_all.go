@@ -13,8 +13,14 @@ type UnregisterAllResponse struct {
 }
 
 // NewUnregisterAllRequester - 銘柄登録全解除リクエスタの生成
-func NewUnregisterAllRequester(token string, isProd bool) *unregisterAllRequester {
+func NewUnregisterAllRequester(token string, isProd bool) UnregisterAllRequester {
 	return &unregisterAllRequester{httpClient: httpClient{token: token, url: createURL("/unregister/all", isProd)}}
+}
+
+// UnregisterAllRequester - 銘柄登録全解除のリクエスタインターフェース
+type UnregisterAllRequester interface {
+	Exec() (*UnregisterAllResponse, error)
+	ExecWithContext(ctx context.Context) (*UnregisterAllResponse, error)
 }
 
 // unregisterAllRequester - 銘柄登録全解除のリクエスタ

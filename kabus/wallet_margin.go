@@ -23,8 +23,14 @@ type WalletMarginResponse struct {
 }
 
 // walletMarginRequester - 取引余力（信用）リクエスタの生成
-func NewWalletMarginRequester(token string, isProd bool) *walletMarginRequester {
+func NewWalletMarginRequester(token string, isProd bool) WalletMarginRequester {
 	return &walletMarginRequester{httpClient{token: token, url: createURL("/wallet/margin", isProd)}}
+}
+
+// WalletMarginRequester - 取引余力（信用）のリクエスタインターフェース
+type WalletMarginRequester interface {
+	Exec() (*WalletMarginResponse, error)
+	ExecWithContext(ctx context.Context) (*WalletMarginResponse, error)
 }
 
 // walletMarginRequester - 取引余力（信用）のリクエスタ
@@ -52,8 +58,14 @@ func (r *walletMarginRequester) ExecWithContext(ctx context.Context) (*WalletMar
 }
 
 // NewWalletMarginSymbolRequester - 取引余力（信用）（銘柄指定）リクエスタの生成
-func NewWalletMarginSymbolRequester(token string, isProd bool) *walletMarginSymbolRequester {
+func NewWalletMarginSymbolRequester(token string, isProd bool) WalletMarginSymbolRequester {
 	return &walletMarginSymbolRequester{httpClient{token: token, url: createURL("/wallet/margin", isProd)}}
+}
+
+// WalletMarginSymbolRequester - 取引余力（信用）（銘柄指定）のリクエスタインターフェース
+type WalletMarginSymbolRequester interface {
+	Exec(request WalletMarginSymbolRequest) (*WalletMarginResponse, error)
+	ExecWithContext(ctx context.Context, request WalletMarginSymbolRequest) (*WalletMarginResponse, error)
 }
 
 // walletMarginRequester - 取引余力（信用）（銘柄指定）のリクエスタ

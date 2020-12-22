@@ -18,8 +18,14 @@ type CancelOrderResponse struct {
 }
 
 // NewCancelOrderRequester - 注文取消リクエスタの生成
-func NewCancelOrderRequester(token string, isProd bool) *cancelOrderRequester {
+func NewCancelOrderRequester(token string, isProd bool) CancelOrderRequester {
 	return &cancelOrderRequester{httpClient{url: createURL("/cancelorder", isProd), token: token}}
+}
+
+// CancelOrderRequester - 注文取消のリクエスタインターフェース
+type CancelOrderRequester interface {
+	Exec(request CancelOrderRequest) (*CancelOrderResponse, error)
+	ExecWithContext(ctx context.Context, request CancelOrderRequest) (*CancelOrderResponse, error)
 }
 
 // cancelOrderRequester - 注文取消のリクエスタ

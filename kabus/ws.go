@@ -68,15 +68,18 @@ type PriceMessage struct {
 }
 
 // NewWSRequester - 時価PUSH配信リクエスタの生成
-func NewWSRequester(isProd bool, onNext func(PriceMessage) error) *wsRequester {
+func NewWSRequester(isProd bool) WSRequester {
 	r := &wsRequester{
 		wsClient: wsClient{url: createWS(isProd), isProd: isProd},
-		onNext:   onNext,
-	}
-	if r.onNext == nil {
-		r.onNext = func(PriceMessage) error { return nil }
 	}
 	return r
+}
+
+// WSRequester - 時価PUSH配信リクエスタインターフェース
+type WSRequester interface {
+	SetOnNext(onNext func(PriceMessage) error)
+	Open() error
+	Close() error
 }
 
 // wsRequester - 時価PUSH配信リクエスタ
@@ -87,9 +90,17 @@ type wsRequester struct {
 	isClosed bool
 }
 
+func (r *wsRequester) SetOnNext(onNext func(PriceMessage) error) {
+	r.onNext = onNext
+}
+
 // Open - web socketを開く
 // 受け取ったメッセージはonNext関数に渡す
 func (r *wsRequester) Open() error {
+	if r.onNext == nil {
+		r.onNext = func(PriceMessage) error { return nil }
+	}
+
 	var err error
 	r.ws, err = websocket.Dial(r.url, "", "http://"+getHost(r.isProd))
 	if err != nil {

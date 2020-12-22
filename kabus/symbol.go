@@ -33,8 +33,14 @@ type SymbolResponse struct {
 }
 
 // NewSymbolRequester - 銘柄情報リクエスタの生成
-func NewSymbolRequester(token string, isProd bool) *symbolRequester {
+func NewSymbolRequester(token string, isProd bool) SymbolRequester {
 	return &symbolRequester{httpClient{token: token, url: createURL("/symbol", isProd)}}
+}
+
+// SymbolRequester - 銘柄情報リクエスタインターフェース
+type SymbolRequester interface {
+	Exec(request SymbolRequest) (*SymbolResponse, error)
+	ExecWithContext(ctx context.Context, request SymbolRequest) (*SymbolResponse, error)
 }
 
 // symbolRequester - 銘柄情報リクエスタ

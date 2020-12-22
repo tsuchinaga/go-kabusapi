@@ -107,8 +107,15 @@ type OrderDetail struct {
 	CommissionTax float64   `json:"CommissionTax"` // 手数料消費税
 }
 
-func NewOrdersRequester(token string, isProd bool) *ordersRequester {
+// NewOrdersRequester - 注文約定照会のリクエスタの生成
+func NewOrdersRequester(token string, isProd bool) OrdersRequester {
 	return &ordersRequester{httpClient{token: token, url: createURL("/orders", isProd)}}
+}
+
+// OrdersRequester - 注文約定照会のリクエスタインターフェース
+type OrdersRequester interface {
+	Exec(request OrdersRequest) (*OrdersResponse, error)
+	ExecWithContext(ctx context.Context, request OrdersRequest) (*OrdersResponse, error)
 }
 
 // ordersRequester - 注文約定照会のリクエスタ

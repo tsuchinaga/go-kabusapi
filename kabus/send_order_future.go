@@ -124,8 +124,14 @@ type SendOrderFutureResponse struct {
 }
 
 // NewSendOrderFutureRequester - 注文発注(先物)リクエスタの生成
-func NewSendOrderFutureRequester(token string, isProd bool) *sendOrderFutureRequester {
+func NewSendOrderFutureRequester(token string, isProd bool) SendOrderFutureRequester {
 	return &sendOrderFutureRequester{httpClient{url: createURL("/sendorder/future", isProd), token: token}}
+}
+
+// SendOrderFutureRequester - 注文発注(先物)のリクエスタインターフェース
+type SendOrderFutureRequester interface {
+	Exec(request SendOrderFutureRequest) (*SendOrderFutureResponse, error)
+	ExecWithContext(ctx context.Context, request SendOrderFutureRequest) (*SendOrderFutureResponse, error)
 }
 
 // sendOrderFutureRequester - 注文発注(先物)のリクエスタ

@@ -21,8 +21,14 @@ type WalletFutureResponse struct {
 }
 
 // walletFutureRequester - 取引余力（先物）リクエスタの生成
-func NewWalletFutureRequester(token string, isProd bool) *walletFutureRequester {
+func NewWalletFutureRequester(token string, isProd bool) WalletFutureRequester {
 	return &walletFutureRequester{httpClient{token: token, url: createURL("/wallet/future", isProd)}}
+}
+
+// WalletFutureRequester - 取引余力（先物）のリクエスタインターフェース
+type WalletFutureRequester interface {
+	Exec() (*WalletFutureResponse, error)
+	ExecWithContext(ctx context.Context) (*WalletFutureResponse, error)
 }
 
 // walletFutureRequester - 取引余力（先物）のリクエスタ
@@ -50,8 +56,14 @@ func (r *walletFutureRequester) ExecWithContext(ctx context.Context) (*WalletFut
 }
 
 // NewWalletFutureSymbolRequester - 取引余力（先物）（銘柄指定）リクエスタの生成
-func NewWalletFutureSymbolRequester(token string, isProd bool) *walletFutureSymbolRequester {
+func NewWalletFutureSymbolRequester(token string, isProd bool) WalletFutureSymbolRequester {
 	return &walletFutureSymbolRequester{httpClient{token: token, url: createURL("/wallet/future", isProd)}}
+}
+
+// WalletFutureSymbolRequester - 取引余力（先物）（銘柄指定）のリクエスタインターフェース
+type WalletFutureSymbolRequester interface {
+	Exec(request WalletFutureSymbolRequest) (*WalletFutureResponse, error)
+	ExecWithContext(ctx context.Context, request WalletFutureSymbolRequest) (*WalletFutureResponse, error)
 }
 
 // walletFutureRequester - 取引余力（先物）（銘柄指定）のリクエスタ

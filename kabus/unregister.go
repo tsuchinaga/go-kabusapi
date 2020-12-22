@@ -22,10 +22,16 @@ type UnregisterResponse struct {
 }
 
 // NewUnregisterRequester - 銘柄登録解除リクエスタの生成
-func NewUnregisterRequester(token string, isProd bool) *unregisterRequester {
+func NewUnregisterRequester(token string, isProd bool) UnregisterRequester {
 	return &unregisterRequester{
 		httpClient{token: token, url: createURL("/unregister", isProd)},
 	}
+}
+
+// UnregisterRequester - 銘柄登録解除のリクエスタインターフェース
+type UnregisterRequester interface {
+	Exec(request UnregisterRequest) (*UnregisterResponse, error)
+	ExecWithContext(ctx context.Context, request UnregisterRequest) (*UnregisterResponse, error)
 }
 
 // unregisterRequester - 銘柄登録解除のリクエスタ

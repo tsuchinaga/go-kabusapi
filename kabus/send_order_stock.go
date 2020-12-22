@@ -116,8 +116,14 @@ type SendOrderStockResponse struct {
 }
 
 // NewSendOrderStockRequester - 注文発注(現物・信用)リクエスタの生成
-func NewSendOrderStockRequester(token string, isProd bool) *sendOrderStockRequester {
+func NewSendOrderStockRequester(token string, isProd bool) SendOrderStockRequester {
 	return &sendOrderStockRequester{httpClient{url: createURL("/sendorder", isProd), token: token}}
+}
+
+// SendOrderStockRequester - 注文発注(現物・信用)のリクエスタインターフェース
+type SendOrderStockRequester interface {
+	Exec(request SendOrderStockRequest) (*SendOrderStockResponse, error)
+	ExecWithContext(ctx context.Context, request SendOrderStockRequest) (*SendOrderStockResponse, error)
 }
 
 // sendOrderStockRequester - 注文発注(現物・信用)のリクエスタ

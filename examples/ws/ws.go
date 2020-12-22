@@ -44,7 +44,8 @@ func main() {
 			log.Printf("%+v\n", msg)
 			return nil
 		}
-		ws := kabus.NewWSRequester(isProd, onNext)
+		ws := kabus.NewWSRequester(isProd)
+		ws.SetOnNext(onNext)
 
 		// 5s後にwsをCloseする
 		go func() {

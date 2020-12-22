@@ -87,8 +87,14 @@ type BoardSign struct {
 }
 
 // NewBoardRequester - 時価情報・板情報リクエスタの生成
-func NewBoardRequester(token string, isProd bool) *boardRequester {
+func NewBoardRequester(token string, isProd bool) BoardRequester {
 	return &boardRequester{httpClient: httpClient{token: token, url: createURL("/board", isProd)}}
+}
+
+// BoardRequester - 時価情報・板情報のリクエスタインターフェース
+type BoardRequester interface {
+	Exec(request BoardRequest) (*BoardResponse, error)
+	ExecWithContext(ctx context.Context, request BoardRequest) (*BoardResponse, error)
 }
 
 // boardRequester - 時価情報・板情報のリクエスタ

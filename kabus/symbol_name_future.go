@@ -18,8 +18,14 @@ type SymbolNameFutureResponse struct {
 }
 
 // NewSymbolNameFutureRequester - 先物銘柄コード取得リクエスタの生成
-func NewSymbolNameFutureRequester(token string, isProd bool) *symbolNameFutureRequester {
+func NewSymbolNameFutureRequester(token string, isProd bool) SymbolNameFutureRequester {
 	return &symbolNameFutureRequester{httpClient{token: token, url: createURL("/symbolname/future", isProd)}}
+}
+
+// SymbolNameFutureRequester - 先物銘柄コード取得のリクエスタインターフェース
+type SymbolNameFutureRequester interface {
+	Exec(request SymbolNameFutureRequest) (*SymbolNameFutureResponse, error)
+	ExecWithContext(ctx context.Context, request SymbolNameFutureRequest) (*SymbolNameFutureResponse, error)
 }
 
 // symbolNameFutureRequester - 先物銘柄コード取得のリクエスタ

@@ -28,8 +28,14 @@ type RegisteredSymbol struct {
 }
 
 // NewRegisterRequester - 銘柄登録のリクエスタの生成
-func NewRegisterRequester(token string, isProd bool) *registerRequester {
+func NewRegisterRequester(token string, isProd bool) RegisterRequester {
 	return &registerRequester{httpClient: httpClient{url: createURL("/register", isProd), token: token}}
+}
+
+// RegisterRequester - 銘柄登録のリクエスタインターフェース
+type RegisterRequester interface {
+	Exec(request RegisterRequest) (*RegisterResponse, error)
+	ExecWithContext(ctx context.Context, request RegisterRequest) (*RegisterResponse, error)
 }
 
 // registerRequester - 銘柄登録のリクエスタ

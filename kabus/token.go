@@ -17,8 +17,14 @@ type TokenResponse struct {
 }
 
 // NewTokenRequester - トークン発行リクエスタの生成
-func NewTokenRequester(isProd bool) *tokenRequester {
+func NewTokenRequester(isProd bool) TokenRequester {
 	return &tokenRequester{httpClient: httpClient{url: createURL("/token", isProd)}}
+}
+
+// TokenRequester - トークン発行のリクエスタインターフェース
+type TokenRequester interface {
+	Exec(request TokenRequest) (*TokenResponse, error)
+	ExecWithContext(ctx context.Context, request TokenRequest) (*TokenResponse, error)
 }
 
 // tokenRequester - トークン発行のリクエスタ

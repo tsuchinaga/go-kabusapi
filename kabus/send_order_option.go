@@ -124,8 +124,14 @@ type SendOrderOptionResponse struct {
 }
 
 // NewSendOrderOptionRequester - 注文発注(オプション)リクエスタの生成
-func NewSendOrderOptionRequester(token string, isProd bool) *sendOrderOptionRequester {
+func NewSendOrderOptionRequester(token string, isProd bool) SendOrderOptionRequester {
 	return &sendOrderOptionRequester{httpClient{url: createURL("/sendorder/option", isProd), token: token}}
+}
+
+// SendOrderOptionRequester - 注文発注(オプション)のリクエスタインターフェース
+type SendOrderOptionRequester interface {
+	Exec(request SendOrderOptionRequest) (*SendOrderOptionResponse, error)
+	ExecWithContext(ctx context.Context, request SendOrderOptionRequest) (*SendOrderOptionResponse, error)
 }
 
 // sendOrderOptionRequester - 注文発注(オプション)のリクエスタ

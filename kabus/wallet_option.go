@@ -22,8 +22,14 @@ type WalletOptionResponse struct {
 }
 
 // walletOptionRequester - 取引余力（オプション）リクエスタの生成
-func NewWalletOptionRequester(token string, isProd bool) *walletOptionRequester {
+func NewWalletOptionRequester(token string, isProd bool) WalletOptionRequester {
 	return &walletOptionRequester{httpClient{token: token, url: createURL("/wallet/option", isProd)}}
+}
+
+// WalletOptionRequester - 取引余力（オプション）のリクエスタインターフェース
+type WalletOptionRequester interface {
+	Exec() (*WalletOptionResponse, error)
+	ExecWithContext(ctx context.Context) (*WalletOptionResponse, error)
 }
 
 // walletOptionRequester - 取引余力（オプション）のリクエスタ
@@ -51,8 +57,14 @@ func (r *walletOptionRequester) ExecWithContext(ctx context.Context) (*WalletOpt
 }
 
 // NewWalletOptionSymbolRequester - 取引余力（オプション）（銘柄指定）リクエスタの生成
-func NewWalletOptionSymbolRequester(token string, isProd bool) *walletOptionSymbolRequester {
+func NewWalletOptionSymbolRequester(token string, isProd bool) WalletOptionSymbolRequester {
 	return &walletOptionSymbolRequester{httpClient{token: token, url: createURL("/wallet/option", isProd)}}
+}
+
+// WalletOptionSymbolRequester - 取引余力（オプション）（銘柄指定）のリクエスタインターフェース
+type WalletOptionSymbolRequester interface {
+	Exec(request WalletOptionSymbolRequest) (*WalletOptionResponse, error)
+	ExecWithContext(ctx context.Context, request WalletOptionSymbolRequest) (*WalletOptionResponse, error)
 }
 
 // walletOptionRequester - 取引余力（オプション）（銘柄指定）のリクエスタ

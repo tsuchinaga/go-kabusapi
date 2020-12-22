@@ -19,8 +19,14 @@ type SymbolNameOptionResponse struct {
 }
 
 // NewSymbolNameOptionRequester - オプション銘柄コード取得リクエスタの生成
-func NewSymbolNameOptionRequester(token string, isProd bool) *symbolNameOptionRequester {
+func NewSymbolNameOptionRequester(token string, isProd bool) SymbolNameOptionRequester {
 	return &symbolNameOptionRequester{httpClient{token: token, url: createURL("/symbolname/option", isProd)}}
+}
+
+// SymbolNameOptionRequester - オプション銘柄コード取得のリクエスタインターフェース
+type SymbolNameOptionRequester interface {
+	Exec(request SymbolNameOptionRequest) (*SymbolNameOptionResponse, error)
+	ExecWithContext(ctx context.Context, request SymbolNameOptionRequest) (*SymbolNameOptionResponse, error)
 }
 
 // symbolNameOptionRequester - オプション銘柄コード取得のリクエスタ
