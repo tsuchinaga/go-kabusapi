@@ -15,9 +15,11 @@ func main() {
 		isProd = true
 	}
 
+	client := kabus.NewRESTClient(isProd)
+
 	var token string
 	{
-		req, err := kabus.NewTokenRequester(isProd).Exec(kabus.TokenRequest{APIPassword: password})
+		req, err := client.Token(kabus.TokenRequest{APIPassword: password})
 		if err != nil {
 			panic(err)
 		}
@@ -26,7 +28,7 @@ func main() {
 
 	orderID := ""
 	{
-		res, err := kabus.NewSendOrderStockRequester(token, isProd).Exec(kabus.SendOrderStockRequest{
+		res, err := client.SendOrderStock(token, kabus.SendOrderStockRequest{
 			Password:           password,
 			Symbol:             "1320",
 			Exchange:           kabus.StockExchangeToushou,
@@ -53,7 +55,7 @@ func main() {
 
 	time.Sleep(3 * time.Second) // kabuステーションで注文がどう動くかを確認するために待機時間を入れてます
 	{
-		res, err := kabus.NewCancelOrderRequester(token, isProd).Exec(kabus.CancelOrderRequest{
+		res, err := client.CancelOrder(token, kabus.CancelOrderRequest{
 			OrderID:  orderID,
 			Password: password,
 		})

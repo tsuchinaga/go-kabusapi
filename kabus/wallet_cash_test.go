@@ -7,35 +7,7 @@ import (
 	"testing"
 )
 
-func Test_NewWalletCashRequester(t *testing.T) {
-	t.Parallel()
-
-	tests := []struct {
-		name string
-		arg1 string
-		arg2 bool
-		want *walletCashRequester
-	}{
-		{name: "本番用のURLが取れる",
-			arg1: "token1", arg2: true,
-			want: &walletCashRequester{httpClient: httpClient{url: "http://localhost:18080/kabusapi/wallet/cash", token: "token1"}}},
-		{name: "検証用のURLが取れる",
-			arg1: "token2", arg2: false,
-			want: &walletCashRequester{httpClient: httpClient{url: "http://localhost:18081/kabusapi/wallet/cash", token: "token2"}}},
-	}
-
-	for _, test := range tests {
-		test := test
-		t.Run(test.name, func(t *testing.T) {
-			got := NewWalletCashRequester(test.arg1, test.arg2)
-			if !reflect.DeepEqual(test.want, got) {
-				t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), test.want, got)
-			}
-		})
-	}
-}
-
-func Test_walletCashRequester_Exec(t *testing.T) {
+func Test_restClient_WalletCash(t *testing.T) {
 	t.Parallel()
 
 	tests := []struct {
@@ -69,14 +41,16 @@ func Test_walletCashRequester_Exec(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 
-			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			mux := http.NewServeMux()
+			mux.HandleFunc("/wallet/cash", func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(test.status)
 				_, _ = w.Write([]byte(test.body))
-			}))
+			})
+			ts := httptest.NewServer(mux)
 			defer ts.Close()
 
-			req := &walletCashRequester{httpClient{url: ts.URL}}
-			got1, got2 := req.Exec()
+			req := &restClient{url: ts.URL}
+			got1, got2 := req.WalletCash("")
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
 			}
@@ -84,35 +58,7 @@ func Test_walletCashRequester_Exec(t *testing.T) {
 	}
 }
 
-func Test_NewWalletCashSymbolRequester(t *testing.T) {
-	t.Parallel()
-
-	tests := []struct {
-		name string
-		arg1 string
-		arg2 bool
-		want *walletCashSymbolRequester
-	}{
-		{name: "本番用のURLが取れる",
-			arg1: "token1", arg2: true,
-			want: &walletCashSymbolRequester{httpClient: httpClient{url: "http://localhost:18080/kabusapi/wallet/cash", token: "token1"}}},
-		{name: "検証用のURLが取れる",
-			arg1: "token2", arg2: false,
-			want: &walletCashSymbolRequester{httpClient: httpClient{url: "http://localhost:18081/kabusapi/wallet/cash", token: "token2"}}},
-	}
-
-	for _, test := range tests {
-		test := test
-		t.Run(test.name, func(t *testing.T) {
-			got := NewWalletCashSymbolRequester(test.arg1, test.arg2)
-			if !reflect.DeepEqual(test.want, got) {
-				t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), test.want, got)
-			}
-		})
-	}
-}
-
-func Test_walletCashSymbolRequester_Exec(t *testing.T) {
+func Test_restClient_WalletCashSymbol(t *testing.T) {
 	t.Parallel()
 
 	tests := []struct {
@@ -146,14 +92,16 @@ func Test_walletCashSymbolRequester_Exec(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 
-			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			mux := http.NewServeMux()
+			mux.HandleFunc("/wallet/cash/9433@1", func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(test.status)
 				_, _ = w.Write([]byte(test.body))
-			}))
+			})
+			ts := httptest.NewServer(mux)
 			defer ts.Close()
 
-			req := &walletCashSymbolRequester{httpClient{url: ts.URL}}
-			got1, got2 := req.Exec(WalletCashSymbolRequest{Symbol: "9433", Exchange: StockExchangeToushou})
+			req := &restClient{url: ts.URL}
+			got1, got2 := req.WalletCashSymbol("", WalletCashSymbolRequest{Symbol: "9433", Exchange: StockExchangeToushou})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
 			}

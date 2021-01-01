@@ -16,35 +16,19 @@ type TokenResponse struct {
 	Token      string `json:"Token"`      // APIトークン
 }
 
-// NewTokenRequester - トークン発行リクエスタの生成
-func NewTokenRequester(isProd bool) TokenRequester {
-	return &tokenRequester{httpClient: httpClient{url: createURL("/token", isProd)}}
+// Token - トークン発行リクエスト
+func (c *restClient) Token(request TokenRequest) (*TokenResponse, error) {
+	return c.TokenWithContext(context.Background(), request)
 }
 
-// TokenRequester - トークン発行のリクエスタインターフェース
-type TokenRequester interface {
-	Exec(request TokenRequest) (*TokenResponse, error)
-	ExecWithContext(ctx context.Context, request TokenRequest) (*TokenResponse, error)
-}
-
-// tokenRequester - トークン発行のリクエスタ
-type tokenRequester struct {
-	httpClient
-}
-
-// Exec - トークン発行リクエストの実行
-func (r *tokenRequester) Exec(request TokenRequest) (*TokenResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - トークン発行リクエストの実行(contextあり)
-func (r *tokenRequester) ExecWithContext(ctx context.Context, request TokenRequest) (*TokenResponse, error) {
+// TokenWithContext - トークン発行リクエスト(contextあり)
+func (c *restClient) TokenWithContext(ctx context.Context, request TokenRequest) (*TokenResponse, error) {
 	reqBody, err := json.Marshal(request)
 	if err != nil {
 		return nil, err
 	}
 
-	code, b, err := r.httpClient.post(ctx, reqBody)
+	code, b, err := c.post(ctx, "", "token", reqBody)
 	if err != nil {
 		return nil, err
 	}

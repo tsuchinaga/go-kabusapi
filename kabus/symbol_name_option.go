@@ -18,32 +18,15 @@ type SymbolNameOptionResponse struct {
 	SymbolName string `json:"SymbolName"` // 銘柄名称
 }
 
-// NewSymbolNameOptionRequester - オプション銘柄コード取得リクエスタの生成
-func NewSymbolNameOptionRequester(token string, isProd bool) SymbolNameOptionRequester {
-	return &symbolNameOptionRequester{httpClient{token: token, url: createURL("/symbolname/option", isProd)}}
+// SymbolNameOption - オプション銘柄コード取得リクエスト
+func (c *restClient) SymbolNameOption(token string, request SymbolNameOptionRequest) (*SymbolNameOptionResponse, error) {
+	return c.SymbolNameOptionWithContext(context.Background(), token, request)
 }
 
-// SymbolNameOptionRequester - オプション銘柄コード取得のリクエスタインターフェース
-type SymbolNameOptionRequester interface {
-	Exec(request SymbolNameOptionRequest) (*SymbolNameOptionResponse, error)
-	ExecWithContext(ctx context.Context, request SymbolNameOptionRequest) (*SymbolNameOptionResponse, error)
-}
-
-// symbolNameOptionRequester - オプション銘柄コード取得のリクエスタ
-type symbolNameOptionRequester struct {
-	httpClient
-}
-
-// Exec - オプション銘柄コード取得リクエストの実行
-func (r *symbolNameOptionRequester) Exec(request SymbolNameOptionRequest) (*SymbolNameOptionResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - オプション銘柄コード取得リクエストの実行(contextあり)
-func (r *symbolNameOptionRequester) ExecWithContext(ctx context.Context, request SymbolNameOptionRequest) (*SymbolNameOptionResponse, error) {
-	queryParam := fmt.Sprintf("DerivMonth=%s&PutOrCall=%s&StrikePrice=%d", request.DerivMonth.String(), request.PutOrCall, request.StrikePrice)
-
-	code, b, err := r.httpClient.get(ctx, "", queryParam)
+// SymbolNameOptionWithContext - オプション銘柄コード取得リクエスト(contextあり)
+func (c *restClient) SymbolNameOptionWithContext(ctx context.Context, token string, request SymbolNameOptionRequest) (*SymbolNameOptionResponse, error) {
+	query := fmt.Sprintf("DerivMonth=%s&PutOrCall=%s&StrikePrice=%d", request.DerivMonth.String(), request.PutOrCall, request.StrikePrice)
+	code, b, err := c.get(ctx, token, "symbolname/option", query)
 	if err != nil {
 		return nil, err
 	}

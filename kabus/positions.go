@@ -50,30 +50,14 @@ type Position struct {
 	ProfitLossRate  float64         `json:"ProfitLossRate"`  // 評価損益率
 }
 
-// NewPositionsRequester - 残高照会リクエスタの生成
-func NewPositionsRequester(token string, isProd bool) PositionsRequester {
-	return &positionsRequester{httpClient{token: token, url: createURL("/positions", isProd)}}
+// Positions - 残高照会リクエスト
+func (c *restClient) Positions(token string, request PositionsRequest) (*PositionsResponse, error) {
+	return c.PositionsWithContext(context.Background(), token, request)
 }
 
-// PositionsRequester - 残高照会のリクエスタインターフェース
-type PositionsRequester interface {
-	Exec(request PositionsRequest) (*PositionsResponse, error)
-	ExecWithContext(ctx context.Context, request PositionsRequest) (*PositionsResponse, error)
-}
-
-// positionsRequester - 残高照会のリクエスタ
-type positionsRequester struct {
-	httpClient
-}
-
-// Exec - 残高照会リクエストの実行
-func (r *positionsRequester) Exec(request PositionsRequest) (*PositionsResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 残高照会リクエストの実行(contextあり)
-func (r *positionsRequester) ExecWithContext(ctx context.Context, request PositionsRequest) (*PositionsResponse, error) {
-	code, b, err := r.httpClient.get(ctx, "", request.toQuery())
+// PositionsWithContext - 残高照会リクエスト(contextあり)
+func (c *restClient) PositionsWithContext(ctx context.Context, token string, request PositionsRequest) (*PositionsResponse, error) {
+	code, b, err := c.get(ctx, token, "positions", request.toQuery())
 	if err != nil {
 		return nil, err
 	}

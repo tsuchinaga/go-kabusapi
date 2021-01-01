@@ -14,9 +14,11 @@ func main() {
 		isProd = true
 	}
 
+	client := kabus.NewRESTClient(isProd)
+
 	var token string
 	{
-		req, err := kabus.NewTokenRequester(isProd).Exec(kabus.TokenRequest{APIPassword: password})
+		req, err := client.Token(kabus.TokenRequest{APIPassword: password})
 		if err != nil {
 			panic(err)
 		}
@@ -24,7 +26,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewWalletCashRequester(token, isProd).Exec()
+		res, err := client.WalletCash(token)
 		if err != nil {
 			panic(err)
 		}
@@ -32,7 +34,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewWalletCashSymbolRequester(token, isProd).Exec(kabus.WalletCashSymbolRequest{Symbol: "9433", Exchange: kabus.StockExchangeToushou})
+		res, err := client.WalletCashSymbol(token, kabus.WalletCashSymbolRequest{Symbol: "9433", Exchange: kabus.StockExchangeToushou})
 		if err != nil {
 			panic(err)
 		}

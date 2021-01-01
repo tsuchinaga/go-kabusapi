@@ -14,7 +14,6 @@ func main() {
 		isProd = true
 	}
 
-	requester := kabus.NewTokenRequester(isProd)
-	res, err := requester.Exec(kabus.TokenRequest{APIPassword: password})
+	res, err := kabus.NewRESTClient(isProd).Token(kabus.TokenRequest{APIPassword: password})
 	fmt.Printf("res: %+v\nerr: %+v\n", res, err)
 }

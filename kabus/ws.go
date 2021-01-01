@@ -102,7 +102,7 @@ func (r *wsRequester) Open() error {
 	}
 
 	var err error
-	r.ws, err = websocket.Dial(r.url, "", "http://"+getHost(r.isProd))
+	r.ws, err = websocket.Dial(r.url, "", "http://"+host(r.isProd))
 	if err != nil {
 		return err
 	}

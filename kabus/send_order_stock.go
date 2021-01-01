@@ -115,35 +115,19 @@ type SendOrderStockResponse struct {
 	OrderID string `json:"OrderId"` // 受付注文番号
 }
 
-// NewSendOrderStockRequester - 注文発注(現物・信用)リクエスタの生成
-func NewSendOrderStockRequester(token string, isProd bool) SendOrderStockRequester {
-	return &sendOrderStockRequester{httpClient{url: createURL("/sendorder", isProd), token: token}}
+// SendOrderStock - 注文発注(現物・信用)リクエスト
+func (c *restClient) SendOrderStock(token string, request SendOrderStockRequest) (*SendOrderStockResponse, error) {
+	return c.SendOrderStockWithContext(context.Background(), token, request)
 }
 
-// SendOrderStockRequester - 注文発注(現物・信用)のリクエスタインターフェース
-type SendOrderStockRequester interface {
-	Exec(request SendOrderStockRequest) (*SendOrderStockResponse, error)
-	ExecWithContext(ctx context.Context, request SendOrderStockRequest) (*SendOrderStockResponse, error)
-}
-
-// sendOrderStockRequester - 注文発注(現物・信用)のリクエスタ
-type sendOrderStockRequester struct {
-	httpClient
-}
-
-// Exec - 注文発注(現物・信用)リクエストの実行
-func (r *sendOrderStockRequester) Exec(request SendOrderStockRequest) (*SendOrderStockResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 注文発注(現物・信用)リクエストの実行(contextあり)
-func (r *sendOrderStockRequester) ExecWithContext(ctx context.Context, request SendOrderStockRequest) (*SendOrderStockResponse, error) {
+// SendOrderStockWithContext - 注文発注(現物・信用)リクエスト(contextあり)
+func (c *restClient) SendOrderStockWithContext(ctx context.Context, token string, request SendOrderStockRequest) (*SendOrderStockResponse, error) {
 	reqBody, err := request.toJSON()
 	if err != nil {
 		return nil, err
 	}
 
-	code, b, err := r.httpClient.post(ctx, reqBody)
+	code, b, err := c.post(ctx, token, "sendorder", reqBody)
 	if err != nil {
 		return nil, err
 	}

@@ -14,9 +14,11 @@ func main() {
 		isProd = true
 	}
 
+	client := kabus.NewRESTClient(isProd)
+
 	var token string
 	{
-		req, err := kabus.NewTokenRequester(isProd).Exec(kabus.TokenRequest{APIPassword: password})
+		req, err := client.Token(kabus.TokenRequest{APIPassword: password})
 		if err != nil {
 			panic(err)
 		}
@@ -24,7 +26,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewRegisterRequester(token, isProd).Exec(kabus.RegisterRequest{Symbols: []kabus.RegisterSymbol{{Symbol: "9433", Exchange: kabus.ExchangeToushou}}})
+		res, err := client.Register(token, kabus.RegisterRequest{Symbols: []kabus.RegisterSymbol{{Symbol: "9433", Exchange: kabus.ExchangeToushou}}})
 		if err != nil {
 			panic(err)
 		}
@@ -32,7 +34,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewUnregisterRequester(token, isProd).Exec(kabus.UnregisterRequest{Symbols: []kabus.UnregisterSymbol{{Symbol: "9433", Exchange: kabus.ExchangeToushou}}})
+		res, err := client.Unregister(token, kabus.UnregisterRequest{Symbols: []kabus.UnregisterSymbol{{Symbol: "9433", Exchange: kabus.ExchangeToushou}}})
 		if err != nil {
 			panic(err)
 		}

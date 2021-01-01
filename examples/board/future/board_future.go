@@ -15,9 +15,11 @@ func main() {
 		isProd = true
 	}
 
+	client := kabus.NewRESTClient(isProd)
+
 	var token string
 	{
-		req, err := kabus.NewTokenRequester(isProd).Exec(kabus.TokenRequest{APIPassword: password})
+		req, err := client.Token(kabus.TokenRequest{APIPassword: password})
 		if err != nil {
 			panic(err)
 		}
@@ -26,7 +28,7 @@ func main() {
 
 	var symbol string
 	{
-		res, err := kabus.NewSymbolNameFutureRequester(token, isProd).Exec(kabus.SymbolNameFutureRequest{
+		res, err := client.SymbolNameFuture(token, kabus.SymbolNameFutureRequest{
 			FutureCode: kabus.FutureCodeNK225Mini,
 			DerivMonth: kabus.YmNUMToday,
 		})
@@ -37,7 +39,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewRegisterRequester(token, isProd).Exec(kabus.RegisterRequest{Symbols: []kabus.RegisterSymbol{{Symbol: symbol, Exchange: kabus.ExchangeAll}}})
+		res, err := client.Register(token, kabus.RegisterRequest{Symbols: []kabus.RegisterSymbol{{Symbol: symbol, Exchange: kabus.ExchangeAll}}})
 		if err != nil {
 			panic(err)
 		}
@@ -45,7 +47,7 @@ func main() {
 	}
 
 	for {
-		res, err := kabus.NewBoardRequester(token, isProd).Exec(kabus.BoardRequest{Symbol: symbol, Exchange: kabus.ExchangeAll})
+		res, err := client.Board(token, kabus.BoardRequest{Symbol: symbol, Exchange: kabus.ExchangeAll})
 		if err != nil {
 			panic(err)
 		}

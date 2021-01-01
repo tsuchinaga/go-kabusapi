@@ -107,30 +107,14 @@ type OrderDetail struct {
 	CommissionTax float64   `json:"CommissionTax"` // 手数料消費税
 }
 
-// NewOrdersRequester - 注文約定照会のリクエスタの生成
-func NewOrdersRequester(token string, isProd bool) OrdersRequester {
-	return &ordersRequester{httpClient{token: token, url: createURL("/orders", isProd)}}
+// Orders - 注文約定照会リクエスト
+func (c *restClient) Orders(token string, request OrdersRequest) (*OrdersResponse, error) {
+	return c.OrdersWithContext(context.Background(), token, request)
 }
 
-// OrdersRequester - 注文約定照会のリクエスタインターフェース
-type OrdersRequester interface {
-	Exec(request OrdersRequest) (*OrdersResponse, error)
-	ExecWithContext(ctx context.Context, request OrdersRequest) (*OrdersResponse, error)
-}
-
-// ordersRequester - 注文約定照会のリクエスタ
-type ordersRequester struct {
-	httpClient
-}
-
-// Exec - 注文約定照会リクエストの実行
-func (r *ordersRequester) Exec(request OrdersRequest) (*OrdersResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 注文約定照会リクエストの実行(contextあり)
-func (r *ordersRequester) ExecWithContext(ctx context.Context, request OrdersRequest) (*OrdersResponse, error) {
-	code, b, err := r.httpClient.get(ctx, "", request.toQuery())
+// OrdersWithContext - 注文約定照会リクエスト(contextあり)
+func (c *restClient) OrdersWithContext(ctx context.Context, token string, request OrdersRequest) (*OrdersResponse, error) {
+	code, b, err := c.get(ctx, token, "orders", request.toQuery())
 	if err != nil {
 		return nil, err
 	}

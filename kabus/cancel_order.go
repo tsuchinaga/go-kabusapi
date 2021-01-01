@@ -17,35 +17,19 @@ type CancelOrderResponse struct {
 	OrderID string `json:"OrderId"` // 受付注文番号
 }
 
-// NewCancelOrderRequester - 注文取消リクエスタの生成
-func NewCancelOrderRequester(token string, isProd bool) CancelOrderRequester {
-	return &cancelOrderRequester{httpClient{url: createURL("/cancelorder", isProd), token: token}}
+// CancelOrder - 注文取消リクエスト
+func (c *restClient) CancelOrder(token string, request CancelOrderRequest) (*CancelOrderResponse, error) {
+	return c.CancelOrderWithContext(context.Background(), token, request)
 }
 
-// CancelOrderRequester - 注文取消のリクエスタインターフェース
-type CancelOrderRequester interface {
-	Exec(request CancelOrderRequest) (*CancelOrderResponse, error)
-	ExecWithContext(ctx context.Context, request CancelOrderRequest) (*CancelOrderResponse, error)
-}
-
-// cancelOrderRequester - 注文取消のリクエスタ
-type cancelOrderRequester struct {
-	httpClient
-}
-
-// Exec - 注文取消リクエストの実行
-func (r *cancelOrderRequester) Exec(request CancelOrderRequest) (*CancelOrderResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 注文取消リクエストの実行(contextあり)
-func (r *cancelOrderRequester) ExecWithContext(ctx context.Context, request CancelOrderRequest) (*CancelOrderResponse, error) {
+// CancelOrderWithContext - 注文取消リクエスト(contextあり)
+func (c *restClient) CancelOrderWithContext(ctx context.Context, token string, request CancelOrderRequest) (*CancelOrderResponse, error) {
 	reqBody, err := json.Marshal(request)
 	if err != nil {
 		return nil, err
 	}
 
-	code, b, err := r.httpClient.put(ctx, reqBody)
+	code, b, err := c.put(ctx, token, "cancelorder", reqBody)
 	if err != nil {
 		return nil, err
 	}

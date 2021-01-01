@@ -7,37 +7,7 @@ import (
 	"testing"
 )
 
-func Test_NewSymbolNameOptionRequester(t *testing.T) {
-	t.Parallel()
-
-	tests := []struct {
-		name string
-		arg1 string
-		arg2 bool
-		want *symbolNameOptionRequester
-	}{
-		{name: "本番用URLが取れる",
-			arg1: "token1", arg2: true,
-			want: &symbolNameOptionRequester{httpClient: httpClient{url: "http://localhost:18080/kabusapi/symbolname/option", token: "token1"}}},
-		{name: "検証用URLが取れる",
-			arg1: "token2", arg2: false,
-			want: &symbolNameOptionRequester{httpClient: httpClient{url: "http://localhost:18081/kabusapi/symbolname/option", token: "token2"}}},
-	}
-
-	for _, test := range tests {
-		test := test
-		t.Run(test.name, func(t *testing.T) {
-			t.Parallel()
-
-			got := NewSymbolNameOptionRequester(test.arg1, test.arg2)
-			if !reflect.DeepEqual(test.want, got) {
-				t.Errorf("%s error\nwant: %+v\ngot: %+v\n", t.Name(), test.want, got)
-			}
-		})
-	}
-}
-
-func Test_symbolNameOptionRequester_Exec(t *testing.T) {
+func Test_restClient_SymbolNameOption(t *testing.T) {
 	t.Parallel()
 
 	tests := []struct {
@@ -71,14 +41,16 @@ func Test_symbolNameOptionRequester_Exec(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 
-			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			mux := http.NewServeMux()
+			mux.HandleFunc("/symbolname/option", func(w http.ResponseWriter, _ *http.Request) {
 				w.WriteHeader(test.status)
 				_, _ = w.Write([]byte(test.body))
-			}))
+			})
+			ts := httptest.NewServer(mux)
 			defer ts.Close()
 
-			req := &symbolNameOptionRequester{httpClient{url: ts.URL}}
-			got1, got2 := req.Exec(SymbolNameOptionRequest{DerivMonth: YmNUMToday, PutOrCall: PutOrCallPut, StrikePrice: 0})
+			req := &restClient{url: ts.URL}
+			got1, got2 := req.SymbolNameOption("", SymbolNameOptionRequest{DerivMonth: YmNUMToday, PutOrCall: PutOrCallPut, StrikePrice: 0})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
 			}

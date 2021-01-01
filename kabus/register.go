@@ -27,35 +27,19 @@ type RegisteredSymbol struct {
 	Exchange StockExchange `json:"Exchange"` // 市場コード
 }
 
-// NewRegisterRequester - 銘柄登録のリクエスタの生成
-func NewRegisterRequester(token string, isProd bool) RegisterRequester {
-	return &registerRequester{httpClient: httpClient{url: createURL("/register", isProd), token: token}}
+// Register - 銘柄登録リクエスト
+func (c *restClient) Register(token string, request RegisterRequest) (*RegisterResponse, error) {
+	return c.RegisterWithContext(context.Background(), token, request)
 }
 
-// RegisterRequester - 銘柄登録のリクエスタインターフェース
-type RegisterRequester interface {
-	Exec(request RegisterRequest) (*RegisterResponse, error)
-	ExecWithContext(ctx context.Context, request RegisterRequest) (*RegisterResponse, error)
-}
-
-// registerRequester - 銘柄登録のリクエスタ
-type registerRequester struct {
-	httpClient
-}
-
-// Exec - 銘柄登録リクエストの実行
-func (r *registerRequester) Exec(request RegisterRequest) (*RegisterResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 銘柄登録リクエストの実行(contextあり)
-func (r *registerRequester) ExecWithContext(ctx context.Context, request RegisterRequest) (*RegisterResponse, error) {
+// RegisterWithContext - 銘柄登録リクエスト(contextあり)
+func (c *restClient) RegisterWithContext(ctx context.Context, token string, request RegisterRequest) (*RegisterResponse, error) {
 	reqBody, err := json.Marshal(request)
 	if err != nil {
 		return nil, err
 	}
 
-	code, b, err := r.httpClient.put(ctx, reqBody)
+	code, b, err := c.put(ctx, token, "register", reqBody)
 	if err != nil {
 		return nil, err
 	}

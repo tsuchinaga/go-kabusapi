@@ -14,9 +14,11 @@ func main() {
 		isProd = true
 	}
 
+	client := kabus.NewRESTClient(isProd)
+
 	var token string
 	{
-		req, err := kabus.NewTokenRequester(isProd).Exec(kabus.TokenRequest{APIPassword: password})
+		req, err := client.Token(kabus.TokenRequest{APIPassword: password})
 		if err != nil {
 			panic(err)
 		}
@@ -24,7 +26,7 @@ func main() {
 	}
 
 	{
-		res, err := kabus.NewBoardRequester(token, isProd).Exec(kabus.BoardRequest{Symbol: "5401", Exchange: kabus.ExchangeToushou})
+		res, err := client.Board(token, kabus.BoardRequest{Symbol: "5401", Exchange: kabus.ExchangeToushou})
 		if err != nil {
 			panic(err)
 		}

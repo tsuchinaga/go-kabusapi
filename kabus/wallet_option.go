@@ -21,30 +21,14 @@ type WalletOptionResponse struct {
 	MarginRequirement    float64 `json:"MarginRequirement"`    // 必要証拠金額
 }
 
-// walletOptionRequester - 取引余力（オプション）リクエスタの生成
-func NewWalletOptionRequester(token string, isProd bool) WalletOptionRequester {
-	return &walletOptionRequester{httpClient{token: token, url: createURL("/wallet/option", isProd)}}
+// WalletOption - 取引余力（オプション）リクエスト
+func (c *restClient) WalletOption(token string) (*WalletOptionResponse, error) {
+	return c.WalletOptionWithContext(context.Background(), token)
 }
 
-// WalletOptionRequester - 取引余力（オプション）のリクエスタインターフェース
-type WalletOptionRequester interface {
-	Exec() (*WalletOptionResponse, error)
-	ExecWithContext(ctx context.Context) (*WalletOptionResponse, error)
-}
-
-// walletOptionRequester - 取引余力（オプション）のリクエスタ
-type walletOptionRequester struct {
-	httpClient
-}
-
-// Exec - 取引余力（オプション）リクエストの実行
-func (r *walletOptionRequester) Exec() (*WalletOptionResponse, error) {
-	return r.ExecWithContext(context.Background())
-}
-
-// ExecWithContext - 取引余力（オプション）リクエストの実行(contextあり)
-func (r *walletOptionRequester) ExecWithContext(ctx context.Context) (*WalletOptionResponse, error) {
-	code, b, err := r.httpClient.get(ctx, "", "")
+// WalletOptionWithContext - 取引余力（オプション）リクエスト(contextあり)
+func (c *restClient) WalletOptionWithContext(ctx context.Context, token string) (*WalletOptionResponse, error) {
+	code, b, err := c.get(ctx, token, "wallet/option", "")
 	if err != nil {
 		return nil, err
 	}
@@ -56,31 +40,15 @@ func (r *walletOptionRequester) ExecWithContext(ctx context.Context) (*WalletOpt
 	return &res, nil
 }
 
-// NewWalletOptionSymbolRequester - 取引余力（オプション）（銘柄指定）リクエスタの生成
-func NewWalletOptionSymbolRequester(token string, isProd bool) WalletOptionSymbolRequester {
-	return &walletOptionSymbolRequester{httpClient{token: token, url: createURL("/wallet/option", isProd)}}
+// WalletOptionSymbol - 取引余力（オプション）（銘柄指定）リクエスト
+func (c *restClient) WalletOptionSymbol(token string, request WalletOptionSymbolRequest) (*WalletOptionResponse, error) {
+	return c.WalletOptionSymbolWithContext(context.Background(), token, request)
 }
 
-// WalletOptionSymbolRequester - 取引余力（オプション）（銘柄指定）のリクエスタインターフェース
-type WalletOptionSymbolRequester interface {
-	Exec(request WalletOptionSymbolRequest) (*WalletOptionResponse, error)
-	ExecWithContext(ctx context.Context, request WalletOptionSymbolRequest) (*WalletOptionResponse, error)
-}
-
-// walletOptionRequester - 取引余力（オプション）（銘柄指定）のリクエスタ
-type walletOptionSymbolRequester struct {
-	httpClient
-}
-
-// Exec - 取引余力（オプション）（銘柄指定）リクエストの実行
-func (r *walletOptionSymbolRequester) Exec(request WalletOptionSymbolRequest) (*WalletOptionResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 取引余力（オプション）（銘柄指定）リクエストの実行(contextあり)
-func (r *walletOptionSymbolRequester) ExecWithContext(ctx context.Context, request WalletOptionSymbolRequest) (*WalletOptionResponse, error) {
-	pathParam := fmt.Sprintf("%s@%d", request.Symbol, request.Exchange)
-	code, b, err := r.httpClient.get(ctx, pathParam, "")
+// WalletOptionSymbolWithContext - 取引余力（オプション）（銘柄指定）リクエスト(contextあり)
+func (c *restClient) WalletOptionSymbolWithContext(ctx context.Context, token string, request WalletOptionSymbolRequest) (*WalletOptionResponse, error) {
+	path := fmt.Sprintf("wallet/option/%s@%d", request.Symbol, request.Exchange)
+	code, b, err := c.get(ctx, token, path, "")
 	if err != nil {
 		return nil, err
 	}

@@ -123,35 +123,19 @@ type SendOrderOptionResponse struct {
 	OrderID string `json:"OrderId"` // 受付注文番号
 }
 
-// NewSendOrderOptionRequester - 注文発注(オプション)リクエスタの生成
-func NewSendOrderOptionRequester(token string, isProd bool) SendOrderOptionRequester {
-	return &sendOrderOptionRequester{httpClient{url: createURL("/sendorder/option", isProd), token: token}}
+// SendOrderOption - 注文発注(オプション)リクエスト
+func (c *restClient) SendOrderOption(token string, request SendOrderOptionRequest) (*SendOrderOptionResponse, error) {
+	return c.SendOrderOptionWithContext(context.Background(), token, request)
 }
 
-// SendOrderOptionRequester - 注文発注(オプション)のリクエスタインターフェース
-type SendOrderOptionRequester interface {
-	Exec(request SendOrderOptionRequest) (*SendOrderOptionResponse, error)
-	ExecWithContext(ctx context.Context, request SendOrderOptionRequest) (*SendOrderOptionResponse, error)
-}
-
-// sendOrderOptionRequester - 注文発注(オプション)のリクエスタ
-type sendOrderOptionRequester struct {
-	httpClient
-}
-
-// Exec - 注文発注(オプション)リクエストの実行
-func (r *sendOrderOptionRequester) Exec(request SendOrderOptionRequest) (*SendOrderOptionResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 注文発注(オプション)リクエストの実行(contextあり)
-func (r *sendOrderOptionRequester) ExecWithContext(ctx context.Context, request SendOrderOptionRequest) (*SendOrderOptionResponse, error) {
+// SendOrderOptionWithContext - 注文発注(オプション)リクエスト(contextあり)
+func (c *restClient) SendOrderOptionWithContext(ctx context.Context, token string, request SendOrderOptionRequest) (*SendOrderOptionResponse, error) {
 	reqBody, err := json.Marshal(request)
 	if err != nil {
 		return nil, err
 	}
 
-	code, b, err := r.httpClient.post(ctx, reqBody)
+	code, b, err := c.post(ctx, token, "sendorder/option", reqBody)
 	if err != nil {
 		return nil, err
 	}

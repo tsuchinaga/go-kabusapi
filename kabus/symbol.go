@@ -32,31 +32,15 @@ type SymbolResponse struct {
 	LowerLimit         float64         `json:"LowerLimit"`         // 値幅下限
 }
 
-// NewSymbolRequester - 銘柄情報リクエスタの生成
-func NewSymbolRequester(token string, isProd bool) SymbolRequester {
-	return &symbolRequester{httpClient{token: token, url: createURL("/symbol", isProd)}}
+// Symbol - 銘柄情報リクエスト
+func (c *restClient) Symbol(token string, request SymbolRequest) (*SymbolResponse, error) {
+	return c.SymbolWithContext(context.Background(), token, request)
 }
 
-// SymbolRequester - 銘柄情報リクエスタインターフェース
-type SymbolRequester interface {
-	Exec(request SymbolRequest) (*SymbolResponse, error)
-	ExecWithContext(ctx context.Context, request SymbolRequest) (*SymbolResponse, error)
-}
-
-// symbolRequester - 銘柄情報リクエスタ
-type symbolRequester struct {
-	httpClient
-}
-
-// Exec - 銘柄情報リクエストの実行
-func (r *symbolRequester) Exec(request SymbolRequest) (*SymbolResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 銘柄情報リクエストの実行(contextあり)
-func (r *symbolRequester) ExecWithContext(ctx context.Context, request SymbolRequest) (*SymbolResponse, error) {
-	pathParam := fmt.Sprintf("%s@%d", request.Symbol, request.Exchange)
-	code, b, err := r.httpClient.get(ctx, pathParam, "")
+// SymbolWithContext - 銘柄情報リクエスト(contextあり)
+func (c *restClient) SymbolWithContext(ctx context.Context, token string, request SymbolRequest) (*SymbolResponse, error) {
+	path := fmt.Sprintf("symbol/%s@%d", request.Symbol, request.Exchange)
+	code, b, err := c.get(ctx, token, path, "")
 	if err != nil {
 		return nil, err
 	}

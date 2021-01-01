@@ -123,35 +123,19 @@ type SendOrderFutureResponse struct {
 	OrderID string `json:"OrderId"` // 受付注文番号
 }
 
-// NewSendOrderFutureRequester - 注文発注(先物)リクエスタの生成
-func NewSendOrderFutureRequester(token string, isProd bool) SendOrderFutureRequester {
-	return &sendOrderFutureRequester{httpClient{url: createURL("/sendorder/future", isProd), token: token}}
+// SendOrderFuture - 注文発注(先物)リクエスト
+func (c *restClient) SendOrderFuture(token string, request SendOrderFutureRequest) (*SendOrderFutureResponse, error) {
+	return c.SendOrderFutureWithContext(context.Background(), token, request)
 }
 
-// SendOrderFutureRequester - 注文発注(先物)のリクエスタインターフェース
-type SendOrderFutureRequester interface {
-	Exec(request SendOrderFutureRequest) (*SendOrderFutureResponse, error)
-	ExecWithContext(ctx context.Context, request SendOrderFutureRequest) (*SendOrderFutureResponse, error)
-}
-
-// sendOrderFutureRequester - 注文発注(先物)のリクエスタ
-type sendOrderFutureRequester struct {
-	httpClient
-}
-
-// Exec - 注文発注(先物)リクエストの実行
-func (r *sendOrderFutureRequester) Exec(request SendOrderFutureRequest) (*SendOrderFutureResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 注文発注(先物)リクエストの実行(contextあり)
-func (r *sendOrderFutureRequester) ExecWithContext(ctx context.Context, request SendOrderFutureRequest) (*SendOrderFutureResponse, error) {
+// SendOrderFutureWithContext - 注文発注(先物)リクエスト(contextあり)
+func (c *restClient) SendOrderFutureWithContext(ctx context.Context, token string, request SendOrderFutureRequest) (*SendOrderFutureResponse, error) {
 	reqBody, err := request.toJSON()
 	if err != nil {
 		return nil, err
 	}
 
-	code, b, err := r.httpClient.post(ctx, reqBody)
+	code, b, err := c.post(ctx, token, "sendorder/future", reqBody)
 	if err != nil {
 		return nil, err
 	}

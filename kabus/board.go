@@ -86,32 +86,15 @@ type BoardSign struct {
 	Qty   float64 `json:"Qty"`   // 数量
 }
 
-// NewBoardRequester - 時価情報・板情報リクエスタの生成
-func NewBoardRequester(token string, isProd bool) BoardRequester {
-	return &boardRequester{httpClient: httpClient{token: token, url: createURL("/board", isProd)}}
+// Board - 時価情報・板情報リクエスト
+func (c *restClient) Board(token string, request BoardRequest) (*BoardResponse, error) {
+	return c.BoardWithContext(context.Background(), token, request)
 }
 
-// BoardRequester - 時価情報・板情報のリクエスタインターフェース
-type BoardRequester interface {
-	Exec(request BoardRequest) (*BoardResponse, error)
-	ExecWithContext(ctx context.Context, request BoardRequest) (*BoardResponse, error)
-}
-
-// boardRequester - 時価情報・板情報のリクエスタ
-type boardRequester struct {
-	httpClient
-}
-
-// Exec - 時価情報・板情報リクエストの実行
-func (r *boardRequester) Exec(request BoardRequest) (*BoardResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 時価情報・板情報リクエストの実行(contextあり)
-func (r *boardRequester) ExecWithContext(ctx context.Context, request BoardRequest) (*BoardResponse, error) {
-	pathParam := fmt.Sprintf("%s@%d", request.Symbol, request.Exchange)
-
-	code, b, err := r.httpClient.get(ctx, pathParam, "")
+// BoardWithContext - 時価情報・板情報リクエスト(contextあり)
+func (c *restClient) BoardWithContext(ctx context.Context, token string, request BoardRequest) (*BoardResponse, error) {
+	path := fmt.Sprintf("board/%s@%d", request.Symbol, request.Exchange)
+	code, b, err := c.get(ctx, token, path, "")
 	if err != nil {
 		return nil, err
 	}

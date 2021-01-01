@@ -21,37 +21,19 @@ type UnregisterResponse struct {
 	RegisterList []RegisteredSymbol `json:"RegistList"` // 現在登録されている銘柄のリスト
 }
 
-// NewUnregisterRequester - 銘柄登録解除リクエスタの生成
-func NewUnregisterRequester(token string, isProd bool) UnregisterRequester {
-	return &unregisterRequester{
-		httpClient{token: token, url: createURL("/unregister", isProd)},
-	}
+// Unregister - 銘柄登録解除リクエスト
+func (c *restClient) Unregister(token string, request UnregisterRequest) (*UnregisterResponse, error) {
+	return c.UnregisterWithContext(context.Background(), token, request)
 }
 
-// UnregisterRequester - 銘柄登録解除のリクエスタインターフェース
-type UnregisterRequester interface {
-	Exec(request UnregisterRequest) (*UnregisterResponse, error)
-	ExecWithContext(ctx context.Context, request UnregisterRequest) (*UnregisterResponse, error)
-}
-
-// unregisterRequester - 銘柄登録解除のリクエスタ
-type unregisterRequester struct {
-	httpClient
-}
-
-// Exec - 銘柄登録解除リクエストの実行
-func (r *unregisterRequester) Exec(request UnregisterRequest) (*UnregisterResponse, error) {
-	return r.ExecWithContext(context.Background(), request)
-}
-
-// ExecWithContext - 銘柄登録解除リクエストの実行(contextあり)
-func (r *unregisterRequester) ExecWithContext(ctx context.Context, request UnregisterRequest) (*UnregisterResponse, error) {
+// UnregisterWithContext - 銘柄登録解除リクエスト(contextあり)
+func (c *restClient) UnregisterWithContext(ctx context.Context, token string, request UnregisterRequest) (*UnregisterResponse, error) {
 	reqBody, err := json.Marshal(request)
 	if err != nil {
 		return nil, err
 	}
 
-	code, b, err := r.httpClient.put(ctx, reqBody)
+	code, b, err := c.put(ctx, token, "unregister", reqBody)
 	if err != nil {
 		return nil, err
 	}
