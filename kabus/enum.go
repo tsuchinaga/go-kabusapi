@@ -227,6 +227,17 @@ const (
 	PriceRangeGroupUnspecified PriceRangeGroup = ""      // 指定なし
 	PriceRangeGroup10000       PriceRangeGroup = "10000" // グループ 10000
 	PriceRangeGroup10003       PriceRangeGroup = "10003" // グループ 10003
+	PriceRangeGroup10118       PriceRangeGroup = "10118" // グループ 10118
+	PriceRangeGroup10119       PriceRangeGroup = "10119" // グループ 10119
+	PriceRangeGroup10318       PriceRangeGroup = "10318" // グループ 10318
+	PriceRangeGroup10706       PriceRangeGroup = "10706" // グループ 10706
+	PriceRangeGroup10718       PriceRangeGroup = "10718" // グループ 10718
+	PriceRangeGroup12122       PriceRangeGroup = "12122" // グループ 12122
+	PriceRangeGroup14473       PriceRangeGroup = "14473" // グループ 14473
+	PriceRangeGroup14515       PriceRangeGroup = "14515" // グループ 14515
+	PriceRangeGroup15411       PriceRangeGroup = "15411" // グループ 15411
+	PriceRangeGroup15569       PriceRangeGroup = "15569" // グループ 15569
+	PriceRangeGroup17163       PriceRangeGroup = "17163" // グループ 17163
 )
 
 // Product - 商品
@@ -359,6 +370,15 @@ const (
 	PutOrCallCall        PutOrCall = "C"
 )
 
+// PutOrCallNum - コール or プット
+type PutOrCallNum int
+
+const (
+	PutOrCallNumUnspecified PutOrCallNum = 0 // 指定なし
+	PutOrCallNumPut         PutOrCallNum = 1
+	PutOrCallNumCall        PutOrCallNum = 2
+)
+
 // IsGetOrderDetail - 注文詳細を取得するか
 type IsGetOrderDetail string
 
@@ -366,4 +386,18 @@ const (
 	IsGetOrderDetailUnspecified IsGetOrderDetail = ""      // 指定なし
 	IsGetOrderDetailTrue        IsGetOrderDetail = "true"  // 注文詳細を出力する
 	IsGetOrderDetailFalse       IsGetOrderDetail = "false" // 注文詳細を出力しない
+)
+
+// Underlyer - 原資産コード
+type Underlyer string
+
+const (
+	UnderlyerUnspecified Underlyer = ""
+	UnderlyerNK225       Underlyer = "NK225"       // 日経225
+	UnderlyerNK300       Underlyer = "NK300"       // 日経225
+	UnderlyerMOTHERS     Underlyer = "MOTHERS"     // 東証マザーズ
+	UnderlyerJPX400      Underlyer = "JPX400"      // JPX日経400
+	UnderlyerNKVI        Underlyer = "NKVI"        // 日経平均VI
+	UnderlyerDJIA        Underlyer = "DJIA"        // NYダウ
+	UnderlyerTOPIXCORE30 Underlyer = "TOPIXCORE30" // TOPIX Core30
 )

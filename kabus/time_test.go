@@ -177,3 +177,54 @@ func Test_YmNUM_String(t *testing.T) {
 		})
 	}
 }
+
+func Test_YmString_MarshalJSON(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		time YmString
+		want []byte
+	}{
+		{name: "正常な日付をパースできる", time: YmString{Time: time.Date(2020, 8, 21, 0, 0, 0, 0, time.Local)}, want: []byte(`2020/08`)},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got, err := test.time.MarshalJSON()
+			if !reflect.DeepEqual(test.want, got) || err != nil {
+				t.Errorf("%s error\nwant: %s, %+v\ngot: %s\n", t.Name(), test.want, err, got)
+			}
+		})
+	}
+}
+
+func Test_YmString_UnmarshalJSON(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		src  []byte
+		want YmString
+	}{
+		{name: "正常系のパース", src: []byte(`"2020/08"`), want: YmString{Time: time.Date(2020, 8, 1, 0, 0, 0, 0, time.Local)}},
+		{name: "nullはゼロ値にする", src: []byte(`null`), want: YmString{}},
+		{name: "空文字はゼロ値にする", src: []byte(`""`), want: YmString{}},
+		{name: "nilはゼロ値にする", src: nil, want: YmString{}},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+
+			got := YmString{}
+			err := got.UnmarshalJSON(test.src)
+			if !reflect.DeepEqual(test.want, got) || err != nil {
+				t.Errorf("%s error\nwant: %v, %v\ngot: %v\n", t.Name(), test.want, err, got)
+			}
+		})
+	}
+}

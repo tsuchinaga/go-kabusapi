@@ -83,3 +83,24 @@ func (t *YmNUM) String() string {
 	}
 	return t.Time.Format("200601")
 }
+
+// YmString - yyyy/MMフォーマット
+type YmString struct {
+	time.Time
+}
+
+func (t YmString) MarshalJSON() ([]byte, error) {
+	return []byte(t.Time.Format("2006/01")), nil
+}
+
+func (t *YmString) UnmarshalJSON(b []byte) error {
+	if b == nil || string(b) == `""` || string(b) == "null" {
+		return nil
+	}
+	tt, err := time.Parse(`"2006/01"`, string(b))
+	if err != nil {
+		return err
+	}
+	*t = YmString{Time: time.Date(tt.Year(), tt.Month(), tt.Day(), tt.Hour(), tt.Minute(), tt.Second(), tt.Nanosecond(), time.Local)}
+	return nil
+}
