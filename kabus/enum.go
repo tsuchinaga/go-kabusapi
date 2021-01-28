@@ -401,3 +401,54 @@ const (
 	UnderlyerDJIA        Underlyer = "DJIA"        // NYダウ
 	UnderlyerTOPIXCORE30 Underlyer = "TOPIXCORE30" // TOPIX Core30
 )
+
+// RankingType - ランキング種別
+type RankingType string
+
+const (
+	RankingTypeUnspecified                 RankingType = ""   // 指定なし
+	RankingTypePriceIncreaseRate           RankingType = "1"  // 値上がり率
+	RankingTypePriceDecreaseRate           RankingType = "2"  // 値下がり率
+	RankingTypeVolume                      RankingType = "3"  // 売買高上位
+	RankingTypeValue                       RankingType = "4"  // 売買代金
+	RankingTypeTickCount                   RankingType = "5"  // TICK回数
+	RankingTypeVolumeRapidIncrease         RankingType = "6"  // 売買高急増
+	RankingTypeValueRapidIncrease          RankingType = "7"  // 売買代金急増
+	RankingTypeMarginSellBalanceIncrease   RankingType = "8"  // 信用売残増
+	RankingTypeMarginSellBalanceDecrease   RankingType = "9"  // 信用売残減
+	RankingTypeMarginBuyBalanceIncrease    RankingType = "10" // 信用買残増
+	RankingTypeMarginBuyBalanceDecrease    RankingType = "11" // 信用買残減
+	RankingTypeMarginHighMagnification     RankingType = "12" // 信用高倍率
+	RankingTypeMarginLowMagnification      RankingType = "13" // 信用低倍率
+	RankingTypePriceIncreaseRateByCategory RankingType = "14" // 業種別値上がり率
+	RankingTypePriceDecreaseRateByCategory RankingType = "15" // 業種別値下がり率
+)
+
+// ExchangeDivision - 市場
+type ExchangeDivision string
+
+const (
+	ExchangeDivisionUnspecified ExchangeDivision = ""    // 指定なし
+	ExchangeDivisionALL         ExchangeDivision = "ALL" // 全市場（デフォルト）
+	ExchangeDivisionToushou     ExchangeDivision = "T"   // 東証全体
+	ExchangeDivisionToushou1    ExchangeDivision = "T1"  // 東証一部
+	ExchangeDivisionToushou2    ExchangeDivision = "T2"  // 東証二部
+	ExchangeDivisionMothers     ExchangeDivision = "TM"  // マザーズ
+	ExchangeDivisionJASDAQ      ExchangeDivision = "TQ"  // JASDAQ
+	ExchangeDivisionMeishou     ExchangeDivision = "M"   // 名証
+	ExchangeDivisionFukushou    ExchangeDivision = "FK"  // 福証
+	ExchangeDivisionSatsushou   ExchangeDivision = "S"   // 札証
+)
+
+// RankingTrend - ランキングのトレンド
+type RankingTrend string
+
+const (
+	RankingTrendUnspecified   RankingTrend = ""  // 指定なし
+	RankingTrendNoData        RankingTrend = "0" // 対象データ無し
+	RankingTrendRiseOver20    RankingTrend = "1" // 過去10営業日より20位以上上昇
+	RankingTrendRise          RankingTrend = "2" // 過去10営業日より1～19位上昇
+	RankingTrendUnchanged     RankingTrend = "3" // 過去10営業日と変わらず
+	RankingTrendDescent       RankingTrend = "4" // 過去10営業日より1～19位下落
+	RankingTrendDescentOver20 RankingTrend = "5" // 過去10営業日より20位以上下落
+)

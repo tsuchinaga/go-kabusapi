@@ -104,3 +104,24 @@ func (t *YmString) UnmarshalJSON(b []byte) error {
 	*t = YmString{Time: time.Date(tt.Year(), tt.Month(), tt.Day(), tt.Hour(), tt.Minute(), tt.Second(), tt.Nanosecond(), time.Local)}
 	return nil
 }
+
+// HmString - HH:mmフォーマット
+type HmString struct {
+	time.Time
+}
+
+func (t HmString) MarshalJSON() ([]byte, error) {
+	return []byte(t.Time.Format("15:04")), nil
+}
+
+func (t *HmString) UnmarshalJSON(b []byte) error {
+	if b == nil || string(b) == `""` || string(b) == "null" {
+		return nil
+	}
+	tt, err := time.Parse(`"15:04"`, string(b))
+	if err != nil {
+		return err
+	}
+	*t = HmString{Time: time.Date(tt.Year(), tt.Month(), tt.Day(), tt.Hour(), tt.Minute(), tt.Second(), tt.Nanosecond(), time.Local)}
+	return nil
+}

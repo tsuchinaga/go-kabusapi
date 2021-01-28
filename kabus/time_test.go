@@ -228,3 +228,57 @@ func Test_YmString_UnmarshalJSON(t *testing.T) {
 		})
 	}
 }
+
+func Test_HmString_MarshalJSON(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		time HmString
+		want []byte
+	}{
+		{name: "正常な時刻をパースできる",
+			time: HmString{Time: time.Date(0, 1, 1, 13, 57, 0, 0, time.Local)},
+			want: []byte(`13:57`)},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			got, err := test.time.MarshalJSON()
+			if !reflect.DeepEqual(test.want, got) || err != nil {
+				t.Errorf("%s error\nwant: %s, %+v\ngot: %s\n", t.Name(), test.want, err, got)
+			}
+		})
+	}
+}
+
+func Test_HmString_UnmarshalJSON(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		src  []byte
+		want HmString
+	}{
+		{name: "正常系のパース", src: []byte(`"13:56"`),
+			want: HmString{Time: time.Date(0, 1, 1, 13, 56, 0, 0, time.Local)}},
+		{name: "nullはゼロ値にする", src: []byte(`null`), want: HmString{}},
+		{name: "空文字はゼロ値にする", src: []byte(`""`), want: HmString{}},
+		{name: "nilはゼロ値にする", src: nil, want: HmString{}},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+
+			got := HmString{}
+			err := got.UnmarshalJSON(test.src)
+			if !reflect.DeepEqual(test.want, got) || err != nil {
+				t.Errorf("%s error\nwant: %v, %v\ngot: %v\n", t.Name(), test.want, err, got)
+			}
+		})
+	}
+}
