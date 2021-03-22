@@ -20,7 +20,7 @@ func Test_restClient_Register(t *testing.T) {
 		{name: "正常レスポンスをパースして返せる",
 			status: http.StatusOK,
 			body:   `{"RegistList": [{"Symbol": "9433","Exchange": 1}]}`,
-			want1:  &RegisterResponse{RegisterList: []RegisteredSymbol{{Symbol: "9433", Exchange: StockExchangeToushou}}},
+			want1:  &RegisterResponse{RegisterList: []RegisteredSymbol{{Symbol: "9433", Exchange: ExchangeToushou}}},
 			want2:  nil,
 		},
 		{name: "異常レスポンスをパースして返せる",

@@ -23,8 +23,8 @@ type RegisterResponse struct {
 
 // RegisteredSymbol - 銘柄登録によって登録された銘柄
 type RegisteredSymbol struct {
-	Symbol   string        `json:"Symbol"`   // 銘柄コード
-	Exchange StockExchange `json:"Exchange"` // 市場コード
+	Symbol   string   `json:"Symbol"`   // 銘柄コード
+	Exchange Exchange `json:"Exchange"` // 市場コード
 }
 
 // Register - 銘柄登録リクエスト
