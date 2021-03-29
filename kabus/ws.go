@@ -65,6 +65,12 @@ type PriceMessage struct {
 	OverSellQty              float64                  `json:"OverSellQty"`              // OVER気配数量
 	UnderBuyQty              float64                  `json:"UnderBuyQty"`              // UNDER気配数量
 	TotalMarketValue         float64                  `json:"TotalMarketValue"`         // 時価総額
+	ClearingPrice            float64                  `json:"ClearingPrice"`            // 清算値
+	IV                       float64                  `json:"IV"`                       // インプライド・ボラティリティ
+	Gamma                    float64                  `json:"Gamma"`                    // ガンマ
+	Theta                    float64                  `json:"Theta"`                    // セータ
+	Vega                     float64                  `json:"Vega"`                     // ベガ
+	Delta                    float64                  `json:"Delta"`                    // デルタ
 }
 
 // NewWSRequester - 時価PUSH配信リクエスタの生成
