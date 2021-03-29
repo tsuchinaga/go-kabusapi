@@ -178,6 +178,7 @@ type CurrentPriceStatus int
 const (
 	CurrentPriceStatusUnspecified                CurrentPriceStatus = 0  // 指定なし
 	CurrentPriceStatusCurrentPrice               CurrentPriceStatus = 1  // 現値
+	CurrentPriceStatusNoContinuousTicks          CurrentPriceStatus = 2  // 不連続歩み
 	CurrentPriceStatusItayose                    CurrentPriceStatus = 3  // 板寄せ
 	CurrentPriceStatusSystemError                CurrentPriceStatus = 4  // システム障害
 	CurrentPriceStatusPause                      CurrentPriceStatus = 5  // 中断
