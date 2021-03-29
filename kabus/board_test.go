@@ -78,6 +78,12 @@ func Test_restClient_Board(t *testing.T) {
 				OverSellQty:              974900,
 				UnderBuyQty:              756000,
 				TotalMarketValue:         3266254659361.4,
+				ClearingPrice:            23000,
+				IV:                       22.11,
+				Gamma:                    0.000183,
+				Theta:                    -6.5073,
+				Vega:                     39.3109,
+				Delta:                    0.4794,
 			},
 			want2: nil,
 		},
@@ -236,5 +242,11 @@ const boardBody200 = `{
   },
   "OverSellQty": 974900,
   "UnderBuyQty": 756000,
-  "TotalMarketValue": 3266254659361.4
+  "TotalMarketValue": 3266254659361.4,
+  "ClearingPrice": 23000,
+  "IV": 22.11,
+  "Gamma": 0.000183,
+  "Theta": -6.5073,
+  "Vega": 39.3109,
+  "Delta": 0.4794
 }`
