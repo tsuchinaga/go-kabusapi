@@ -393,14 +393,16 @@ const (
 type Underlyer string
 
 const (
-	UnderlyerUnspecified Underlyer = ""
-	UnderlyerNK225       Underlyer = "NK225"       // 日経225
-	UnderlyerNK300       Underlyer = "NK300"       // 日経225
-	UnderlyerMOTHERS     Underlyer = "MOTHERS"     // 東証マザーズ
-	UnderlyerJPX400      Underlyer = "JPX400"      // JPX日経400
-	UnderlyerNKVI        Underlyer = "NKVI"        // 日経平均VI
-	UnderlyerDJIA        Underlyer = "DJIA"        // NYダウ
-	UnderlyerTOPIXCORE30 Underlyer = "TOPIXCORE30" // TOPIX Core30
+	UnderlyerUnspecified  Underlyer = ""
+	UnderlyerNK225        Underlyer = "NK225"        // 日経225
+	UnderlyerNK300        Underlyer = "NK300"        // 日経225
+	UnderlyerMOTHERS      Underlyer = "MOTHERS"      // 東証マザーズ
+	UnderlyerJPX400       Underlyer = "JPX400"       // JPX日経400
+	UnderlyerTOPIX        Underlyer = "TOPIX"        // TOPIX
+	UnderlyerNKVI         Underlyer = "NKVI"         // 日経平均VI
+	UnderlyerDJIA         Underlyer = "DJIA"         // NYダウ
+	UnderlyerTSEREITINDEX Underlyer = "TSEREITINDEX" // 東証REIT指数
+	UnderlyerTOPIXCORE30  Underlyer = "TOPIXCORE30"  // TOPIX Core30
 )
 
 // RankingType - ランキング種別
