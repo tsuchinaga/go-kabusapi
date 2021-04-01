@@ -264,7 +264,7 @@ const (
 	StateDone        State = 5 // 終了（発注エラー・取消済・全約定・失効・期限切れ）
 )
 
-// State - 注文状態
+// OrderState - 注文状態
 type OrderState int
 
 const (
@@ -274,6 +274,18 @@ const (
 	OrderStateProcessed   OrderState = 3 // 処理済（発注済・訂正済）
 	OrderStateInCancel    OrderState = 4 // 訂正取消送信中
 	OrderStateDone        OrderState = 5 // 終了（発注エラー・取消済・全約定・失効・期限切れ）
+)
+
+// OrderDetailState - 注文詳細状態
+type OrderDetailState int
+
+const (
+	OrderDetailStateUnspecified OrderDetailState = 0 // 指定なし
+	OrderDetailStateWait        OrderDetailState = 1 // 待機（発注待機）
+	OrderDetailStateProcessing  OrderDetailState = 2 // 処理中（発注送信中・訂正送信中・取消送信中）
+	OrderDetailStateProcessed   OrderDetailState = 3 // 処理済（発注済・訂正済・取消済・全約定・期限切れ）
+	OrderDetailStateError       OrderDetailState = 4 // エラー
+	OrderDetailStateDeleted     OrderDetailState = 5 // 削除済み
 )
 
 // OrdType - 執行条件

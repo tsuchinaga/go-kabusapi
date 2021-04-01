@@ -91,20 +91,20 @@ type Order struct {
 
 // OrderDetail - 注文詳細
 type OrderDetail struct {
-	SeqNum        int       `json:"SeqNum"`        // 連番
-	ID            string    `json:"ID"`            // 注文詳細番号
-	RecType       RecType   `json:"RecType"`       // 明細種別
-	ExchangeID    string    `json:"ExchangeID"`    // 取引所番号
-	State         State     `json:"State"`         // 状態
-	TransactTime  time.Time `json:"TransactTime"`  // 処理時刻
-	OrdType       OrdType   `json:"OrdType"`       // 執行条件
-	Price         float64   `json:"Price"`         // 値段
-	Qty           float64   `json:"Qty"`           // 数量
-	ExecutionID   string    `json:"ExecutionID"`   // 約定番号
-	ExecutionDay  time.Time `json:"ExecutionDay"`  // 約定日時
-	DelivDay      YmdNUM    `json:"DelivDay"`      // 受渡日
-	Commission    float64   `json:"Commission"`    // 手数料
-	CommissionTax float64   `json:"CommissionTax"` // 手数料消費税
+	SeqNum        int              `json:"SeqNum"`        // 連番
+	ID            string           `json:"ID"`            // 注文詳細番号
+	RecType       RecType          `json:"RecType"`       // 明細種別
+	ExchangeID    string           `json:"ExchangeID"`    // 取引所番号
+	State         OrderDetailState `json:"State"`         // 状態
+	TransactTime  time.Time        `json:"TransactTime"`  // 処理時刻
+	OrdType       OrdType          `json:"OrdType"`       // 執行条件
+	Price         float64          `json:"Price"`         // 値段
+	Qty           float64          `json:"Qty"`           // 数量
+	ExecutionID   string           `json:"ExecutionID"`   // 約定番号
+	ExecutionDay  time.Time        `json:"ExecutionDay"`  // 約定日時
+	DelivDay      YmdNUM           `json:"DelivDay"`      // 受渡日
+	Commission    float64          `json:"Commission"`    // 手数料
+	CommissionTax float64          `json:"CommissionTax"` // 手数料消費税
 }
 
 // Orders - 注文約定照会リクエスト

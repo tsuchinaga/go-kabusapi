@@ -47,7 +47,7 @@ func Test_restClient_Orders(t *testing.T) {
 							ID:            "20200715A02N04738436",
 							RecType:       RecTypeReceived,
 							ExchangeID:    "00000000-0000-0000-0000-00000000",
-							State:         StateProcessed,
+							State:         OrderDetailStateProcessed,
 							TransactTime:  time.Date(2020, 7, 16, 18, 0, 51, 763683000, time.Local),
 							OrdType:       OrdTypeInTrading,
 							Price:         704.5,
