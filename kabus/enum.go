@@ -21,15 +21,15 @@ const (
 type OrderExchange int
 
 const (
-	OrderExchangeUnspecified OrderExchange  = 0  // 指定なし
-	OrderExchangeToushou     OrderExchange  = 1  // 東証
-	OrderExchangeMeishou     OrderExchange  = 3  // 名証
-	OrderExchangeFukushou    OrderExchange  = 5  // 福証
-	OrderExchangeSatsushou   OrderExchange  = 6  // 札証
-	OrderExchangeSOR         OrderExchange  = 9  // SOR
-	OrderExchangeAll         FutureExchange = 2  // 日通し
-	OrderExchangeDaytime     FutureExchange = 23 // 日中
-	OrderExchangeEvening     FutureExchange = 24 // 夜間
+	OrderExchangeUnspecified OrderExchange = 0  // 指定なし
+	OrderExchangeToushou     OrderExchange = 1  // 東証
+	OrderExchangeMeishou     OrderExchange = 3  // 名証
+	OrderExchangeFukushou    OrderExchange = 5  // 福証
+	OrderExchangeSatsushou   OrderExchange = 6  // 札証
+	OrderExchangeSOR         OrderExchange = 9  // SOR
+	OrderExchangeAll         OrderExchange = 2  // 日通し
+	OrderExchangeDaytime     OrderExchange = 23 // 日中
+	OrderExchangeEvening     OrderExchange = 24 // 夜間
 )
 
 // StockExchange - 株式市場
