@@ -155,7 +155,8 @@ const (
 type CurrentPriceChangeStatus string
 
 const (
-	CurrentPriceChangeStatusUnspecified          CurrentPriceChangeStatus = "0000" // 変化なし
+	CurrentPriceChangeStatusUnspecified          CurrentPriceChangeStatus = ""     // 指定なし
+	CurrentPriceChangeStatusNoEffect             CurrentPriceChangeStatus = "0000" // 変化なし
 	CurrentPriceChangeStatusNoChange             CurrentPriceChangeStatus = "0056" // 変わらず
 	CurrentPriceChangeStatusUp                   CurrentPriceChangeStatus = "0057" // UP
 	CurrentPriceChangeStatusDown                 CurrentPriceChangeStatus = "0058" // DOWN
