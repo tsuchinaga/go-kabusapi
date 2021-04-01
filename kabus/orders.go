@@ -75,7 +75,7 @@ type Order struct {
 	RecvTime        time.Time       `json:"RecvTime"`        // 受注日時
 	Symbol          string          `json:"Symbol"`          // 銘柄コード
 	SymbolName      string          `json:"SymbolName"`      // 銘柄名
-	Exchange        StockExchange   `json:"Exchange"`        // 市場コード
+	Exchange        OrderExchange   `json:"Exchange"`        // 市場コード
 	ExchangeName    string          `json:"ExchangeName"`    // 市場名
 	Price           float64         `json:"Price"`           // 値段
 	OrderQty        float64         `json:"OrderQty"`        // 発注数量

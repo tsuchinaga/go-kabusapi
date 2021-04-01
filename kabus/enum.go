@@ -17,6 +17,21 @@ const (
 	ExchangeEvening Exchange = 24 // 夜間
 )
 
+// OrderExchange - 注文可能市場
+type OrderExchange int
+
+const (
+	OrderExchangeUnspecified OrderExchange  = 0  // 指定なし
+	OrderExchangeToushou     OrderExchange  = 1  // 東証
+	OrderExchangeMeishou     OrderExchange  = 3  // 名証
+	OrderExchangeFukushou    OrderExchange  = 5  // 福証
+	OrderExchangeSatsushou   OrderExchange  = 6  // 札証
+	OrderExchangeSOR         OrderExchange  = 9  // SOR
+	OrderExchangeAll         FutureExchange = 2  // 日通し
+	OrderExchangeDaytime     FutureExchange = 23 // 日中
+	OrderExchangeEvening     FutureExchange = 24 // 夜間
+)
+
 // StockExchange - 株式市場
 type StockExchange int
 
@@ -26,7 +41,6 @@ const (
 	StockExchangeMeishou     StockExchange = 3 // 名証
 	StockExchangeFukushou    StockExchange = 5 // 福証
 	StockExchangeSatsushou   StockExchange = 6 // 札証
-	StockExchangeSOR         StockExchange = 9 // SOR
 )
 
 // FutureExchange - 先物市場

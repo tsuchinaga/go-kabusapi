@@ -27,7 +27,7 @@ func Test_restClient_Positions(t *testing.T) {
 					AccountType:     AccountTypeSpecific,
 					Symbol:          "8306",
 					SymbolName:      "三菱ＵＦＪフィナンシャル・グループ",
-					Exchange:        StockExchangeToushou,
+					Exchange:        ExchangeToushou,
 					ExchangeName:    "東証１部",
 					ExecutionDay:    NewYmdNUM(time.Date(2020, 7, 2, 0, 0, 0, 0, time.Local)),
 					Price:           704,

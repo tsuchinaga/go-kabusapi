@@ -30,7 +30,7 @@ func Test_restClient_Orders(t *testing.T) {
 					RecvTime:        time.Date(2020, 7, 16, 18, 0, 51, 763683000, time.Local),
 					Symbol:          "8306",
 					SymbolName:      "三菱ＵＦＪフィナンシャル・グループ",
-					Exchange:        StockExchangeToushou,
+					Exchange:        OrderExchangeToushou,
 					ExchangeName:    "東証１部",
 					Price:           704.5,
 					OrderQty:        1500,
