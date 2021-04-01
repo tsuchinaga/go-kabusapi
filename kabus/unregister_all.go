@@ -9,7 +9,7 @@ type UnregisterAllRequest struct{}
 
 // UnregisterAllResponse - 銘柄登録全解除のレスポンス
 type UnregisterAllResponse struct {
-	RegistList []RegisteredSymbol `json:"RegisterList"` // 現在登録されている銘柄のリスト
+	RegisterList []RegisteredSymbol `json:"RegisterList"` // 現在登録されている銘柄のリスト
 }
 
 // UnregisterAll - 銘柄登録全解除のリクエスト

@@ -20,7 +20,7 @@ func Test_restClient_UnregisterAll(t *testing.T) {
 		{name: "正常レスポンスをパースして返せる",
 			status: http.StatusOK,
 			body:   `{"RegisterList": []}`,
-			want1:  &UnregisterAllResponse{RegistList: []RegisteredSymbol{}},
+			want1:  &UnregisterAllResponse{RegisterList: []RegisteredSymbol{}},
 			want2:  nil,
 		},
 		{name: "異常レスポンスをパースして返せる",
