@@ -26,6 +26,7 @@ const (
 	StockExchangeMeishou     StockExchange = 3 // 名証
 	StockExchangeFukushou    StockExchange = 5 // 福証
 	StockExchangeSatsushou   StockExchange = 6 // 札証
+	StockExchangeSOR         StockExchange = 9 // SOR
 )
 
 // FutureExchange - 先物市場
