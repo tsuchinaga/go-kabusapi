@@ -77,6 +77,7 @@ type Order struct {
 	SymbolName      string          `json:"SymbolName"`      // 銘柄名
 	Exchange        OrderExchange   `json:"Exchange"`        // 市場コード
 	ExchangeName    string          `json:"ExchangeName"`    // 市場名
+	TimeInForce     TimeInForce     `json:"TimeInForce"`     // 有効期間条件
 	Price           float64         `json:"Price"`           // 値段
 	OrderQty        float64         `json:"OrderQty"`        // 発注数量
 	CumQty          float64         `json:"CumQty"`          // 約定数量
