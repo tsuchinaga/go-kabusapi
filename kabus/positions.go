@@ -34,6 +34,7 @@ type Position struct {
 	SymbolName      string          `json:"SymbolName"`      // 銘柄名
 	Exchange        Exchange        `json:"Exchange"`        // 市場コード
 	ExchangeName    string          `json:"ExchangeName"`    // 市場名
+	SecurityType    SecurityType    `json:"SecurityType"`    // 銘柄種別
 	ExecutionDay    YmdNUM          `json:"ExecutionDay"`    // 約定日（建玉日）
 	Price           float64         `json:"Price"`           // 値段
 	LeavesQty       float64         `json:"LeavesQty"`       // 残数量

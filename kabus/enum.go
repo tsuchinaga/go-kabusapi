@@ -67,8 +67,18 @@ const (
 type SecurityType int
 
 const (
-	SecurityTypeUnspecified SecurityType = 0 // 指定なし
-	SecurityTypeStock       SecurityType = 1 // 株式
+	SecurityTypeUnspecified SecurityType = 0   // 指定なし
+	SecurityTypeStock       SecurityType = 1   // 株式
+	SecurityTypeNK225       SecurityType = 101 // 日経225先物
+	SecurityTypeNK225Mini   SecurityType = 901 // 日経225mini先物
+	SecurityTypeJPX400      SecurityType = 121 // JPX日経インデックス400先物
+	SecurityTypeTOPIX       SecurityType = 107 // TOPIX先物
+	SecurityTypeTOPIXMini   SecurityType = 907 // ミニTOPIX先物
+	SecurityTypeMothers     SecurityType = 154 // 東証マザーズ指数先物
+	SecurityTypeREIT        SecurityType = 155 // 東証REIT指数先物
+	SecurityTypeDOW         SecurityType = 144 // NYダウ先物
+	SecurityTypeVI          SecurityType = 145 // 日経平均VI先物
+	SecurityTypeCORE30      SecurityType = 171 // TOPIX Core30先物
 )
 
 // Side - 売買区分
