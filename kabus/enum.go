@@ -314,7 +314,7 @@ const (
 	OrdTypeClose         OrdType = 3 // 引け
 	OrdTypeNoContracted  OrdType = 4 // 不成
 	OrdTypeMarketToLimit OrdType = 5 // 対当指値
-	OrdTypeMarketIOC     OrdType = 6 // IOC
+	OrdTypeIOC           OrdType = 6 // IOC
 )
 
 // RecType - 明細種別
