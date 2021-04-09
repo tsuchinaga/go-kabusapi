@@ -11,7 +11,7 @@ type WalletOptionRequest struct{}
 // WalletOptionSymbolRequest - 取引余力（オプション）（銘柄指定）のリクエストパラメータ
 type WalletOptionSymbolRequest struct {
 	Symbol   string         // 銘柄コード
-	Exchange FutureExchange // 市場コード
+	Exchange OptionExchange // 市場コード
 }
 
 // WalletOptionResponse - 取引余力（オプション）のレスポンス

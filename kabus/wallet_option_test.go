@@ -113,7 +113,7 @@ func Test_restClient_WalletOptionSymbol(t *testing.T) {
 			defer ts.Close()
 
 			req := &restClient{url: ts.URL}
-			got1, got2 := req.WalletOptionSymbol("", WalletOptionSymbolRequest{Symbol: "145124818", Exchange: FutureExchangeAll})
+			got1, got2 := req.WalletOptionSymbol("", WalletOptionSymbolRequest{Symbol: "145124818", Exchange: OptionExchangeAll})
 			if !reflect.DeepEqual(test.want1, got1) || !reflect.DeepEqual(test.want2, got2) {
 				t.Errorf("%s error\nwant: %+v, %v\ngot: %+v, %v\n", t.Name(), test.want1, test.want2, got1, got2)
 			}
