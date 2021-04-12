@@ -84,6 +84,7 @@ func NewWSRequester(isProd bool) WSRequester {
 // WSRequester - 時価PUSH配信リクエスタインターフェース
 type WSRequester interface {
 	SetOnNext(onNext func(PriceMessage) error)
+	IsOpened() bool
 	Open() error
 	Close() error
 }
@@ -100,6 +101,11 @@ func (r *wsRequester) SetOnNext(onNext func(PriceMessage) error) {
 	r.onNext = onNext
 }
 
+// IsOpened - web socketが開いているかのチェック
+func (r *wsRequester) IsOpened() bool {
+	return !r.isClosed
+}
+
 // Open - web socketを開く
 // 受け取ったメッセージはonNext関数に渡す
 func (r *wsRequester) Open() error {
@@ -112,6 +118,7 @@ func (r *wsRequester) Open() error {
 	if err != nil {
 		return err
 	}
+	r.isClosed = false
 	defer r.ws.Close()
 
 	for {
