@@ -94,7 +94,7 @@ type wsRequester struct {
 	wsClient
 	ws       *websocket.Conn
 	onNext   func(PriceMessage) error // メッセージ受領時に叩かれる処理
-	isClosed bool
+	isOpened bool
 }
 
 func (r *wsRequester) SetOnNext(onNext func(PriceMessage) error) {
@@ -103,7 +103,7 @@ func (r *wsRequester) SetOnNext(onNext func(PriceMessage) error) {
 
 // IsOpened - web socketが開いているかのチェック
 func (r *wsRequester) IsOpened() bool {
-	return !r.isClosed
+	return r.isOpened
 }
 
 // Open - web socketを開く
@@ -118,18 +118,18 @@ func (r *wsRequester) Open() error {
 	if err != nil {
 		return err
 	}
-	r.isClosed = false
+	r.isOpened = true
 	defer r.ws.Close()
 
 	for {
 		var msg PriceMessage
-		if err := websocket.JSON.Receive(r.ws, &msg); err != nil && err != io.EOF && !r.isClosed {
+		if err := websocket.JSON.Receive(r.ws, &msg); err != nil && err != io.EOF && r.isOpened {
 			// エラーがあって、EOFではなくて、自ら閉じたわけでなければエラーを返す
 			return err
 		}
 
 		// 自ら接続を閉じたのであれば終了する
-		if r.isClosed {
+		if !r.isOpened {
 			return nil
 		}
 
@@ -141,6 +141,6 @@ func (r *wsRequester) Open() error {
 
 // Close - web socketを閉じる
 func (r *wsRequester) Close() error {
-	r.isClosed = true
+	r.isOpened = false
 	return r.ws.Close()
 }
