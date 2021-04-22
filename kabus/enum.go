@@ -4,17 +4,14 @@ package kabus
 type Exchange int
 
 const (
-	// 株式
-	ExchangeUnspecified Exchange = 0 // 指定なし
-	ExchangeToushou     Exchange = 1 // 東証
-	ExchangeMeishou     Exchange = 3 // 名証
-	ExchangeFukushou    Exchange = 5 // 福証
-	ExchangeSatsushou   Exchange = 6 // 札証
-
-	// 先物
-	ExchangeAll     Exchange = 2  // 日通し
-	ExchangeDaytime Exchange = 23 // 日中
-	ExchangeEvening Exchange = 24 // 夜間
+	ExchangeUnspecified Exchange = 0  // 指定なし
+	ExchangeToushou     Exchange = 1  // 東証
+	ExchangeMeishou     Exchange = 3  // 名証
+	ExchangeFukushou    Exchange = 5  // 福証
+	ExchangeSatsushou   Exchange = 6  // 札証
+	ExchangeAll         Exchange = 2  // 日通し
+	ExchangeDaytime     Exchange = 23 // 日中
+	ExchangeEvening     Exchange = 24 // 夜間
 )
 
 // OrderExchange - 注文可能市場
@@ -546,4 +543,52 @@ const (
 	ExchangeSymbolDetailEURUSD      ExchangeSymbolDetail = "EUR/USD" // EUR/USD
 	ExchangeSymbolDetailGBPUSD      ExchangeSymbolDetail = "GBP/USD" // GBP/USD
 	ExchangeSymbolDetailAUDUSD      ExchangeSymbolDetail = "AUD/USD" // AUD/USD
+)
+
+// RegulationExchange - 規制市場
+type RegulationExchange int
+
+const (
+	RegulationExchangeUnspecified RegulationExchange = 0  // 指定なし
+	RegulationExchangeToushou     RegulationExchange = 1  // 東証
+	RegulationExchangeMeishou     RegulationExchange = 3  // 名証
+	RegulationExchangeFukushou    RegulationExchange = 5  // 福証
+	RegulationExchangeSatsushou   RegulationExchange = 6  // 札証
+	RegulationExchangeSOR         OrderExchange      = 9  // SOR
+	RegulationExchangeCXJ         OrderExchange      = 10 // CXJ
+	RegulationExchangeJNX         OrderExchange      = 21 // JNX
+)
+
+// RegulationProduct - 規制取引区分
+type RegulationProduct int
+
+const (
+	RegulationProductAll                RegulationProduct = 0 // 全対象
+	RegulationProductCash               RegulationProduct = 1 // 現物
+	RegulationProductMarginEntrySystem  RegulationProduct = 2 // 信用新規（制度）
+	RegulationProductMarginEntryGeneral RegulationProduct = 3 // 信用新規（一般）
+	RegulationProductEntry              RegulationProduct = 4 // 新規
+	RegulationProductMarginExitSystem   RegulationProduct = 5 // 信用返済（制度）
+	RegulationProductMarginExitGeneral  RegulationProduct = 6 // 信用返済（一般）
+	RegulationProductExit               RegulationProduct = 7 // 返済
+	RegulationProductReceipt            RegulationProduct = 8 // 品受
+	RegulationProductDelivery           RegulationProduct = 9 // 品渡
+)
+
+// RegulationSide - 規制売買
+type RegulationSide int
+
+const (
+	RegulationSideAll  RegulationSide = 0 // 全対象
+	RegulationSideSell RegulationSide = 1 // 売
+	RegulationSideBuy  RegulationSide = 2 // 買
+)
+
+// RegulationLevel - コンプライアンスレベル
+type RegulationLevel int
+
+const (
+	RegulationLevelUnspecified RegulationLevel = 0 // 指定なし
+	RegulationLevelWarning     RegulationLevel = 1 // ワーニング
+	RegulationLevelError       RegulationLevel = 2 // エラー
 )

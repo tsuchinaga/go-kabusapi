@@ -65,6 +65,8 @@ type RESTClient interface {
 	RankingWithContext(ctx context.Context, token string, request RankingRequest) (*RankingResponse, error)                            // 詳細ランキング(contextあり)
 	Exchange(token string, request ExchangeRequest) (*ExchangeResponse, error)                                                         // 為替情報
 	ExchangeWithContext(ctx context.Context, token string, request ExchangeRequest) (*ExchangeResponse, error)                         // 為替情報(contextあり)
+	Regulation(token string, request RegulationRequest) (*RegulationResponse, error)                                                   // 規制情報
+	RegulationWithContext(ctx context.Context, token string, request RegulationRequest) (*RegulationResponse, error)                   // 規制情報(contextあり)
 }
 
 // restClient - HTTPクライアント
