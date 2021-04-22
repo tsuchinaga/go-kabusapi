@@ -69,6 +69,8 @@ type RESTClient interface {
 	RegulationWithContext(ctx context.Context, token string, request RegulationRequest) (*RegulationResponse, error)                   // 規制情報(contextあり)
 	PrimaryExchange(token string, request PrimaryExchangeRequest) (*PrimaryExchangeResponse, error)                                    // 優先市場
 	PrimaryExchangeWithContext(ctx context.Context, token string, request PrimaryExchangeRequest) (*PrimaryExchangeResponse, error)    // 優先市場(contextあり)
+	SoftLimit(token string, request SoftLimitRequest) (*SoftLimitResponse, error)                                                      // ソフトリミット
+	SoftLimitWithContext(ctx context.Context, token string, request SoftLimitRequest) (*SoftLimitResponse, error)                      // ソフトリミット(contextあり)
 }
 
 // restClient - HTTPクライアント
