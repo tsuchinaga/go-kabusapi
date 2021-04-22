@@ -3,12 +3,22 @@ package kabus
 import (
 	"context"
 	"fmt"
+	"strings"
 )
 
 // SymbolRequest - 銘柄情報のリクエストパラメータ
 type SymbolRequest struct {
-	Symbol   string   // 銘柄コード
-	Exchange Exchange // 市場コード
+	Symbol   string        // 銘柄コード
+	Exchange Exchange      // 市場コード
+	AddInfo  GetSymbolInfo // 追加情報出力フラグ
+}
+
+func (r *SymbolRequest) toQuery() string {
+	var params []string
+	if r.AddInfo != GetSymbolInfoUnspecified {
+		params = append(params, fmt.Sprintf("addinfo=%s", r.AddInfo))
+	}
+	return strings.Join(params, "&")
 }
 
 // SymbolResponse - 銘柄情報のレスポンス
@@ -47,7 +57,7 @@ func (c *restClient) Symbol(token string, request SymbolRequest) (*SymbolRespons
 // SymbolWithContext - 銘柄情報リクエスト(contextあり)
 func (c *restClient) SymbolWithContext(ctx context.Context, token string, request SymbolRequest) (*SymbolResponse, error) {
 	path := fmt.Sprintf("symbol/%s@%d", request.Symbol, request.Exchange)
-	code, b, err := c.get(ctx, token, path, "")
+	code, b, err := c.get(ctx, token, path, request.toQuery())
 	if err != nil {
 		return nil, err
 	}

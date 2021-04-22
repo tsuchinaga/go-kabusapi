@@ -8,8 +8,10 @@ import (
 
 // PositionsRequest - 残高照会のリクエストパラメータ
 type PositionsRequest struct {
-	Product Product // 取得する商品
-	Symbol  string  // 銘柄コード
+	Product Product         // 取得する商品
+	Symbol  string          // 銘柄コード
+	Side    Side            // 売買区分フィルタ
+	AddInfo GetPositionInfo // 追加情報出力フラグ
 }
 
 func (r *PositionsRequest) toQuery() string {
@@ -18,6 +20,14 @@ func (r *PositionsRequest) toQuery() string {
 
 	if r.Symbol != "" {
 		params = append(params, fmt.Sprintf("symbol=%s", r.Symbol))
+	}
+
+	if r.Side != SideUnspecified {
+		params = append(params, fmt.Sprintf("side=%s", r.Side))
+	}
+
+	if r.AddInfo != GetSymbolInfoUnspecified {
+		params = append(params, fmt.Sprintf("addinfo=%s", r.AddInfo))
 	}
 
 	return strings.Join(params, "&")

@@ -493,3 +493,21 @@ const (
 	RankingTrendDescent       RankingTrend = "4" // 過去10営業日より1～19位下落
 	RankingTrendDescentOver20 RankingTrend = "5" // 過去10営業日より20位以上下落
 )
+
+// GetSymbolInfo - 銘柄情報の追加情報出力フラグ
+type GetSymbolInfo string
+
+const (
+	GetSymbolInfoUnspecified = ""      // 指定なし
+	GetSymbolInfoTrue        = "true"  // 追加情報を出力する
+	GetSymbolInfoFalse       = "false" // 追加情報を出力しない
+)
+
+// GetPositionInfo - 残高照会の追加情報出力フラグ
+type GetPositionInfo string
+
+const (
+	GetPositionInfoUnspecified = ""      // 指定なし
+	GetPositionInfoTrue        = "true"  // 追加情報を出力する
+	GetPositionInfoFalse       = "false" // 追加情報を出力しない
+)
