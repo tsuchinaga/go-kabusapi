@@ -67,6 +67,8 @@ type RESTClient interface {
 	ExchangeWithContext(ctx context.Context, token string, request ExchangeRequest) (*ExchangeResponse, error)                         // 為替情報(contextあり)
 	Regulation(token string, request RegulationRequest) (*RegulationResponse, error)                                                   // 規制情報
 	RegulationWithContext(ctx context.Context, token string, request RegulationRequest) (*RegulationResponse, error)                   // 規制情報(contextあり)
+	PrimaryExchange(token string, request PrimaryExchangeRequest) (*PrimaryExchangeResponse, error)                                    // 優先市場
+	PrimaryExchangeWithContext(ctx context.Context, token string, request PrimaryExchangeRequest) (*PrimaryExchangeResponse, error)    // 優先市場(contextあり)
 }
 
 // restClient - HTTPクライアント
