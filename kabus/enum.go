@@ -511,3 +511,39 @@ const (
 	GetPositionInfoTrue        = "true"  // 追加情報を出力する
 	GetPositionInfoFalse       = "false" // 追加情報を出力しない
 )
+
+// ExchangeSymbol - 通貨
+type ExchangeSymbol string
+
+const (
+	ExchangeSymbolUnspecified ExchangeSymbol = ""       // 指定なし
+	ExchangeSymbolUSDJPY      ExchangeSymbol = "usdjpy" //USD/JPY
+	ExchangeSymbolEURJPY      ExchangeSymbol = "eurjpy" // EUR/JPY
+	ExchangeSymbolGBPJPY      ExchangeSymbol = "gbpjpy" // GBP/JPY
+	ExchangeSymbolAUDJPY      ExchangeSymbol = "audjpy" // AUD/JPY
+	ExchangeSymbolCHFJPY      ExchangeSymbol = "chfjpy" // CHF/JPY
+	ExchangeSymbolCADJPY      ExchangeSymbol = "cadjpy" // CAD/JPY
+	ExchangeSymbolNZDJPY      ExchangeSymbol = "nzdjpy" // NZD/JPY
+	ExchangeSymbolZARJPY      ExchangeSymbol = "zarjpy" // ZAR/JPY
+	ExchangeSymbolEURUSD      ExchangeSymbol = "eurusd" // EUR/USD
+	ExchangeSymbolGBPUSD      ExchangeSymbol = "gbpusd" // GBP/USD
+	ExchangeSymbolAUDUSD      ExchangeSymbol = "audusd" // AUD/USD
+)
+
+// ExchangeSymbolDetail - 通貨内容
+type ExchangeSymbolDetail string
+
+const (
+	ExchangeSymbolDetailUnspecified ExchangeSymbolDetail = ""        // 指定なし
+	ExchangeSymbolDetailUSDJPY      ExchangeSymbolDetail = "USD/JPY" // USD/JPY
+	ExchangeSymbolDetailEURJPY      ExchangeSymbolDetail = "EUR/JPY" // EUR/JPY
+	ExchangeSymbolDetailGBPJPY      ExchangeSymbolDetail = "GBP/JPY" // GBP/JPY
+	ExchangeSymbolDetailAUDJPY      ExchangeSymbolDetail = "AUD/JPY" // AUD/JPY
+	ExchangeSymbolDetailCHFJPY      ExchangeSymbolDetail = "CHF/JPY" // CHF/JPY
+	ExchangeSymbolDetailCADJPY      ExchangeSymbolDetail = "CAD/JPY" // CAD/JPY
+	ExchangeSymbolDetailNZDJPY      ExchangeSymbolDetail = "NZD/JPY" // NZD/JPY
+	ExchangeSymbolDetailZARJPY      ExchangeSymbolDetail = "ZAR/JPY" // ZAR/JPY
+	ExchangeSymbolDetailEURUSD      ExchangeSymbolDetail = "EUR/USD" // EUR/USD
+	ExchangeSymbolDetailGBPUSD      ExchangeSymbolDetail = "GBP/USD" // GBP/USD
+	ExchangeSymbolDetailAUDUSD      ExchangeSymbolDetail = "AUD/USD" // AUD/USD
+)

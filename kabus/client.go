@@ -63,6 +63,8 @@ type RESTClient interface {
 	WalletOptionSymbolWithContext(ctx context.Context, token string, request WalletOptionSymbolRequest) (*WalletOptionResponse, error) // 取引余力（オプション）（銘柄指定）(contextあり)
 	Ranking(token string, request RankingRequest) (*RankingResponse, error)                                                            // 詳細ランキング
 	RankingWithContext(ctx context.Context, token string, request RankingRequest) (*RankingResponse, error)                            // 詳細ランキング(contextあり)
+	Exchange(token string, request ExchangeRequest) (*ExchangeResponse, error)                                                         // 為替情報
+	ExchangeWithContext(ctx context.Context, token string, request ExchangeRequest) (*ExchangeResponse, error)                         // 為替情報(contextあり)
 }
 
 // restClient - HTTPクライアント
