@@ -554,9 +554,9 @@ const (
 	RegulationExchangeMeishou     RegulationExchange = 3  // 名証
 	RegulationExchangeFukushou    RegulationExchange = 5  // 福証
 	RegulationExchangeSatsushou   RegulationExchange = 6  // 札証
-	RegulationExchangeSOR         OrderExchange      = 9  // SOR
-	RegulationExchangeCXJ         OrderExchange      = 10 // CXJ
-	RegulationExchangeJNX         OrderExchange      = 21 // JNX
+	RegulationExchangeSOR         RegulationExchange = 9  // SOR
+	RegulationExchangeCXJ         RegulationExchange = 10 // CXJ
+	RegulationExchangeJNX         RegulationExchange = 21 // JNX
 )
 
 // RegulationProduct - 規制取引区分
