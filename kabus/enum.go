@@ -576,12 +576,12 @@ const (
 )
 
 // RegulationSide - 規制売買
-type RegulationSide int
+type RegulationSide string
 
 const (
-	RegulationSideAll  RegulationSide = 0 // 全対象
-	RegulationSideSell RegulationSide = 1 // 売
-	RegulationSideBuy  RegulationSide = 2 // 買
+	RegulationSideAll  RegulationSide = "0" // 全対象
+	RegulationSideSell RegulationSide = "1" // 売
+	RegulationSideBuy  RegulationSide = "2" // 買
 )
 
 // RegulationLevel - コンプライアンスレベル
