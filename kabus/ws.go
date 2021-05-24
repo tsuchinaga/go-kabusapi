@@ -71,6 +71,7 @@ type PriceMessage struct {
 	Theta                    float64                  `json:"Theta"`                    // セータ
 	Vega                     float64                  `json:"Vega"`                     // ベガ
 	Delta                    float64                  `json:"Delta"`                    // デルタ
+	SecurityType             SecurityType             `json:"SecurityType"`             // 銘柄種別
 }
 
 // NewWSRequester - 時価PUSH配信リクエスタの生成

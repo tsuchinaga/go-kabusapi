@@ -76,6 +76,7 @@ type BoardResponse struct {
 	Theta                    float64                  `json:"Theta"`                    // セータ
 	Vega                     float64                  `json:"Vega"`                     // ベガ
 	Delta                    float64                  `json:"Delta"`                    // デルタ
+	SecurityType             SecurityType             `json:"SecurityType"`             // 銘柄種別
 }
 
 // FirstBoardSign - 最良気配
