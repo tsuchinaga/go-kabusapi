@@ -84,6 +84,7 @@ func Test_restClient_Board(t *testing.T) {
 				Theta:                    -6.5073,
 				Vega:                     39.3109,
 				Delta:                    0.4794,
+				SecurityType:             SecurityTypeNK225,
 			},
 			want2: nil,
 		},
@@ -248,5 +249,6 @@ const boardBody200 = `{
   "Gamma": 0.000183,
   "Theta": -6.5073,
   "Vega": 39.3109,
-  "Delta": 0.4794
+  "Delta": 0.4794,
+  "SecurityType": 101
 }`

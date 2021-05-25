@@ -79,8 +79,14 @@ func Test_SendOrderOptionRequest_toJSON(t *testing.T) {
 				FrontOrderType:     OptionFrontOrderTypeMarket,
 				Price:              0,
 				ExpireDay:          YmdNUMToday,
+				ReverseLimitOrder: &OptionReverseLimitOrder{
+					TriggerPrice:      25000,
+					UnderOver:         UnderOverUnder,
+					AfterHitOrderType: OptionAfterHitOrderTypeMarket,
+					AfterHitPrice:     0,
+				},
 			},
-			want: `{"Password":"password","Symbol":"135113218","Exchange":24,"TradeType":1,"TimeInForce":2,"Side":"2","Qty":1,"FrontOrderType":120,"Price":0,"ExpireDay":0}`,
+			want: `{"Password":"password","Symbol":"135113218","Exchange":24,"TradeType":1,"TimeInForce":2,"Side":"2","Qty":1,"FrontOrderType":120,"Price":0,"ExpireDay":0,"ReverseLimitOrder":{"TriggerPrice":25000,"UnderOver":1,"AfterHitOrderType":1,"AfterHitPrice":0}}`,
 		},
 		{name: "エグジットで返済建玉指定があれば決済順序は出さない",
 			req: SendOrderOptionRequest{
@@ -96,8 +102,14 @@ func Test_SendOrderOptionRequest_toJSON(t *testing.T) {
 				FrontOrderType:     OptionFrontOrderTypeMarket,
 				Price:              0,
 				ExpireDay:          YmdNUMToday,
+				ReverseLimitOrder: &OptionReverseLimitOrder{
+					TriggerPrice:      25000,
+					UnderOver:         UnderOverOver,
+					AfterHitOrderType: OptionAfterHitOrderTypeLimit,
+					AfterHitPrice:     25000,
+				},
 			},
-			want: `{"Password":"password","Symbol":"135113218","Exchange":24,"TradeType":2,"TimeInForce":2,"Side":"1","Qty":1,"ClosePositions":[{"HoldID":"20200903E01N04773904","Qty":1}],"FrontOrderType":120,"Price":0,"ExpireDay":0}`,
+			want: `{"Password":"password","Symbol":"135113218","Exchange":24,"TradeType":2,"TimeInForce":2,"Side":"1","Qty":1,"ClosePositions":[{"HoldID":"20200903E01N04773904","Qty":1}],"FrontOrderType":120,"Price":0,"ExpireDay":0,"ReverseLimitOrder":{"TriggerPrice":25000,"UnderOver":2,"AfterHitOrderType":2,"AfterHitPrice":25000}}`,
 		},
 		{name: "エグジットで返済建玉指定がなければ返済建玉指定は出さない",
 			req: SendOrderOptionRequest{
@@ -113,7 +125,7 @@ func Test_SendOrderOptionRequest_toJSON(t *testing.T) {
 				Price:              0,
 				ExpireDay:          YmdNUMToday,
 			},
-			want: `{"Password":"password","Symbol":"135113218","Exchange":24,"TradeType":2,"TimeInForce":2,"Side":"2","Qty":1,"ClosePositionOrder":0,"FrontOrderType":120,"Price":0,"ExpireDay":0}`,
+			want: `{"Password":"password","Symbol":"135113218","Exchange":24,"TradeType":2,"TimeInForce":2,"Side":"2","Qty":1,"ClosePositionOrder":0,"FrontOrderType":120,"Price":0,"ExpireDay":0,"ReverseLimitOrder":null}`,
 		},
 	}
 

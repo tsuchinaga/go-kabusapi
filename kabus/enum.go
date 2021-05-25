@@ -67,15 +67,16 @@ const (
 	SecurityTypeUnspecified SecurityType = 0   // 指定なし
 	SecurityTypeStock       SecurityType = 1   // 株式
 	SecurityTypeNK225       SecurityType = 101 // 日経225先物
-	SecurityTypeNK225Mini   SecurityType = 901 // 日経225mini先物
-	SecurityTypeJPX400      SecurityType = 121 // JPX日経インデックス400先物
+	SecurityTypeNK225OP     SecurityType = 103 // 日経225先物
 	SecurityTypeTOPIX       SecurityType = 107 // TOPIX先物
-	SecurityTypeTOPIXMini   SecurityType = 907 // ミニTOPIX先物
-	SecurityTypeMothers     SecurityType = 154 // 東証マザーズ指数先物
-	SecurityTypeREIT        SecurityType = 155 // 東証REIT指数先物
+	SecurityTypeJPX400      SecurityType = 121 // JPX日経インデックス400先物
 	SecurityTypeDOW         SecurityType = 144 // NYダウ先物
 	SecurityTypeVI          SecurityType = 145 // 日経平均VI先物
+	SecurityTypeMothers     SecurityType = 154 // 東証マザーズ指数先物
+	SecurityTypeREIT        SecurityType = 155 // 東証REIT指数先物
 	SecurityTypeCORE30      SecurityType = 171 // TOPIX Core30先物
+	SecurityTypeTOPIXMini   SecurityType = 907 // ミニTOPIX先物
+	SecurityTypeNK225Mini   SecurityType = 901 // 日経225mini先物
 )
 
 // Side - 売買区分
@@ -156,21 +157,22 @@ const (
 type StockFrontOrderType int
 
 const (
-	StockFrontOrderTypeUnspecified StockFrontOrderType = 0  // 指定なし
-	StockFrontOrderTypeMarket      StockFrontOrderType = 10 // 成行
-	StockFrontOrderTypeMOOM        StockFrontOrderType = 13 // 寄成（前場） Market on Open Morning
-	StockFrontOrderTypeMOOA        StockFrontOrderType = 14 // 寄成（後場） Market on Open Afternoon
-	StockFrontOrderTypeMOCM        StockFrontOrderType = 15 // 引成（前場） Market on Close Morning
-	StockFrontOrderTypeMOCA        StockFrontOrderType = 16 // 引成（後場） Market on Close Afternoon
-	StockFrontOrderTypeIOCMarket   StockFrontOrderType = 17 // IOC成行
-	StockFrontOrderTypeLimit       StockFrontOrderType = 20 // 指値
-	StockFrontOrderTypeLOOM        StockFrontOrderType = 21 // 寄指（前場） Limit on Open Morning
-	StockFrontOrderTypeLOOA        StockFrontOrderType = 22 // 寄指（後場） Limit on Open Afternoon
-	StockFrontOrderTypeLOCM        StockFrontOrderType = 23 // 引指（前場） Limit on Close Morning
-	StockFrontOrderTypeLOCA        StockFrontOrderType = 24 // 引指（後場） Limit on Close Afternoon
-	StockFrontOrderTypeFunariM     StockFrontOrderType = 25 // 不成（前場） Funari Morning
-	StockFrontOrderTypeFunariA     StockFrontOrderType = 26 // 不成（後場） Funari Afternoon
-	StockFrontOrderTypeIOCLimit    StockFrontOrderType = 27 // IOC指値
+	StockFrontOrderTypeUnspecified  StockFrontOrderType = 0  // 指定なし
+	StockFrontOrderTypeMarket       StockFrontOrderType = 10 // 成行
+	StockFrontOrderTypeMOOM         StockFrontOrderType = 13 // 寄成（前場） Market on Open Morning
+	StockFrontOrderTypeMOOA         StockFrontOrderType = 14 // 寄成（後場） Market on Open Afternoon
+	StockFrontOrderTypeMOCM         StockFrontOrderType = 15 // 引成（前場） Market on Close Morning
+	StockFrontOrderTypeMOCA         StockFrontOrderType = 16 // 引成（後場） Market on Close Afternoon
+	StockFrontOrderTypeIOCMarket    StockFrontOrderType = 17 // IOC成行
+	StockFrontOrderTypeLimit        StockFrontOrderType = 20 // 指値
+	StockFrontOrderTypeLOOM         StockFrontOrderType = 21 // 寄指（前場） Limit on Open Morning
+	StockFrontOrderTypeLOOA         StockFrontOrderType = 22 // 寄指（後場） Limit on Open Afternoon
+	StockFrontOrderTypeLOCM         StockFrontOrderType = 23 // 引指（前場） Limit on Close Morning
+	StockFrontOrderTypeLOCA         StockFrontOrderType = 24 // 引指（後場） Limit on Close Afternoon
+	StockFrontOrderTypeFunariM      StockFrontOrderType = 25 // 不成（前場） Funari Morning
+	StockFrontOrderTypeFunariA      StockFrontOrderType = 26 // 不成（後場） Funari Afternoon
+	StockFrontOrderTypeIOCLimit     StockFrontOrderType = 27 // IOC指値
+	StockFrontOrderTypeReverseLimit StockFrontOrderType = 30 // 逆指値
 )
 
 // CurrentPriceChangeStatus - 現値前値比較
@@ -362,22 +364,24 @@ const (
 type FutureFrontOrderType int
 
 const (
-	FutureFrontOrderTypeUnspecified FutureFrontOrderType = 0   // 指定なし
-	FutureFrontOrderTypeMarket      FutureFrontOrderType = 120 // 成行
-	FutureFrontOrderTypeMarketClose FutureFrontOrderType = 18  // 引成（派生）
-	FutureFrontOrderTypeLimit       FutureFrontOrderType = 20  // 指値
-	FutureFrontOrderTypeLimitClose  FutureFrontOrderType = 28  // 引指（派生）
+	FutureFrontOrderTypeUnspecified  FutureFrontOrderType = 0   // 指定なし
+	FutureFrontOrderTypeMarket       FutureFrontOrderType = 120 // 成行
+	FutureFrontOrderTypeMarketClose  FutureFrontOrderType = 18  // 引成（派生）
+	FutureFrontOrderTypeLimit        FutureFrontOrderType = 20  // 指値
+	FutureFrontOrderTypeLimitClose   FutureFrontOrderType = 28  // 引指（派生）
+	FutureFrontOrderTypeReverseLimit FutureFrontOrderType = 30  // 逆指値
 )
 
-// OptionFrontOrderType - 先物執行条件
+// OptionFrontOrderType - オプション執行条件
 type OptionFrontOrderType int
 
 const (
-	OptionFrontOrderTypeUnspecified OptionFrontOrderType = 0   // 指定なし
-	OptionFrontOrderTypeMarket      OptionFrontOrderType = 120 // 成行
-	OptionFrontOrderTypeMarketClose OptionFrontOrderType = 18  // 引成（派生）
-	OptionFrontOrderTypeLimit       OptionFrontOrderType = 20  // 指値
-	OptionFrontOrderTypeLimitClose  OptionFrontOrderType = 28  // 引指（派生）
+	OptionFrontOrderTypeUnspecified  OptionFrontOrderType = 0   // 指定なし
+	OptionFrontOrderTypeMarket       OptionFrontOrderType = 120 // 成行
+	OptionFrontOrderTypeMarketClose  OptionFrontOrderType = 18  // 引成（派生）
+	OptionFrontOrderTypeLimit        OptionFrontOrderType = 20  // 指値
+	OptionFrontOrderTypeLimitClose   OptionFrontOrderType = 28  // 引指（派生）
+	OptionFrontOrderTypeReverseLimit OptionFrontOrderType = 30  // 逆指値
 )
 
 // FutureCode - 先物コード
@@ -591,4 +595,51 @@ const (
 	RegulationLevelUnspecified RegulationLevel = 0 // 指定なし
 	RegulationLevelWarning     RegulationLevel = 1 // ワーニング
 	RegulationLevelError       RegulationLevel = 2 // エラー
+)
+
+// TriggerSec - トリガ銘柄
+type TriggerSec int
+
+const (
+	TriggerSecUnspecified TriggerSec = 0 // 指定なし
+	TriggerSecOrderSymbol TriggerSec = 1 // 発注銘柄
+	TriggerSecOrderN225   TriggerSec = 2 // NK225指数
+	TriggerSecOrderTOPIX  TriggerSec = 3 // TOPIX指数
+)
+
+// UnderOver - 以上／以下
+type UnderOver int
+
+const (
+	UnderOverUnspecified UnderOver = 0 // 指定なし
+	UnderOverUnder       UnderOver = 1 // 以下
+	UnderOverOver        UnderOver = 2 // 以上
+)
+
+// StockAfterHitOrderType - ヒット後執行条件（現物・信用）
+type StockAfterHitOrderType int
+
+const (
+	StockAfterHitOrderTypeUnspecified StockAfterHitOrderType = 0 // 指定なし
+	StockAfterHitOrderTypeMarket      StockAfterHitOrderType = 1 // 成行
+	StockAfterHitOrderTypeLimit       StockAfterHitOrderType = 2 // 指値
+	StockAfterHitOrderTypeFunari      StockAfterHitOrderType = 3 // 不成
+)
+
+// FutureAfterHitOrderType - ヒット後執行条件（先物）
+type FutureAfterHitOrderType int
+
+const (
+	FutureAfterHitOrderTypeUnspecified FutureAfterHitOrderType = 0 // 指定なし
+	FutureAfterHitOrderTypeMarket      FutureAfterHitOrderType = 1 // 成行
+	FutureAfterHitOrderTypeLimit       FutureAfterHitOrderType = 2 // 指値
+)
+
+// OptionAfterHitOrderType - ヒット後執行条件（オプション）
+type OptionAfterHitOrderType int
+
+const (
+	OptionAfterHitOrderTypeUnspecified OptionAfterHitOrderType = 0 // 指定なし
+	OptionAfterHitOrderTypeMarket      OptionAfterHitOrderType = 1 // 成行
+	OptionAfterHitOrderTypeLimit       OptionAfterHitOrderType = 2 // 指値
 )

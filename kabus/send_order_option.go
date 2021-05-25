@@ -7,50 +7,53 @@ import (
 
 // SendOrderOptionRequest - 注文発注(オプション)のリクエストパラメータ
 type SendOrderOptionRequest struct {
-	Password           string               `json:"Password"`           // 注文パスワード
-	Symbol             string               `json:"Symbol"`             // 銘柄コード
-	Exchange           OptionExchange       `json:"Exchange"`           // オプション市場コード
-	TradeType          TradeType            `json:"TradeType"`          // 取引区分
-	TimeInForce        TimeInForce          `json:"TimeInForce"`        // 有効期間条件
-	Side               Side                 `json:"Side"`               // 売買区分
-	Qty                int                  `json:"Qty"`                // 注文数量
-	ClosePositionOrder ClosePositionOrder   `json:"ClosePositionOrder"` // 決済順序
-	ClosePositions     []ClosePosition      `json:"ClosePositions"`     // 返済建玉指定
-	FrontOrderType     OptionFrontOrderType `json:"FrontOrderType"`     // 執行条件
-	Price              float64              `json:"Price"`              // 注文価格
-	ExpireDay          YmdNUM               `json:"ExpireDay"`          // 注文有効期限（年月日）
+	Password           string                   `json:"Password"`           // 注文パスワード
+	Symbol             string                   `json:"Symbol"`             // 銘柄コード
+	Exchange           OptionExchange           `json:"Exchange"`           // オプション市場コード
+	TradeType          TradeType                `json:"TradeType"`          // 取引区分
+	TimeInForce        TimeInForce              `json:"TimeInForce"`        // 有効期間条件
+	Side               Side                     `json:"Side"`               // 売買区分
+	Qty                int                      `json:"Qty"`                // 注文数量
+	ClosePositionOrder ClosePositionOrder       `json:"ClosePositionOrder"` // 決済順序
+	ClosePositions     []ClosePosition          `json:"ClosePositions"`     // 返済建玉指定
+	FrontOrderType     OptionFrontOrderType     `json:"FrontOrderType"`     // 執行条件
+	Price              float64                  `json:"Price"`              // 注文価格
+	ExpireDay          YmdNUM                   `json:"ExpireDay"`          // 注文有効期限（年月日）
+	ReverseLimitOrder  *OptionReverseLimitOrder `json:"ReverseLimitOrder"`  // 逆指値条件
 }
 
 func (r *SendOrderOptionRequest) toJSON() ([]byte, error) {
 	// エントリー
 	if r.TradeType == TradeTypeEntry {
 		return json.Marshal(sendOrderOptionEntryRequest{
-			Password:       r.Password,
-			Symbol:         r.Symbol,
-			Exchange:       r.Exchange,
-			TradeType:      r.TradeType,
-			TimeInForce:    r.TimeInForce,
-			Side:           r.Side,
-			Qty:            r.Qty,
-			FrontOrderType: r.FrontOrderType,
-			Price:          r.Price,
-			ExpireDay:      r.ExpireDay,
+			Password:          r.Password,
+			Symbol:            r.Symbol,
+			Exchange:          r.Exchange,
+			TradeType:         r.TradeType,
+			TimeInForce:       r.TimeInForce,
+			Side:              r.Side,
+			Qty:               r.Qty,
+			FrontOrderType:    r.FrontOrderType,
+			Price:             r.Price,
+			ExpireDay:         r.ExpireDay,
+			ReverseLimitOrder: r.ReverseLimitOrder,
 		})
 	} else if r.TradeType == TradeTypeExit {
 		// 返済建玉指定に指定があれば決済順序のリクエストにする
 		if r.ClosePositions != nil && len(r.ClosePositions) > 0 {
 			return json.Marshal(sendOrderOptionExitRequestWithClosePositions{
-				Password:       r.Password,
-				Symbol:         r.Symbol,
-				Exchange:       r.Exchange,
-				TradeType:      r.TradeType,
-				TimeInForce:    r.TimeInForce,
-				Side:           r.Side,
-				Qty:            r.Qty,
-				ClosePositions: r.ClosePositions,
-				FrontOrderType: r.FrontOrderType,
-				Price:          r.Price,
-				ExpireDay:      r.ExpireDay,
+				Password:          r.Password,
+				Symbol:            r.Symbol,
+				Exchange:          r.Exchange,
+				TradeType:         r.TradeType,
+				TimeInForce:       r.TimeInForce,
+				Side:              r.Side,
+				Qty:               r.Qty,
+				ClosePositions:    r.ClosePositions,
+				FrontOrderType:    r.FrontOrderType,
+				Price:             r.Price,
+				ExpireDay:         r.ExpireDay,
+				ReverseLimitOrder: r.ReverseLimitOrder,
 			})
 		} else {
 			return json.Marshal(sendOrderOptionExitRequestWithClosePositionOrder{
@@ -65,6 +68,7 @@ func (r *SendOrderOptionRequest) toJSON() ([]byte, error) {
 				FrontOrderType:     r.FrontOrderType,
 				Price:              r.Price,
 				ExpireDay:          r.ExpireDay,
+				ReverseLimitOrder:  r.ReverseLimitOrder,
 			})
 		}
 	}
@@ -75,46 +79,57 @@ func (r *SendOrderOptionRequest) toJSON() ([]byte, error) {
 
 // sendOrderOptionEntryRequest - 注文発注(オプション)のエントリーリクエスト
 type sendOrderOptionEntryRequest struct {
-	Password       string               `json:"Password"`       // 注文パスワード
-	Symbol         string               `json:"Symbol"`         // 銘柄コード
-	Exchange       OptionExchange       `json:"Exchange"`       // オプション市場コード
-	TradeType      TradeType            `json:"TradeType"`      // 取引区分
-	TimeInForce    TimeInForce          `json:"TimeInForce"`    // 有効期間条件
-	Side           Side                 `json:"Side"`           // 売買区分
-	Qty            int                  `json:"Qty"`            // 注文数量
-	FrontOrderType OptionFrontOrderType `json:"FrontOrderType"` // 執行条件
-	Price          float64              `json:"Price"`          // 注文価格
-	ExpireDay      YmdNUM               `json:"ExpireDay"`      // 注文有効期限（年月日）
+	Password          string                   `json:"Password"`          // 注文パスワード
+	Symbol            string                   `json:"Symbol"`            // 銘柄コード
+	Exchange          OptionExchange           `json:"Exchange"`          // オプション市場コード
+	TradeType         TradeType                `json:"TradeType"`         // 取引区分
+	TimeInForce       TimeInForce              `json:"TimeInForce"`       // 有効期間条件
+	Side              Side                     `json:"Side"`              // 売買区分
+	Qty               int                      `json:"Qty"`               // 注文数量
+	FrontOrderType    OptionFrontOrderType     `json:"FrontOrderType"`    // 執行条件
+	Price             float64                  `json:"Price"`             // 注文価格
+	ExpireDay         YmdNUM                   `json:"ExpireDay"`         // 注文有効期限（年月日）
+	ReverseLimitOrder *OptionReverseLimitOrder `json:"ReverseLimitOrder"` // 逆指値条件
 }
 
 // sendOrderOptionExitRequestWithClosePositions - 注文発注(オプション)のエグジットリクエスト(建玉指定)
 type sendOrderOptionExitRequestWithClosePositions struct {
-	Password       string               `json:"Password"`       // 注文パスワード
-	Symbol         string               `json:"Symbol"`         // 銘柄コード
-	Exchange       OptionExchange       `json:"Exchange"`       // オプション市場コード
-	TradeType      TradeType            `json:"TradeType"`      // 取引区分
-	TimeInForce    TimeInForce          `json:"TimeInForce"`    // 有効期間条件
-	Side           Side                 `json:"Side"`           // 売買区分
-	Qty            int                  `json:"Qty"`            // 注文数量
-	ClosePositions []ClosePosition      `json:"ClosePositions"` // 返済建玉指定
-	FrontOrderType OptionFrontOrderType `json:"FrontOrderType"` // 執行条件
-	Price          float64              `json:"Price"`          // 注文価格
-	ExpireDay      YmdNUM               `json:"ExpireDay"`      // 注文有効期限（年月日）
+	Password          string                   `json:"Password"`          // 注文パスワード
+	Symbol            string                   `json:"Symbol"`            // 銘柄コード
+	Exchange          OptionExchange           `json:"Exchange"`          // オプション市場コード
+	TradeType         TradeType                `json:"TradeType"`         // 取引区分
+	TimeInForce       TimeInForce              `json:"TimeInForce"`       // 有効期間条件
+	Side              Side                     `json:"Side"`              // 売買区分
+	Qty               int                      `json:"Qty"`               // 注文数量
+	ClosePositions    []ClosePosition          `json:"ClosePositions"`    // 返済建玉指定
+	FrontOrderType    OptionFrontOrderType     `json:"FrontOrderType"`    // 執行条件
+	Price             float64                  `json:"Price"`             // 注文価格
+	ExpireDay         YmdNUM                   `json:"ExpireDay"`         // 注文有効期限（年月日）
+	ReverseLimitOrder *OptionReverseLimitOrder `json:"ReverseLimitOrder"` // 逆指値条件
 }
 
 // sendOrderOptionExitRequestWithClosePositionOrder - 注文発注(オプション)のエグジットリクエスト(建玉順序指定)
 type sendOrderOptionExitRequestWithClosePositionOrder struct {
-	Password           string               `json:"Password"`           // 注文パスワード
-	Symbol             string               `json:"Symbol"`             // 銘柄コード
-	Exchange           OptionExchange       `json:"Exchange"`           // オプション市場コード
-	TradeType          TradeType            `json:"TradeType"`          // 取引区分
-	TimeInForce        TimeInForce          `json:"TimeInForce"`        // 有効期間条件
-	Side               Side                 `json:"Side"`               // 売買区分
-	Qty                int                  `json:"Qty"`                // 注文数量
-	ClosePositionOrder ClosePositionOrder   `json:"ClosePositionOrder"` // 決済順序
-	FrontOrderType     OptionFrontOrderType `json:"FrontOrderType"`     // 執行条件
-	Price              float64              `json:"Price"`              // 注文価格
-	ExpireDay          YmdNUM               `json:"ExpireDay"`          // 注文有効期限（年月日）
+	Password           string                   `json:"Password"`           // 注文パスワード
+	Symbol             string                   `json:"Symbol"`             // 銘柄コード
+	Exchange           OptionExchange           `json:"Exchange"`           // オプション市場コード
+	TradeType          TradeType                `json:"TradeType"`          // 取引区分
+	TimeInForce        TimeInForce              `json:"TimeInForce"`        // 有効期間条件
+	Side               Side                     `json:"Side"`               // 売買区分
+	Qty                int                      `json:"Qty"`                // 注文数量
+	ClosePositionOrder ClosePositionOrder       `json:"ClosePositionOrder"` // 決済順序
+	FrontOrderType     OptionFrontOrderType     `json:"FrontOrderType"`     // 執行条件
+	Price              float64                  `json:"Price"`              // 注文価格
+	ExpireDay          YmdNUM                   `json:"ExpireDay"`          // 注文有効期限（年月日）
+	ReverseLimitOrder  *OptionReverseLimitOrder `json:"ReverseLimitOrder"`  // 逆指値条件
+}
+
+// OptionReverseLimitOrder - 逆指値条件（先物）
+type OptionReverseLimitOrder struct {
+	TriggerPrice      float64                 `json:"TriggerPrice"`
+	UnderOver         UnderOver               `json:"UnderOver"`
+	AfterHitOrderType OptionAfterHitOrderType `json:"AfterHitOrderType"`
+	AfterHitPrice     float64                 `json:"AfterHitPrice"`
 }
 
 // SendOrderOptionResponse - 注文発注(オプション)のレスポンス
