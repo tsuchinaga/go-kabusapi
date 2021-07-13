@@ -87,6 +87,7 @@ type Order struct {
 	DelivType       DelivType       `json:"DelivType"`       // 受渡区分
 	ExpireDay       YmdNUM          `json:"ExpireDay"`       // 注文有効期限
 	MarginTradeType MarginTradeType `json:"MarginTradeType"` // 信用取引区分
+	MarginPremium   float64         `json:"MarginPremium"`   // プレミアム料
 	Details         []OrderDetail   `json:"Details"`         // 注文詳細
 }
 
