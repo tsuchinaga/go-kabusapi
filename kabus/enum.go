@@ -104,8 +104,9 @@ type MarginTradeType int
 const (
 	MarginTradeTypeUnspecified  MarginTradeType = 0 // 指定なし
 	MarginTradeTypeSystem       MarginTradeType = 1 // 制度信用
-	MarginTradeTypeGeneralLong  MarginTradeType = 2 // 一般信用
-	MarginTradeTypeGeneralShort MarginTradeType = 3 // 一般信用(売短)
+	MarginTradeTypeGeneralLong  MarginTradeType = 2 // 一般信用(長期)
+	MarginTradeTypeGeneralShort MarginTradeType = 3 // 一般信用(売短) Deprecated: 廃止された区分
+	MarginTradeTypeGeneralDay   MarginTradeType = 3 // 一般信用(デイトレ)
 )
 
 // DelivType - 受渡区分
