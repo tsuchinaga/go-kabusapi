@@ -71,6 +71,8 @@ type RESTClient interface {
 	PrimaryExchangeWithContext(ctx context.Context, token string, request PrimaryExchangeRequest) (*PrimaryExchangeResponse, error)    // 優先市場(contextあり)
 	SoftLimit(token string, request SoftLimitRequest) (*SoftLimitResponse, error)                                                      // ソフトリミット
 	SoftLimitWithContext(ctx context.Context, token string, request SoftLimitRequest) (*SoftLimitResponse, error)                      // ソフトリミット(contextあり)
+	MarginPremium(token string, request MarginPremiumRequest) (*MarginPremiumResponse, error)                                          // プレミアム料取得リクエスト
+	MarginPremiumWithContext(ctx context.Context, token string, request MarginPremiumRequest) (*MarginPremiumResponse, error)          // プレミアム料取得リクエスト(contextあり)
 }
 
 // restClient - HTTPクライアント
