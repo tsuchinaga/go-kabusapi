@@ -91,7 +91,7 @@ func Test_SendOrderStockRequest_toJSON(t *testing.T) {
 					AfterHitOrderType: StockAfterHitOrderTypeMarket,
 					AfterHitPrice:     0,
 				}},
-			want: `{"Password":"password","Symbol":"1320","Exchange":1,"SecurityType":1,"Side":"2","CashMargin":1,"MarginTradeType":1,"DelivType":2,"FundType":"AA","AccountType":2,"Qty":1,"ClosePositionOrder":-1,"ClosePositions":[],"FrontOrderType":10,"Price":0,"ExpireDay":20200824,"ReverseLimitOrder":{"TriggerSec":1,"TriggerPrice":1000,"UnderOver":1,"AfterHitOrderType":1,"AfterHitPrice":0}}`,
+			want: `{"Password":"password","Symbol":"1320","Exchange":1,"SecurityType":1,"Side":"2","CashMargin":1,"MarginTradeType":1,"MarginPremiumUnit":0,"DelivType":2,"FundType":"AA","AccountType":2,"Qty":1,"ClosePositionOrder":-1,"ClosePositions":[],"FrontOrderType":10,"Price":0,"ExpireDay":20200824,"ReverseLimitOrder":{"TriggerSec":1,"TriggerPrice":1000,"UnderOver":1,"AfterHitOrderType":1,"AfterHitPrice":0}}`,
 		},
 		{name: "信用新規で返済建玉指定があれば決済順序は出さない",
 			req: SendOrderStockRequest{
@@ -118,7 +118,7 @@ func Test_SendOrderStockRequest_toJSON(t *testing.T) {
 					AfterHitOrderType: StockAfterHitOrderTypeLimit,
 					AfterHitPrice:     25000,
 				}},
-			want: `{"Password":"password","Symbol":"1320","Exchange":1,"SecurityType":1,"Side":"2","CashMargin":2,"MarginTradeType":1,"DelivType":2,"FundType":"AA","AccountType":2,"Qty":1,"ClosePositions":[{"HoldID":"position-id","Qty":10}],"FrontOrderType":10,"Price":0,"ExpireDay":20200824,"ReverseLimitOrder":{"TriggerSec":2,"TriggerPrice":25000,"UnderOver":2,"AfterHitOrderType":2,"AfterHitPrice":25000}}`,
+			want: `{"Password":"password","Symbol":"1320","Exchange":1,"SecurityType":1,"Side":"2","CashMargin":2,"MarginTradeType":1,"DelivType":2,"MarginPremiumUnit":0,"FundType":"AA","AccountType":2,"Qty":1,"ClosePositions":[{"HoldID":"position-id","Qty":10}],"FrontOrderType":10,"Price":0,"ExpireDay":20200824,"ReverseLimitOrder":{"TriggerSec":2,"TriggerPrice":25000,"UnderOver":2,"AfterHitOrderType":2,"AfterHitPrice":25000}}`,
 		},
 		{name: "信用返済で返済建玉指定がなければ返済建玉指定は出さない",
 			req: SendOrderStockRequest{
@@ -128,8 +128,9 @@ func Test_SendOrderStockRequest_toJSON(t *testing.T) {
 				SecurityType:       SecurityTypeStock,
 				Side:               SideBuy,
 				CashMargin:         CashMarginMarginExit,
-				MarginTradeType:    MarginTradeTypeSystem,
+				MarginTradeType:    MarginTradeTypeGeneralDay,
 				DelivType:          DelivTypeCash,
+				MarginPremiumUnit:  12.34,
 				FundType:           FundTypeTransferMargin,
 				AccountType:        AccountTypeGeneral,
 				Qty:                1.0,
@@ -138,7 +139,7 @@ func Test_SendOrderStockRequest_toJSON(t *testing.T) {
 				FrontOrderType:     StockFrontOrderTypeMarket,
 				Price:              0,
 				ExpireDay:          YmdNUM{Time: time.Date(2020, 8, 24, 0, 0, 0, 0, time.Local)}},
-			want: `{"Password":"password","Symbol":"1320","Exchange":1,"SecurityType":1,"Side":"2","CashMargin":3,"MarginTradeType":1,"DelivType":2,"FundType":"AA","AccountType":2,"Qty":1,"ClosePositionOrder":0,"FrontOrderType":10,"Price":0,"ExpireDay":20200824,"ReverseLimitOrder":null}`,
+			want: `{"Password":"password","Symbol":"1320","Exchange":1,"SecurityType":1,"Side":"2","CashMargin":3,"MarginTradeType":3,"DelivType":2,"MarginPremiumUnit":12.34,"FundType":"AA","AccountType":2,"Qty":1,"ClosePositionOrder":0,"FrontOrderType":10,"Price":0,"ExpireDay":20200824,"ReverseLimitOrder":null}`,
 		},
 	}
 
