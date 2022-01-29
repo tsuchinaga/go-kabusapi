@@ -14,6 +14,7 @@ type SendOrderStockRequest struct {
 	Side               Side                    `json:"Side"`               // 売買区分
 	CashMargin         CashMargin              `json:"CashMargin"`         // 現物信用区分
 	MarginTradeType    MarginTradeType         `json:"MarginTradeType"`    // 信用取引区分 ※信用取引の場合必須
+	MarginPremiumUnit  float64                 `json:"MarginPremiumUnit"`  // １株あたりのプレミアム料(円)
 	DelivType          DelivType               `json:"DelivType"`          // 受渡区分 ※株式取引の場合必須で、現物売・信用返済では「指定なし」を指定する
 	FundType           FundType                `json:"FundType"`           // 資産区分 ※株式取引の場合必須で、現物売・信用返済では「指定なし」を指定する
 	AccountType        AccountType             `json:"AccountType"`        // 口座種別
@@ -39,6 +40,7 @@ func (r *SendOrderStockRequest) toJSON() ([]byte, error) {
 				CashMargin:        r.CashMargin,
 				MarginTradeType:   r.MarginTradeType,
 				DelivType:         r.DelivType,
+				MarginPremiumUnit: r.MarginPremiumUnit,
 				FundType:          r.FundType,
 				AccountType:       r.AccountType,
 				Qty:               r.Qty,
@@ -58,6 +60,7 @@ func (r *SendOrderStockRequest) toJSON() ([]byte, error) {
 				CashMargin:         r.CashMargin,
 				MarginTradeType:    r.MarginTradeType,
 				DelivType:          r.DelivType,
+				MarginPremiumUnit:  r.MarginPremiumUnit,
 				FundType:           r.FundType,
 				AccountType:        r.AccountType,
 				Qty:                r.Qty,
@@ -84,6 +87,7 @@ type sendOrderStockRequestWithoutClosePositionOrder struct {
 	CashMargin        CashMargin              `json:"CashMargin"`        // 現物信用区分
 	MarginTradeType   MarginTradeType         `json:"MarginTradeType"`   // 信用取引区分 ※信用取引の場合必須
 	DelivType         DelivType               `json:"DelivType"`         // 受渡区分 ※株式取引の場合必須で、現物売・信用返済では「指定なし」を指定する
+	MarginPremiumUnit float64                 `json:"MarginPremiumUnit"` // １株あたりのプレミアム料(円)
 	FundType          FundType                `json:"FundType"`          // 資産区分 ※株式取引の場合必須で、現物売・信用返済では「指定なし」を指定する
 	AccountType       AccountType             `json:"AccountType"`       // 口座種別
 	Qty               int                     `json:"Qty"`               // 注文数量
@@ -104,6 +108,7 @@ type sendOrderStockRequestWithoutClosePositions struct {
 	CashMargin         CashMargin              `json:"CashMargin"`         // 現物信用区分
 	MarginTradeType    MarginTradeType         `json:"MarginTradeType"`    // 信用取引区分 ※信用取引の場合必須
 	DelivType          DelivType               `json:"DelivType"`          // 受渡区分 ※株式取引の場合必須で、現物売・信用返済では「指定なし」を指定する
+	MarginPremiumUnit  float64                 `json:"MarginPremiumUnit"`  // １株あたりのプレミアム料(円)
 	FundType           FundType                `json:"FundType"`           // 資産区分 ※株式取引の場合必須で、現物売・信用返済では「指定なし」を指定する
 	AccountType        AccountType             `json:"AccountType"`        // 口座種別
 	Qty                int                     `json:"Qty"`                // 注文数量

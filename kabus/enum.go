@@ -644,3 +644,13 @@ const (
 	OptionAfterHitOrderTypeMarket      OptionAfterHitOrderType = 1 // 成行
 	OptionAfterHitOrderTypeLimit       OptionAfterHitOrderType = 2 // 指値
 )
+
+// MarginPremiumType - プレミアム料入力区分
+type MarginPremiumType int
+
+const (
+	MarginPremiumTypeUnspecified MarginPremiumType = -1 // 一般信用（デイトレ）非対応銘柄
+	MarginPremiumTypeNothing     MarginPremiumType = 0  // プレミアム料がない銘柄
+	MarginPremiumTypeFixed       MarginPremiumType = 1  // プレミアム料が固定の銘柄
+	MarginPremiumTypeAuction     MarginPremiumType = 2  // プレミアム料が入札で決定する銘柄
+)
