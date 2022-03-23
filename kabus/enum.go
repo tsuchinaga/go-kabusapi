@@ -471,16 +471,19 @@ const (
 type ExchangeDivision string
 
 const (
-	ExchangeDivisionUnspecified ExchangeDivision = ""    // 指定なし
-	ExchangeDivisionALL         ExchangeDivision = "ALL" // 全市場（デフォルト）
-	ExchangeDivisionToushou     ExchangeDivision = "T"   // 東証全体
-	ExchangeDivisionToushou1    ExchangeDivision = "T1"  // 東証一部
-	ExchangeDivisionToushou2    ExchangeDivision = "T2"  // 東証二部
-	ExchangeDivisionMothers     ExchangeDivision = "TM"  // マザーズ
-	ExchangeDivisionJASDAQ      ExchangeDivision = "TQ"  // JASDAQ
-	ExchangeDivisionMeishou     ExchangeDivision = "M"   // 名証
-	ExchangeDivisionFukushou    ExchangeDivision = "FK"  // 福証
-	ExchangeDivisionSatsushou   ExchangeDivision = "S"   // 札証
+	ExchangeDivisionUnspecified     ExchangeDivision = ""    // 指定なし
+	ExchangeDivisionALL             ExchangeDivision = "ALL" // 全市場（デフォルト）
+	ExchangeDivisionToushou         ExchangeDivision = "T"   // 東証全体
+	ExchangeDivisionToushouPrime    ExchangeDivision = "TP"  // 東証プライム
+	ExchangeDivisionToushouStandard ExchangeDivision = "TS"  // 東証スタンダード
+	ExchangeDivisionToushouGrowth   ExchangeDivision = "TG"  // 東証グロース
+	ExchangeDivisionToushou1        ExchangeDivision = "T1"  // 東証一部
+	ExchangeDivisionToushou2        ExchangeDivision = "T2"  // 東証二部
+	ExchangeDivisionMothers         ExchangeDivision = "TM"  // マザーズ
+	ExchangeDivisionJASDAQ          ExchangeDivision = "TQ"  // JASDAQ
+	ExchangeDivisionMeishou         ExchangeDivision = "M"   // 名証
+	ExchangeDivisionFukushou        ExchangeDivision = "FK"  // 福証
+	ExchangeDivisionSatsushou       ExchangeDivision = "S"   // 札証
 )
 
 // RankingTrend - ランキングのトレンド
